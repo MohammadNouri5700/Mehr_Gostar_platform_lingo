@@ -23,7 +23,7 @@ class CourseRepository @Inject constructor(private val courseDao: CourseDao) {
         }
     }
 
-    suspend fun insert(course: Course): Result_<Unit> {
+   fun insert(course: Course): Result_<Unit> {
         return try {
             courseDao.insert(course)
             Result_.Success(Unit)

@@ -1,11 +1,7 @@
-import org.gradle.internal.classpath.Instrumented.setSystemProperties
-import org.gradle.internal.classpath.Instrumented.systemProperty
-
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.jetbrains.kotlin.android)
-    id("com.google.devtools.ksp") version "1.9.0-1.0.12"
-
+    alias(libs.plugins.org.jetbrains.kotlin.kapt)
 }
 
 android {
@@ -41,6 +37,7 @@ android {
     buildFeatures {
         viewBinding = true
     }
+
     System.setProperty("dagger.hilt.disableInstallInCheck", "true")
 }
 
@@ -55,17 +52,21 @@ dependencies {
     androidTestImplementation(libs.androidx.espresso.core)
 
 // Dagger 2 dependencies
-    implementation(libs.dagger)
-    ksp(libs.dagger.compiler)
-    implementation(libs.dagger.android)
-    implementation(libs.dagger.android.support)
-    annotationProcessor(libs.dagger.android.processor)
+    kapt (libs.dagger.compiler)
+    kapt (libs.dagger.android.processor)
+    implementation (libs.dagger)
+    implementation (libs.dagger.android)
+    implementation (libs.dagger.android.support)
 //    ksp ("com.google.dagger:hilt-compiler:2.49")
 
 
     // Room dependencies
     implementation(libs.room.runtime)
     annotationProcessor(libs.room.compiler)
+    kapt (libs.room.compiler)
+    implementation (libs.androidx.room.ktx)
+    
+
 
     // Kotlin Coroutines
     implementation(libs.coroutines.core)

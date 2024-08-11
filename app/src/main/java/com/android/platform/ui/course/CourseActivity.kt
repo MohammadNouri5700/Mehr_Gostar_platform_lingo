@@ -1,6 +1,7 @@
 package com.android.platform.ui.course
 
 import android.os.Bundle
+import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
@@ -21,11 +22,13 @@ class CourseActivity : DaggerAppCompatActivity() {
     private val courseViewModel: CourseViewModel by viewModels { viewModelFactory }
     private lateinit var binding: ActivityCourseBinding
 
+    var cnt = 0
     override fun onCreate(savedInstanceState: Bundle?) {
         (applicationContext as PlatformApplication).appComponent.inject(this)
         super.onCreate(savedInstanceState)
         binding = ActivityCourseBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
 
         lifecycleScope.launch {
             courseViewModel.uiState.collect { state ->
@@ -34,7 +37,8 @@ class CourseActivity : DaggerAppCompatActivity() {
                         // Show loading indicator
                     }
                     is UiState.Success -> {
-                        // Update UI with courses
+                        cnt++;
+                        Toast.makeText(applicationContext,"WE COULD  " + cnt,Toast.LENGTH_SHORT).show()
                     }
                     is UiState.Error -> {
                         // Show error message
