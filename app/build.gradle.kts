@@ -36,6 +36,7 @@ android {
     }
     buildFeatures {
         viewBinding = true
+        dataBinding = true
     }
 
     System.setProperty("dagger.hilt.disableInstallInCheck", "true")
@@ -81,5 +82,8 @@ dependencies {
     implementation(libs.retrofit)
     implementation(libs.retrofit.gson)
     implementation(libs.okhttp.logging.interceptor)
+
+    // Responsive UI
+    implementation(libs.sdp.android)
 
 }

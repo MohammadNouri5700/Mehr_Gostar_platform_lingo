@@ -13,9 +13,17 @@ class MainViewModel @Inject constructor() : ViewModel() {
     val event: LiveData<String> = _event
 
 
-
-
-
-
+    fun openHome(){
+        _event.postValue("Home")
+    }
+    fun openReport(){
+        _event.postValue("Report")
+    }
+    fun openLeitner(){
+        _event.postValue("Leitner")
+    }
+    fun openProfile(){
+        _event.postValue("Profile")
+    }
 
 }

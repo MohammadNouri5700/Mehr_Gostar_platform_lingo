@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <attr name="White_Gray" format="color" />
+    <attr name="navigationIconsColor" format="color" />
+
+</resources>
