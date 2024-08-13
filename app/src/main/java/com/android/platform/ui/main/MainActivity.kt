@@ -26,8 +26,10 @@ import com.android.platform.ui.home.HomeFragment
 import com.android.platform.ui.report.ReportFragment
 import com.android.platform.utils.extension.showToast
 import dagger.android.support.DaggerAppCompatActivity
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 class MainActivity : DaggerAppCompatActivity() {
@@ -43,23 +45,26 @@ class MainActivity : DaggerAppCompatActivity() {
         (applicationContext as PlatformApplication).appComponent.inject(this)
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
-        binding.viewModel=mainViewModel
+        binding.viewModel = mainViewModel
         setContentView(binding.root)
 
 
 
         mainViewModel.event.observe(this, Observer {
-            when(it){
-                "Home"->{
+            when (it) {
+                "Home" -> {
                     showFragment(HomeFragment())
                 }
-                "Report"->{
+
+                "Report" -> {
                     showFragment(ReportFragment())
                 }
-                "Leitner"->{
+
+                "Leitner" -> {
 
                 }
-                "Profile"->{
+
+                "Profile" -> {
 
                 }
             }
@@ -68,7 +73,7 @@ class MainActivity : DaggerAppCompatActivity() {
 
     }
 
-    fun changeTheme() {
+    private fun changeTheme() {
         val isLightTheme = true
         val newTheme = if (isLightTheme) R.style.Theme_App_Dark else R.style.Theme_App_Light
 
@@ -79,20 +84,22 @@ class MainActivity : DaggerAppCompatActivity() {
     }
 
     private fun showFragment(fragment: Fragment) {
-        val transaction = supportFragmentManager.beginTransaction()
+        val currentFragment = supportFragmentManager.findFragmentById(R.id.fragment_container)
 
-
-        transaction.setCustomAnimations(
-            R.anim.fade_in,
-            R.anim.fade_out
-        )
-
-        transaction.replace(R.id.fragment_container, fragment)
-        transaction.commit()
+        if (currentFragment?.javaClass != fragment.javaClass) {
+            val transaction = supportFragmentManager.beginTransaction()
+            transaction.setCustomAnimations(
+                R.anim.fade_in,
+                R.anim.fade_out
+            )
+            transaction.replace(R.id.fragment_container, fragment)
+            transaction.commit()
+        }
     }
+
     private var doubleBackToExitPressedOnce = false
 
-    private fun initMain(){
+    private fun initMain() {
         onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
                 if (doubleBackToExitPressedOnce) {

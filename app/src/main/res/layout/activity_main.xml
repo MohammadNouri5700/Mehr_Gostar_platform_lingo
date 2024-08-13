@@ -33,6 +33,7 @@
             android:layout_height="@dimen/_45sdp"
             android:elevation="@dimen/_10sdp"
             android:foregroundGravity="center"
+            app:cardElevation="@dimen/_10sdp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent">

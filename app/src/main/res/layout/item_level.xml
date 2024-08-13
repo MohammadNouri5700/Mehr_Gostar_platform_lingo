@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_marginTop="@dimen/_10sdp"
+    android:layout_width="match_parent"
+    android:background="@drawable/level_background"
+    android:layout_height="@dimen/_60sdp">
+
+
+    <ImageView
+        android:id="@+id/imageView5"
+        android:layout_width="@dimen/_60sdp"
+        android:layout_height="match_parent"
+        android:layout_margin="@dimen/_3sdp"
+        android:background="@drawable/rec_ra"
+        android:src="@drawable/play_fill"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:layout_editor_absoluteY="4dp" />
+
+    <com.android.platform.utils.font.ShabnamBold
+        android:id="@+id/shabnamBold2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/_12sdp"
+        android:layout_marginTop="@dimen/_1sdp"
+        android:text="Unit 1"
+        android:textSize="@dimen/_15sdp"
+        app:layout_constraintStart_toEndOf="@+id/imageView5"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <com.android.platform.utils.font.ShabnamMedium
+        android:id="@+id/shabnamMedium2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/_12sdp"
+        android:text="Introduction"
+        android:textSize="@dimen/_10sdp"
+        app:layout_constraintStart_toEndOf="@+id/imageView5"
+        app:layout_constraintTop_toBottomOf="@+id/shabnamBold2" />
+
+    <View
+        android:layout_width="0dp"
+        android:layout_height="@dimen/_5sdp"
+        android:layout_marginStart="@dimen/_12sdp"
+        android:layout_marginEnd="@dimen/_12sdp"
+        android:background="@drawable/rec_ra"
+        android:backgroundTint="#14000000"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/imageView5"
+        app:layout_constraintTop_toBottomOf="@+id/shabnamMedium2" />
+    <View
+        android:layout_width="0dp"
+        android:layout_height="@dimen/_5sdp"
+        android:layout_marginStart="@dimen/_12sdp"
+        android:layout_marginEnd="@dimen/_55sdp"
+        android:background="@drawable/rec_ra"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/imageView5"
+        app:layout_constraintTop_toBottomOf="@+id/shabnamMedium2" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

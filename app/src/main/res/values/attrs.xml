@@ -3,5 +3,6 @@
 
     <attr name="White_Gray" format="color" />
     <attr name="navigationIconsColor" format="color" />
+    <attr name="headerTextColor" format="color" />
 
 </resources>
