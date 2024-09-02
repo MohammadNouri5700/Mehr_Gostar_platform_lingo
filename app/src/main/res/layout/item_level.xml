@@ -14,8 +14,6 @@
         android:layout_width="@dimen/_60sdp"
         android:layout_height="match_parent"
         android:layout_margin="@dimen/_3sdp"
-        android:background="@drawable/rec_ra"
-        android:src="@drawable/play_fill"
         app:layout_constraintStart_toStartOf="parent"
         tools:layout_editor_absoluteY="4dp" />
 
@@ -45,7 +43,6 @@
         android:layout_height="@dimen/_5sdp"
         android:layout_marginStart="@dimen/_12sdp"
         android:layout_marginEnd="@dimen/_12sdp"
-        android:background="@drawable/rec_ra"
         android:backgroundTint="#14000000"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -56,7 +53,6 @@
         android:layout_height="@dimen/_5sdp"
         android:layout_marginStart="@dimen/_12sdp"
         android:layout_marginEnd="@dimen/_55sdp"
-        android:background="@drawable/rec_ra"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/imageView5"

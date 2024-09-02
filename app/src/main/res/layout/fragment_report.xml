@@ -12,8 +12,16 @@
     </data>
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:background="#f35"
         android:layout_height="match_parent">
+
+
+        <com.android.platform.utils.font.ShabnamMedium
+            android:layout_width="match_parent"
+            android:textSize="@dimen/_25sdp"
+            android:text="REPORT PAGE"
+            android:gravity="center"
+            android:layout_height="match_parent"/>
+
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

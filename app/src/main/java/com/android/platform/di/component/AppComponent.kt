@@ -9,6 +9,7 @@ import com.android.platform.di.module.RoomModule
 import com.android.platform.di.module.ViewModelModule
 import com.android.platform.ui.course.CourseActivity
 import com.android.platform.ui.home.HomeFragment
+import com.android.platform.ui.learn.LearnFragment
 import com.android.platform.ui.main.MainActivity
 import com.android.platform.ui.report.ReportFragment
 import dagger.Component
@@ -28,8 +29,14 @@ import javax.inject.Singleton
 ])
 interface AppComponent {
     fun inject(application: PlatformApplication)
+
+//    Activity's
     fun inject(activity: CourseActivity)
     fun inject(mainActivity: MainActivity)
+
+//    Fragment's
     fun inject(homeFragment: HomeFragment)
+    fun inject(learnFragment: LearnFragment)
     fun inject(reportFragment: ReportFragment)
+
 }

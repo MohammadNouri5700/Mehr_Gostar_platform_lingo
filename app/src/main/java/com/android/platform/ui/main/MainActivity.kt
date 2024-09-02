@@ -23,6 +23,7 @@ import com.android.platform.databinding.ActivityCourseBinding
 import com.android.platform.databinding.ActivityMainBinding
 import com.android.platform.ui.course.CourseViewModel
 import com.android.platform.ui.home.HomeFragment
+import com.android.platform.ui.learn.LearnFragment
 import com.android.platform.ui.report.ReportFragment
 import com.android.platform.utils.extension.showToast
 import dagger.android.support.DaggerAppCompatActivity
@@ -56,13 +57,15 @@ class MainActivity : DaggerAppCompatActivity() {
                     showFragment(HomeFragment())
                 }
 
+                "Learn" -> {
+                    showFragment(LearnFragment())
+                }
+
                 "Report" -> {
                     showFragment(ReportFragment())
                 }
 
-                "Leitner" -> {
 
-                }
 
                 "Profile" -> {
 

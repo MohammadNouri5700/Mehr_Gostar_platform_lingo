@@ -16,11 +16,11 @@ class MainViewModel @Inject constructor() : ViewModel() {
     fun openHome(){
         _event.postValue("Home")
     }
+    fun openLearn(){
+        _event.postValue("Learn")
+    }
     fun openReport(){
         _event.postValue("Report")
-    }
-    fun openLeitner(){
-        _event.postValue("Leitner")
     }
     fun openProfile(){
         _event.postValue("Profile")
