@@ -2,14 +2,16 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.jetbrains.kotlin.android)
     alias(libs.plugins.org.jetbrains.kotlin.kapt)
+    id("com.google.gms.google-services")
+    id("com.google.firebase.crashlytics")
 }
-
+// Sign info : al: key0 pass:Nouri5700
 android {
     namespace = "com.android.platform"
     compileSdk = 34
 
     defaultConfig {
-        applicationId = "com.android.platform"
+        applicationId = "com.android.platform.germany"
         minSdk = 26
         targetSdk = 34
         versionCode = 1
@@ -48,6 +50,7 @@ dependencies {
     implementation(libs.material)
     implementation(libs.androidx.activity)
     implementation(libs.androidx.constraintlayout)
+    implementation(libs.androidx.work.runtime.ktx)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
@@ -85,5 +88,12 @@ dependencies {
 
     // Responsive UI
     implementation(libs.sdp.android)
+
+    implementation(platform(libs.firebase.bom))
+    implementation(libs.firebase.analytics)
+    implementation(libs.firebase.messaging)
+    implementation(libs.firebase.crashlytics)
+    implementation (libs.firebase.messaging.directboot)
+    implementation (libs.shimmer)
 
 }

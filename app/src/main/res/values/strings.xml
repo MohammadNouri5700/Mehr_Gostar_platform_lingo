@@ -2,4 +2,5 @@
     <string name="app_name">Platform</string>
     <string name="doublebackmessage">Please click BACK again to exit</string>
     <string name="mylevels">My Levels</string>
+    <string name="default_notification_channel_id" translatable="false">5700</string>
 </resources>

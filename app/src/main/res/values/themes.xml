@@ -1,6 +1,12 @@
 <resources>
 
     <style name="Theme.App.Light" parent="Theme.Material3.Light.NoActionBar">
+<!--        Full Screen       -->
+        <item name="android:windowFullscreen">true</item>
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="android:windowNoTitle">true</item>
+
+
         <item name="White_Gray">@color/white</item>
         <item name="navigationIconsColor">@color/navLight</item>
         <item name="headerTextColor">@color/black</item>
@@ -8,6 +14,12 @@
 
 
     <style name="Theme.App.Dark" parent="Theme.Material3.Dark.NoActionBar">
+        <!--        Full Screen       -->
+        <item name="android:windowFullscreen">true</item>
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="android:windowNoTitle">true</item>
+
+
         <item name="White_Gray">@color/gray</item>
         <item name="navigationIconsColor">@color/navdark</item>
         <item name="headerTextColor">@color/white</item>

@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "185147004397",
+    "project_id": "lingo-705f9",
+    "storage_bucket": "lingo-705f9.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:185147004397:android:57032ad1b86361206443e4",
+        "android_client_info": {
+          "package_name": "com.android.platform.germany"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAQ9T59wZ9Gp5JwITJTYIXR9k--3EgFfug"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -2,6 +2,11 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" tools:node="remove"/>
+    <uses-permission android:name="android.permission.INTERNET"/>
+
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+
     <application
         android:name=".PlatformApplication"
         android:allowBackup="true"
@@ -13,6 +18,17 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.App.Light"
         tools:targetApi="31">
+        <meta-data  android:name="com.google.firebase.messaging.default_notification_channel_id"
+            android:value="@string/default_notification_channel_id"  />
+        <service
+            android:name=".MyFirebaseMessagingService"
+            android:exported="false"
+            android:directBootAware="true">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+            </intent-filter>
+        </service>
+
         <activity
             android:name=".ui.main.MainActivity"
             android:exported="true">
@@ -23,10 +39,10 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".ui.course.CourseActivity"
-            android:exported="true">
+<!--        <activity android:name=".ui.course.CourseActivity"-->
+<!--            android:exported="true">-->
 
-        </activity>
+<!--        </activity>-->
     </application>
 
 </manifest>

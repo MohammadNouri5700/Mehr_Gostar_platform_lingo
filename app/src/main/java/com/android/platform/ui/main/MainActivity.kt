@@ -2,8 +2,13 @@ package com.android.platform.ui.main
 
 import android.animation.ArgbEvaluator
 import android.animation.ValueAnimator
+import android.os.Build
 import android.os.Bundle
 import android.provider.ContactsContract.CommonDataKinds.Im
+import android.util.Log
+import android.view.View
+import android.view.WindowInsets
+import android.view.WindowInsetsController
 import android.view.animation.AnticipateOvershootInterpolator
 import android.widget.ImageView
 import androidx.activity.OnBackPressedCallback
@@ -26,6 +31,9 @@ import com.android.platform.ui.home.HomeFragment
 import com.android.platform.ui.learn.LearnFragment
 import com.android.platform.ui.report.ReportFragment
 import com.android.platform.utils.extension.showToast
+import com.google.android.gms.tasks.OnCompleteListener
+import com.google.firebase.Firebase
+import com.google.firebase.messaging.messaging
 import dagger.android.support.DaggerAppCompatActivity
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
@@ -42,7 +50,7 @@ class MainActivity : DaggerAppCompatActivity() {
     private val mainViewModel: MainViewModel by viewModels { viewModelFactory }
     private lateinit var binding: ActivityMainBinding
 
-    private lateinit var bottomNavImages:List<ImageView>
+    private lateinit var bottomNavImages: List<ImageView>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         (applicationContext as PlatformApplication).appComponent.inject(this)
@@ -50,18 +58,19 @@ class MainActivity : DaggerAppCompatActivity() {
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
         binding.viewModel = mainViewModel
         setContentView(binding.root)
-        bottomNavImages = listOf(binding.imgHome,binding.imgLearn,binding.imgReport,binding.imgProfile)
+        bottomNavImages =
+            listOf(binding.imgHome, binding.imgLearn, binding.imgReport, binding.imgProfile)
 
 
 
         mainViewModel.event.observe(this, Observer {
             when (it) {
                 "Home" -> {
-                    mainViewModel.viewModelScope.launch{
-                        val res = withContext(Dispatchers.Main){
+                    mainViewModel.viewModelScope.launch {
+                        val res = withContext(Dispatchers.Main) {
                             showFragment(HomeFragment())
                         }
-                        withContext(Dispatchers.Main){
+                        withContext(Dispatchers.Main) {
                             updateConstraintsForView(binding.constraintLayout, binding.imgHome.id)
                             resetAllColor()
                         }
@@ -69,11 +78,11 @@ class MainActivity : DaggerAppCompatActivity() {
                 }
 
                 "Learn" -> {
-                    mainViewModel.viewModelScope.launch{
-                        val res = withContext(Dispatchers.Main){
+                    mainViewModel.viewModelScope.launch {
+                        val res = withContext(Dispatchers.Main) {
                             showFragment(LearnFragment())
                         }
-                        withContext(Dispatchers.Main){
+                        withContext(Dispatchers.Main) {
                             updateConstraintsForView(binding.constraintLayout, binding.imgLearn.id)
                             resetAllColor()
                         }
@@ -82,11 +91,11 @@ class MainActivity : DaggerAppCompatActivity() {
                 }
 
                 "Report" -> {
-                    mainViewModel.viewModelScope.launch{
-                        val res = withContext(Dispatchers.Main){
+                    mainViewModel.viewModelScope.launch {
+                        val res = withContext(Dispatchers.Main) {
                             showFragment(ReportFragment())
                         }
-                        withContext(Dispatchers.Main){
+                        withContext(Dispatchers.Main) {
                             updateConstraintsForView(binding.constraintLayout, binding.imgReport.id)
                             resetAllColor()
                         }
@@ -102,6 +111,27 @@ class MainActivity : DaggerAppCompatActivity() {
             }
         })
         initMain()
+
+
+
+        Firebase.messaging.token.addOnCompleteListener(
+            OnCompleteListener { task ->
+                if (!task.isSuccessful) {
+                    Log.w("TAG", "Fetching FCM registration token failed", task.exception)
+                    return@OnCompleteListener
+                }
+
+                // Get new FCM registration token
+                val token = task.result
+
+
+                Log.d("APP", "TOKEN IS == $token")
+
+            })
+
+
+
+
 
     }
 
@@ -121,6 +151,7 @@ class MainActivity : DaggerAppCompatActivity() {
         constraintSet.applyTo(motionLayout)
         animateToSelect(findViewById(imageViewId))
     }
+
     private fun animateToSelect(imageView: ImageView) {
         val colorFrom = ContextCompat.getColor(this, R.color.black)
         val colorTo = ContextCompat.getColor(this, R.color.blue)
@@ -180,6 +211,20 @@ class MainActivity : DaggerAppCompatActivity() {
     private var doubleBackToExitPressedOnce = false
 
     private fun initMain() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+            val controller = window.insetsController
+            controller?.let {
+                it.hide(WindowInsets.Type.statusBars() or WindowInsets.Type.navigationBars())
+                it.systemBarsBehavior = WindowInsetsController.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE
+            }
+        } else {
+            val decorView = window.decorView
+            val uiOptions = (View.SYSTEM_UI_FLAG_FULLSCREEN
+                    or View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
+                    or View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY)
+            decorView.systemUiVisibility = uiOptions
+        }
+
         onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
                 if (doubleBackToExitPressedOnce) {
