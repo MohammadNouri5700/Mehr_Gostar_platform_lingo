@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<MotionScene xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:motion="http://schemas.android.com/apk/res-auto">
+
+    <!-- State 1: Initial State -->
+    <ConstraintSet android:id="@+id/start">
+        <Constraint
+            android:id="@+id/crdSelectLevel"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginEnd="@dimen/_15sdp"
+            android:layout_marginStart="@dimen/_15sdp"
+            motion:layout_constraintHeight_percent="0.6"
+            android:layout_marginTop="@dimen/_100sdp"
+            motion:layout_constraintTop_toTopOf="parent"
+            motion:layout_constraintBottom_toBottomOf="parent"
+            motion:layout_constraintStart_toStartOf="parent"
+            motion:layout_constraintEnd_toEndOf="parent" />
+        <Constraint
+            motion:layout_constraintEnd_toEndOf="parent"
+            motion:layout_constraintHeight_percent="0.5"
+            motion:layout_constraintStart_toStartOf="parent"
+            motion:layout_constraintTop_toTopOf="parent"
+            android:id="@+id/list_task"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:alpha="1"/>
+    </ConstraintSet>
+
+    <!-- State 2: Swiped Up State -->
+    <ConstraintSet android:id="@+id/end">
+        <Constraint
+            android:id="@+id/crdSelectLevel"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            motion:layout_constraintHeight_percent="0.97"
+            android:layout_marginTop="@dimen/_1sdp"
+            android:layout_marginEnd="@dimen/_10sdp"
+            android:layout_marginStart="@dimen/_10sdp"
+            motion:layout_constraintTop_toTopOf="parent"
+            motion:layout_constraintBottom_toBottomOf="parent"
+            motion:layout_constraintStart_toStartOf="parent"
+            motion:layout_constraintEnd_toEndOf="parent" />
+        <Constraint
+            motion:layout_constraintEnd_toEndOf="parent"
+            motion:layout_constraintHeight_percent="0.0"
+            motion:layout_constraintStart_toStartOf="parent"
+            motion:layout_constraintTop_toTopOf="parent"
+            android:id="@+id/list_task"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:alpha="0.3"/>
+    </ConstraintSet>
+
+    <!-- Transition between states -->
+    <Transition
+        android:id="@+id/transition"
+        motion:constraintSetStart="@id/start"
+        motion:constraintSetEnd="@id/end"
+        motion:duration="200">
+        <OnSwipe
+            motion:touchAnchorSide="bottom"
+            motion:dragDirection="dragUp" />
+    </Transition>
+
+    <!-- Transition to return to the original state -->
+    <Transition
+        android:id="@+id/transition_return"
+        motion:constraintSetStart="@id/end"
+        motion:constraintSetEnd="@id/start"
+        motion:duration="20">
+        <OnSwipe
+            motion:touchAnchorSide="top"
+            motion:dragDirection="dragDown" />
+    </Transition>
+
+</MotionScene>

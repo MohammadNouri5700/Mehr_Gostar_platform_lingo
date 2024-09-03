@@ -11,24 +11,26 @@
             type="com.android.platform.ui.learn.LearnViewModel" />
     </data>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <androidx.constraintlayout.motion.widget.MotionLayout
+        android:id="@+id/constraintLayout2"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        app:layoutDescription="@xml/fragment_learn_xml_constraintlayout2_scene">
 
 
         <com.google.android.material.card.MaterialCardView
-            android:id="@+id/list_container"
+            android:id="@+id/list_task"
             style="@style/TaskLargeCardViewStyle"
             android:layout_width="match_parent"
             android:layout_height="0dp"
+            android:translationZ="@dimen/_1sdp"
             app:cardBackgroundColor="#2E36A5"
             app:cardElevation="@dimen/_3sdp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHeight_percent="0.5"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:strokeWidth="0dp"
-            android:translationZ="@dimen/_1sdp">
+            app:strokeWidth="0dp">
 
         </com.google.android.material.card.MaterialCardView>
 
@@ -37,27 +39,27 @@
             android:id="@+id/crdSelectLevel"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            app:strokeWidth="0dp"
-            app:cardBackgroundColor="#6075F5"
-            app:layout_constraintHeight_percent="0.6"
             android:layout_marginStart="@dimen/_15sdp"
-            android:layout_marginEnd="@dimen/_15sdp"
             android:layout_marginTop="@dimen/_100sdp"
+            android:layout_marginEnd="@dimen/_15sdp"
+            android:translationZ="@dimen/_2sdp"
+            app:cardBackgroundColor="#6075F5"
             app:cardCornerRadius="@dimen/_15sdp"
             app:cardElevation="@dimen/_5sdp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHeight_percent="0.6"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            android:translationZ="@dimen/_2sdp">
+            app:strokeWidth="0dp">
 
 
             <androidx.constraintlayout.widget.ConstraintLayout
-                android:layout_marginTop="@dimen/_25sdp"
-                android:layout_marginEnd="@dimen/_20sdp"
-                android:layout_marginStart="@dimen/_45sdp"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="match_parent"
+                android:layout_marginStart="@dimen/_45sdp"
+                android:layout_marginTop="@dimen/_25sdp"
+                android:layout_marginEnd="@dimen/_20sdp">
 
 
                 <com.android.platform.utils.font.ShabnamBold
@@ -71,42 +73,36 @@
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <ImageView
-                    android:layout_marginEnd="@dimen/_5sdp"
                     android:id="@+id/imageView"
                     android:layout_width="@dimen/_25sdp"
                     android:layout_height="@dimen/_25sdp"
-                    android:src="@drawable/list"
+                    android:layout_marginEnd="@dimen/_5sdp"
                     android:background="@drawable/cube_selected"
+                    android:src="@drawable/list"
                     app:layout_constraintEnd_toStartOf="@+id/imageView6"
                     app:layout_constraintTop_toTopOf="parent"
                     app:tint="@color/white" />
 
                 <ImageView
-                    android:layout_marginEnd="@dimen/_5sdp"
                     android:id="@+id/imageView6"
                     android:layout_width="@dimen/_25sdp"
                     android:layout_height="@dimen/_25sdp"
                     android:layout_gravity="end"
+                    android:layout_marginEnd="@dimen/_5sdp"
                     android:scaleType="center"
                     android:src="@drawable/cubs"
-                    app:tint="@color/white"
+                    app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent" />
-
-
-
-
+                    app:tint="@color/white" />
 
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
 
-
         </com.google.android.material.card.MaterialCardView>
 
 
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.constraintlayout.motion.widget.MotionLayout>
 
 </layout>
 
