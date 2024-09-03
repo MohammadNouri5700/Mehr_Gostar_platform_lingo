@@ -8,7 +8,7 @@ import javax.inject.Inject
 class MainViewModel @Inject constructor() : ViewModel() {
 
     private val _event = MutableLiveData<String>().apply {
-        value = "Home"
+        value = "Loading"
     }
     val event: LiveData<String> = _event
 

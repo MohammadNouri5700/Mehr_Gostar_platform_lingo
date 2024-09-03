@@ -18,18 +18,70 @@
         android:layout_height="match_parent"
         tools:context=".ui.main.MainActivity">
 
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:background="#fff"
+            android:id="@+id/conLoading"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <androidx.cardview.widget.CardView
+                app:cardCornerRadius="@dimen/_3sdp"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHeight_percent="0.4"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintWidth_percent="0.7">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+                    <ImageView
+                        android:id="@+id/imgLogo"
+                        android:layout_marginTop="@dimen/_25sdp"
+                        android:layout_centerHorizontal="true"
+                        android:src="@drawable/logo"
+                        android:layout_width="@dimen/_100sdp"
+                        android:layout_height="@dimen/_100sdp"/>
+                    <com.android.platform.utils.font.ShabnamMedium
+                        android:id="@+id/txtVersion"
+                        android:layout_marginTop="@dimen/_15sdp"
+                        android:gravity="center"
+                        android:text="ورژن تست : "
+                        android:layout_below="@id/imgLogo"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"/>
+
+                    <ProgressBar
+                        android:layout_below="@id/txtVersion"
+                        android:layout_marginTop="@dimen/_15sdp"
+                        android:id="@+id/progressBar"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerInParent="true"
+                        android:indeterminate="true" />
+
+                </RelativeLayout>
+
+            </androidx.cardview.widget.CardView>
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
         <FrameLayout
             android:id="@+id/fragment_container"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            app:layout_constraintBottom_toTopOf="@+id/cardView"
+            app:layout_constraintBottom_toTopOf="@+id/bottomNav"
             app:layout_constraintTop_toTopOf="parent" />
 
 
         <com.google.android.material.card.MaterialCardView
+            android:translationY="@dimen/_45sdp"
             style="@style/BottomNavigationCardViewStyle"
-            android:id="@+id/cardView"
+            android:id="@+id/bottomNav"
             android:layout_width="match_parent"
             android:layout_height="@dimen/_45sdp"
             app:strokeWidth="0dp"

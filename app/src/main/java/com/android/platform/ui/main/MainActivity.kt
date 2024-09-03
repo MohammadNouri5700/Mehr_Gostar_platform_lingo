@@ -1,14 +1,15 @@
 package com.android.platform.ui.main
 
 import android.animation.ArgbEvaluator
+import android.animation.ObjectAnimator
 import android.animation.ValueAnimator
 import android.os.Build
 import android.os.Bundle
-import android.provider.ContactsContract.CommonDataKinds.Im
 import android.util.Log
 import android.view.View
 import android.view.WindowInsets
 import android.view.WindowInsetsController
+import android.view.animation.AccelerateDecelerateInterpolator
 import android.view.animation.AnticipateOvershootInterpolator
 import android.widget.ImageView
 import androidx.activity.OnBackPressedCallback
@@ -41,6 +42,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
+
 class MainActivity : DaggerAppCompatActivity() {
 
 
@@ -65,10 +67,19 @@ class MainActivity : DaggerAppCompatActivity() {
 
         mainViewModel.event.observe(this, Observer {
             when (it) {
+                "Loading" -> {
+                    val packageInfo = this.packageManager.getPackageInfo(packageName, 0)
+                    val versionName = packageInfo.versionName
+                    binding.txtVersion.text = "  ورژن شماره  : $versionName"
+
+                    loadHeavyFragmentsInBackground()
+
+                }
+
                 "Home" -> {
                     mainViewModel.viewModelScope.launch {
                         val res = withContext(Dispatchers.Main) {
-                            showFragment(HomeFragment())
+                            showFragment("HOME")
                         }
                         withContext(Dispatchers.Main) {
                             updateConstraintsForView(binding.constraintLayout, binding.imgHome.id)
@@ -80,7 +91,7 @@ class MainActivity : DaggerAppCompatActivity() {
                 "Learn" -> {
                     mainViewModel.viewModelScope.launch {
                         val res = withContext(Dispatchers.Main) {
-                            showFragment(LearnFragment())
+                            showFragment("LEARN")
                         }
                         withContext(Dispatchers.Main) {
                             updateConstraintsForView(binding.constraintLayout, binding.imgLearn.id)
@@ -93,7 +104,7 @@ class MainActivity : DaggerAppCompatActivity() {
                 "Report" -> {
                     mainViewModel.viewModelScope.launch {
                         val res = withContext(Dispatchers.Main) {
-                            showFragment(ReportFragment())
+                            showFragment("REPORT")
                         }
                         withContext(Dispatchers.Main) {
                             updateConstraintsForView(binding.constraintLayout, binding.imgReport.id)
@@ -106,31 +117,11 @@ class MainActivity : DaggerAppCompatActivity() {
                 "Profile" -> {
                     resetAllColor()
                     updateConstraintsForView(binding.constraintLayout, binding.imgProfile.id)
-
+                    showFragment("PROFILE")
                 }
             }
         })
         initMain()
-
-
-
-        Firebase.messaging.token.addOnCompleteListener(
-            OnCompleteListener { task ->
-                if (!task.isSuccessful) {
-                    Log.w("TAG", "Fetching FCM registration token failed", task.exception)
-                    return@OnCompleteListener
-                }
-
-                // Get new FCM registration token
-                val token = task.result
-
-
-                Log.d("APP", "TOKEN IS == $token")
-
-            })
-
-
-
 
 
     }
@@ -207,6 +198,26 @@ class MainActivity : DaggerAppCompatActivity() {
             transaction.commit()
         }
     }
+    private fun showFragment(tag: String) {
+        val transaction = supportFragmentManager.beginTransaction()
+
+        transaction.setCustomAnimations(
+            R.anim.fade_in,
+            R.anim.fade_out
+        )
+
+        supportFragmentManager.fragments.forEach { fragment ->
+            transaction.hide(fragment)
+        }
+
+        supportFragmentManager.findFragmentByTag(tag)?.let { fragment ->
+            transaction.show(fragment)
+            transaction.commitAllowingStateLoss()
+        } ?: run {
+            showToast("Fragment with tag $tag not found")
+        }
+    }
+
 
     private var doubleBackToExitPressedOnce = false
 
@@ -239,6 +250,63 @@ class MainActivity : DaggerAppCompatActivity() {
                 }
             }
         })
+
+        mainViewModel.viewModelScope.launch {
+            withContext(Dispatchers.IO) {
+                Firebase.messaging.token.addOnCompleteListener(
+                    OnCompleteListener { task ->
+                        if (!task.isSuccessful) {
+                            Log.w("TAG", "Fetching FCM registration token failed", task.exception)
+                            return@OnCompleteListener
+                        }
+
+                        // Get new FCM registration token
+                        val token = task.result
+
+
+                        Log.d("APP", "TOKEN IS == $token")
+
+                    })
+            }
+        }
     }
 
+    private fun loadHeavyFragmentsInBackground() {
+        mainViewModel.viewModelScope.launch(Dispatchers.Main) {
+            withContext(Dispatchers.Default) {
+                val fragments = listOf(
+                    HomeFragment() to "HOME",
+                    LearnFragment() to "LEARN",
+                    ReportFragment() to "REPORT",
+                    ReportFragment() to "PROFILE"
+                )
+
+                withContext(Dispatchers.Main) {
+                    val transaction = supportFragmentManager.beginTransaction()
+
+                    fragments.forEach { (fragment, tag) ->
+                        transaction.add(R.id.fragment_container, fragment, tag).hide(fragment)
+                    }
+
+                    transaction.commitNowAllowingStateLoss()
+                }
+            }
+            delay(1000)
+            loadUI()
+        }
+    }
+
+
+
+    private fun loadUI() {
+        val animator =
+            ObjectAnimator.ofFloat(binding.bottomNav, "translationY", 200f, 0f)
+        animator.setDuration(1000)
+        animator.interpolator = AccelerateDecelerateInterpolator()
+        animator.start()
+        ObjectAnimator.ofFloat(binding.conLoading, "alpha", 1f, 0f).apply {
+            duration = 1000  // مدت زمان انیمیشن
+        }.start()
+        mainViewModel.openHome()
+    }
 }
