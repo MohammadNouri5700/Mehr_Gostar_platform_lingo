@@ -17,14 +17,14 @@
             motion:layout_constraintStart_toStartOf="parent"
             motion:layout_constraintEnd_toEndOf="parent" />
         <Constraint
-            motion:layout_constraintEnd_toEndOf="parent"
-            motion:layout_constraintHeight_percent="0.5"
-            motion:layout_constraintStart_toStartOf="parent"
-            motion:layout_constraintTop_toTopOf="parent"
             android:id="@+id/list_task"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:alpha="1"/>
+            android:alpha="1"
+            motion:layout_constraintEnd_toEndOf="parent"
+            motion:layout_constraintHeight_percent="0.5"
+            motion:layout_constraintStart_toStartOf="parent"
+            motion:layout_constraintTop_toTopOf="parent"/>
     </ConstraintSet>
 
     <!-- State 2: Swiped Up State -->
@@ -42,36 +42,72 @@
             motion:layout_constraintStart_toStartOf="parent"
             motion:layout_constraintEnd_toEndOf="parent" />
         <Constraint
-            motion:layout_constraintEnd_toEndOf="parent"
-            motion:layout_constraintHeight_percent="0.0"
-            motion:layout_constraintStart_toStartOf="parent"
-            motion:layout_constraintTop_toTopOf="parent"
             android:id="@+id/list_task"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:alpha="0.3"/>
+            android:alpha="0.3"
+            motion:layout_constraintEnd_toEndOf="parent"
+            motion:layout_constraintHeight_percent="0.01"
+            motion:layout_constraintStart_toStartOf="parent"
+            motion:layout_constraintTop_toTopOf="parent"/>
     </ConstraintSet>
 
-    <!-- Transition between states -->
+    <!-- Transition with KeyFrames and Interpolator -->
     <Transition
         android:id="@+id/transition"
         motion:constraintSetStart="@id/start"
         motion:constraintSetEnd="@id/end"
-        motion:duration="200">
+        motion:duration="100"
+        motion:motionInterpolator="easeInOutQuad">
+
         <OnSwipe
-            motion:touchAnchorSide="bottom"
             motion:dragDirection="dragUp" />
+
+        <!-- KeyFrameSet for more control -->
+        <KeyFrameSet>
+            <KeyAttribute
+                motion:motionTarget="@id/crdSelectLevel"
+                motion:framePosition="50"
+                android:scaleX="1.05"
+                android:scaleY="1.05"
+                android:translationZ="10dp" />
+            <KeyAttribute
+                motion:motionTarget="@id/crdSelectLevel"
+                motion:framePosition="100"
+                android:scaleX="1.0"
+                android:scaleY="1.0"
+                android:translationZ="0dp" />
+        </KeyFrameSet>
+
     </Transition>
 
-    <!-- Transition to return to the original state -->
+    <!-- Transition to return to the original state with KeyFrames -->
     <Transition
         android:id="@+id/transition_return"
         motion:constraintSetStart="@id/end"
         motion:constraintSetEnd="@id/start"
-        motion:duration="20">
+        motion:duration="100"
+        motion:motionInterpolator="easeInOutQuad">
+
         <OnSwipe
-            motion:touchAnchorSide="top"
             motion:dragDirection="dragDown" />
+
+        <!-- KeyFrameSet for smooth reverse animation -->
+        <KeyFrameSet>
+            <KeyAttribute
+                motion:motionTarget="@id/crdSelectLevel"
+                motion:framePosition="50"
+                android:scaleX="1.05"
+                android:scaleY="1.05"
+                android:translationZ="10dp" />
+            <KeyAttribute
+                motion:motionTarget="@id/crdSelectLevel"
+                motion:framePosition="100"
+                android:scaleX="1.0"
+                android:scaleY="1.0"
+                android:translationZ="0dp" />
+        </KeyFrameSet>
+
     </Transition>
 
 </MotionScene>

@@ -1,62 +1,98 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
+<com.google.android.material.card.MaterialCardView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_marginTop="@dimen/_10sdp"
+    app:strokeWidth="0dp"
+    app:cardElevation="@dimen/_5sdp"
+    app:cardBackgroundColor="#fff"
     android:layout_width="match_parent"
-    android:background="@drawable/level_background"
     android:layout_height="@dimen/_60sdp">
 
 
-    <ImageView
-        android:id="@+id/imageView5"
-        android:layout_width="@dimen/_60sdp"
-        android:layout_height="match_parent"
-        android:layout_margin="@dimen/_3sdp"
-        app:layout_constraintStart_toStartOf="parent"
-        tools:layout_editor_absoluteY="4dp" />
+
+
+
 
     <com.android.platform.utils.font.ShabnamBold
-        android:id="@+id/shabnamBold2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/_12sdp"
-        android:layout_marginTop="@dimen/_1sdp"
-        android:text="Unit 1"
+        android:translationZ="@dimen/_10sdp"
+        android:id="@+id/imageView5"
+        android:layout_width="@dimen/_45sdp"
+        android:layout_height="match_parent"
+        android:text="35%"
+        android:textColor="#fff"
         android:textSize="@dimen/_15sdp"
-        app:layout_constraintStart_toEndOf="@+id/imageView5"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <com.android.platform.utils.font.ShabnamMedium
-        android:id="@+id/shabnamMedium2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/_12sdp"
-        android:text="Introduction"
-        android:textSize="@dimen/_10sdp"
-        app:layout_constraintStart_toEndOf="@+id/imageView5"
-        app:layout_constraintTop_toBottomOf="@+id/shabnamBold2" />
-
-    <View
-        android:layout_width="0dp"
-        android:layout_height="@dimen/_5sdp"
-        android:layout_marginStart="@dimen/_12sdp"
-        android:layout_marginEnd="@dimen/_12sdp"
-        android:backgroundTint="#14000000"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/imageView5"
-        app:layout_constraintTop_toBottomOf="@+id/shabnamMedium2" />
-    <View
-        android:layout_width="0dp"
-        android:layout_height="@dimen/_5sdp"
-        android:layout_marginStart="@dimen/_12sdp"
-        android:layout_marginEnd="@dimen/_55sdp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/imageView5"
-        app:layout_constraintTop_toBottomOf="@+id/shabnamMedium2" />
+        android:gravity="center"
+        android:background="@drawable/half_circle"
+        app:layout_constraintStart_toStartOf="parent" />
 
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <com.google.android.material.card.MaterialCardView
+        android:translationZ="@dimen/_2sdp"
+        android:layout_marginStart="-20dp"
+        android:layout_width="@dimen/_65sdp"
+        app:cardCornerRadius="@dimen/_65sdp"
+        android:layout_height="match_parent"
+        app:strokeWidth="0dp"
+        app:cardBackgroundColor="#fff"
+        app:cardElevation="@dimen/_5sdp"
+        />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <com.android.platform.utils.font.ShabnamBold
+            android:textColor="#2E36A5"
+            android:id="@+id/txtName"
+            android:textSize="@dimen/_12sdp"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:text="A1 INTERMEDIATE"
+            android:gravity="center"
+            android:layout_marginTop="@dimen/_15sdp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+        <com.android.platform.utils.font.ShabnamBold
+            android:id="@+id/txtTime"
+            android:textSize="@dimen/_8sdp"
+            android:text=" 25 minutes 45 second"
+            android:textColor="#2E36A5"
+            android:layout_width="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_below="@+id/txtName"
+            android:layout_height="wrap_content"/>
+
+        <ImageView
+            android:layout_marginTop="@dimen/_2sdp"
+            app:tint="#2E36A5"
+            android:layout_below="@+id/txtName"
+            android:layout_toStartOf="@+id/txtTime"
+            android:src="@drawable/clock"
+            android:layout_width="@dimen/_10sdp"
+            android:layout_height="@dimen/_10sdp"/>
+
+
+        <ImageView
+            android:layout_width="@dimen/_40sdp"
+            android:layout_height="@dimen/_40sdp"
+            android:layout_alignParentEnd="true"
+            android:background="@drawable/round_45"
+            android:layout_centerVertical="true"
+            android:src="@drawable/play"
+            android:padding="@dimen/_10sdp"
+            app:tint="#fff"
+            android:layout_marginEnd="@dimen/_12sdp"
+            />
+
+
+    </RelativeLayout>
+
+
+
+
+
+</com.google.android.material.card.MaterialCardView>
