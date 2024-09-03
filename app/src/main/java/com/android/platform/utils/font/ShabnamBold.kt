@@ -23,14 +23,13 @@ class ShabnamBold @JvmOverloads constructor(
     }
 
     private fun applyCustomFont(context: Context) {
-        val customFont = ResourcesCompat.getFont(context, R.font.shabnam_bold)
-        typeface = customFont
+        typeface =ResourcesCompat.getFont(context, R.font.shabnam_bold)
     }
     private fun applyCustomTextColor(context: Context) {
         val typedValue = TypedValue()
         val theme = context.theme
         theme.resolveAttribute(R.attr.headerTextColor, typedValue, true)
         @ColorInt val color: Int = typedValue.data
-        setTextColor(color)
+//        setTextColor(color)
     }
 }

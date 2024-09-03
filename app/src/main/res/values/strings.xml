@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">Platform</string>
     <string name="doublebackmessage">Please click BACK again to exit</string>
+    <string name="mylevels">My Levels</string>
 </resources>

@@ -27,13 +27,15 @@
             app:layout_constraintTop_toTopOf="parent" />
 
 
-        <androidx.cardview.widget.CardView
+        <com.google.android.material.card.MaterialCardView
+            style="@style/BottomNavigationCardViewStyle"
             android:id="@+id/cardView"
             android:layout_width="match_parent"
             android:layout_height="@dimen/_45sdp"
-            android:elevation="@dimen/_10sdp"
-            android:foregroundGravity="center"
+            app:strokeWidth="0dp"
+            android:elevation="@dimen/_15sdp"
             app:cardElevation="@dimen/_15sdp"
+            app:cardBackgroundColor="#fff"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent">
@@ -97,10 +99,19 @@
                     app:layout_constraintWidth_percent="0.2" />
 
 
+                <View
+                    android:layout_width="@dimen/_15sdp"
+                    android:layout_height="@dimen/_3sdp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="@+id/imageView1"
+                    app:layout_constraintStart_toStartOf="@+id/imageView1"
+                    android:background="@drawable/round_bottom_45"
+                    />
+
             </androidx.constraintlayout.widget.ConstraintLayout>
 
 
-        </androidx.cardview.widget.CardView>
+        </com.google.android.material.card.MaterialCardView>
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

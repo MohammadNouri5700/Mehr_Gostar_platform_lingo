@@ -14,4 +14,35 @@
     </style>
 
 
+
+
+
+    <style name="BottomNavigationCardViewStyle" parent="@style/Widget.MaterialComponents.CardView">
+        <item name="shapeAppearanceOverlay">@style/Overlay_BottomNavigationCardViewStyle</item>
+    </style>
+
+
+    <style name="Overlay_BottomNavigationCardViewStyle" parent="">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSizeTopRight">@dimen/_8sdp</item>
+        <item name="cornerSizeTopLeft">@dimen/_8sdp</item>
+        <item name="cornerSizeBottomRight">0dp</item>
+        <item name="cornerSizeBottomLeft">0dp</item>
+    </style>
+
+
+    <style name="TaskLargeCardViewStyle" parent="@style/Widget.MaterialComponents.CardView">
+        <item name="shapeAppearanceOverlay">@style/Overlay_TaskLargeCardViewStyle</item>
+    </style>
+
+
+    <style name="Overlay_TaskLargeCardViewStyle" parent="">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSizeTopRight">0dp</item>
+        <item name="cornerSizeTopLeft">0dp</item>
+        <item name="cornerSizeBottomRight">@dimen/_13sdp</item>
+        <item name="cornerSizeBottomLeft">@dimen/_13sdp</item>
+    </style>
+
+
 </resources>
