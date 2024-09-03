@@ -40,75 +40,77 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent">
 
-            <androidx.constraintlayout.widget.ConstraintLayout
+            <androidx.constraintlayout.motion.widget.MotionLayout
+                android:id="@+id/constraintLayout"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="match_parent"
+                tools:ignore="MotionLayoutInvalidSceneFileReference">
 
                 <ImageView
-                    android:id="@+id/imageView1"
+                    android:onClick="@{()->viewModel.openHome()}"
+                    android:id="@+id/imgHome"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_marginStart="0dp"
                     android:layout_marginEnd="0dp"
-                    android:onClick="@{() -> viewModel.openHome()}"
                     android:padding="@dimen/_17sdp"
                     android:scaleType="centerCrop"
                     android:src="@drawable/home"
-                    app:layout_constraintEnd_toStartOf="@+id/imageView2"
+                    app:layout_constraintEnd_toStartOf="@+id/imgLearn"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintWidth_percent="0.2" />
 
                 <ImageView
-                    android:id="@+id/imageView2"
+                    android:onClick="@{()->viewModel.openLearn()}"
+                    android:id="@+id/imgLearn"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_marginStart="0dp"
                     android:layout_marginEnd="0dp"
-                    android:onClick="@{()->viewModel.openLearn()}"
                     android:padding="@dimen/_17sdp"
                     android:scaleType="centerCrop"
                     android:src="@drawable/learn"
-                    app:layout_constraintEnd_toStartOf="@+id/imageView3"
-                    app:layout_constraintStart_toEndOf="@+id/imageView1"
+                    app:layout_constraintEnd_toStartOf="@+id/imgReport"
+                    app:layout_constraintStart_toEndOf="@+id/imgHome"
                     app:layout_constraintWidth_percent="0.2" />
 
                 <ImageView
-                    android:id="@+id/imageView3"
+                    android:onClick="@{()->viewModel.openReport()}"
+                    android:id="@+id/imgReport"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_marginStart="0dp"
                     android:layout_marginEnd="0dp"
-                    android:onClick="@{() -> viewModel.openReport()}"
                     android:padding="@dimen/_17sdp"
                     android:scaleType="centerCrop"
                     android:src="@drawable/report"
-                    app:layout_constraintEnd_toStartOf="@+id/imageView4"
-                    app:layout_constraintStart_toEndOf="@+id/imageView2"
+                    app:layout_constraintEnd_toStartOf="@+id/imgProfile"
+                    app:layout_constraintStart_toEndOf="@+id/imgLearn"
                     app:layout_constraintWidth_percent="0.2" />
 
                 <ImageView
-                    android:id="@+id/imageView4"
+                    android:onClick="@{()->viewModel.openProfile()}"
+                    android:id="@+id/imgProfile"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
-                    android:onClick="@{() -> viewModel.openProfile()}"
                     android:padding="@dimen/_17sdp"
                     android:scaleType="centerCrop"
                     android:src="@drawable/profile"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toEndOf="@+id/imageView3"
+                    app:layout_constraintStart_toEndOf="@+id/imgReport"
                     app:layout_constraintWidth_percent="0.2" />
 
 
                 <View
+                    android:id="@+id/view"
                     android:layout_width="@dimen/_15sdp"
                     android:layout_height="@dimen/_3sdp"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="@+id/imageView1"
-                    app:layout_constraintStart_toStartOf="@+id/imageView1"
                     android:background="@drawable/round_bottom_45"
-                    />
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="@+id/imgLearn"
+                    app:layout_constraintStart_toStartOf="@+id/imgLearn" />
 
-            </androidx.constraintlayout.widget.ConstraintLayout>
+            </androidx.constraintlayout.motion.widget.MotionLayout>
 
 
         </com.google.android.material.card.MaterialCardView>

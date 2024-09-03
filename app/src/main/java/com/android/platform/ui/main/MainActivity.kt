@@ -1,27 +1,27 @@
 package com.android.platform.ui.main
 
+import android.animation.ArgbEvaluator
+import android.animation.ValueAnimator
 import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
-import android.widget.Toast
+import android.provider.ContactsContract.CommonDataKinds.Im
+import android.view.animation.AnticipateOvershootInterpolator
+import android.widget.ImageView
 import androidx.activity.OnBackPressedCallback
-import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
-import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.view.ContextThemeWrapper
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
+import androidx.constraintlayout.motion.widget.MotionLayout
+import androidx.constraintlayout.widget.ConstraintSet
+import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.viewModelScope
+import androidx.transition.ChangeBounds
+import androidx.transition.TransitionManager
 import com.android.platform.PlatformApplication
 import com.android.platform.R
-import com.android.platform.databinding.ActivityCourseBinding
 import com.android.platform.databinding.ActivityMainBinding
-import com.android.platform.ui.course.CourseViewModel
 import com.android.platform.ui.home.HomeFragment
 import com.android.platform.ui.learn.LearnFragment
 import com.android.platform.ui.report.ReportFragment
@@ -42,38 +42,115 @@ class MainActivity : DaggerAppCompatActivity() {
     private val mainViewModel: MainViewModel by viewModels { viewModelFactory }
     private lateinit var binding: ActivityMainBinding
 
+    private lateinit var bottomNavImages:List<ImageView>
+
     override fun onCreate(savedInstanceState: Bundle?) {
         (applicationContext as PlatformApplication).appComponent.inject(this)
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
         binding.viewModel = mainViewModel
         setContentView(binding.root)
+        bottomNavImages = listOf(binding.imgHome,binding.imgLearn,binding.imgReport,binding.imgProfile)
 
 
 
         mainViewModel.event.observe(this, Observer {
             when (it) {
                 "Home" -> {
-                    showFragment(HomeFragment())
+                    mainViewModel.viewModelScope.launch{
+                        val res = withContext(Dispatchers.Main){
+                            showFragment(HomeFragment())
+                        }
+                        withContext(Dispatchers.Main){
+                            updateConstraintsForView(binding.constraintLayout, binding.imgHome.id)
+                            resetAllColor()
+                        }
+                    }
                 }
 
                 "Learn" -> {
-                    showFragment(LearnFragment())
+                    mainViewModel.viewModelScope.launch{
+                        val res = withContext(Dispatchers.Main){
+                            showFragment(LearnFragment())
+                        }
+                        withContext(Dispatchers.Main){
+                            updateConstraintsForView(binding.constraintLayout, binding.imgLearn.id)
+                            resetAllColor()
+                        }
+
+                    }
                 }
 
                 "Report" -> {
-                    showFragment(ReportFragment())
+                    mainViewModel.viewModelScope.launch{
+                        val res = withContext(Dispatchers.Main){
+                            showFragment(ReportFragment())
+                        }
+                        withContext(Dispatchers.Main){
+                            updateConstraintsForView(binding.constraintLayout, binding.imgReport.id)
+                            resetAllColor()
+                        }
+
+                    }
                 }
 
-
-
                 "Profile" -> {
+                    resetAllColor()
+                    updateConstraintsForView(binding.constraintLayout, binding.imgProfile.id)
 
                 }
             }
         })
         initMain()
 
+    }
+
+
+    private fun updateConstraintsForView(motionLayout: MotionLayout, imageViewId: Int) {
+        val constraintSet = ConstraintSet()
+        constraintSet.clone(motionLayout)
+
+        constraintSet.connect(R.id.view, ConstraintSet.START, imageViewId, ConstraintSet.START)
+        constraintSet.connect(R.id.view, ConstraintSet.END, imageViewId, ConstraintSet.END)
+
+        val transition = ChangeBounds()
+        transition.interpolator = AnticipateOvershootInterpolator()
+        transition.duration = 600
+
+        TransitionManager.beginDelayedTransition(motionLayout, transition)
+        constraintSet.applyTo(motionLayout)
+        animateToSelect(findViewById(imageViewId))
+    }
+    private fun animateToSelect(imageView: ImageView) {
+        val colorFrom = ContextCompat.getColor(this, R.color.black)
+        val colorTo = ContextCompat.getColor(this, R.color.blue)
+        val colorAnimation = ValueAnimator.ofObject(ArgbEvaluator(), colorFrom, colorTo)
+        colorAnimation.duration = 300
+        colorAnimation.addUpdateListener { animator ->
+            imageView.setColorFilter(animator.animatedValue as Int)
+        }
+        colorAnimation.repeatCount = 0
+        colorAnimation.repeatMode = ValueAnimator.REVERSE
+        colorAnimation.start()
+    }
+
+    private fun animateToDESelect(imageView: ImageView) {
+        val colorFrom = ContextCompat.getColor(this, R.color.black)
+        val colorTo = ContextCompat.getColor(this, R.color.black)
+        val colorAnimation = ValueAnimator.ofObject(ArgbEvaluator(), colorFrom, colorTo)
+        colorAnimation.duration = 0
+        colorAnimation.addUpdateListener { animator ->
+            imageView.setColorFilter(animator.animatedValue as Int)
+        }
+        colorAnimation.repeatCount = 0
+        colorAnimation.repeatMode = ValueAnimator.REVERSE
+        colorAnimation.start()
+    }
+
+    private fun resetAllColor() {
+        bottomNavImages.forEach { imageView ->
+            animateToDESelect(imageView)
+        }
     }
 
     private fun changeTheme() {
