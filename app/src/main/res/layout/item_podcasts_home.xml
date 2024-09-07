@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?><!--<com.facebook.shimmer.ShimmerFrameLayout -->
+<!--    android:id="@+id/shiStory"-->
+
+<!--    android:layout_width="wrap_content"-->
+<!--    android:layout_height="wrap_content"-->
+<!--    app:shimmer_auto_start="true">-->
+
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/_75sdp"
+    app:cardElevation="@dimen/_15sdp"
+    android:layout_marginTop="@dimen/_12sdp"
+>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+
+        <com.android.platform.utils.ui.PodcastImageView
+            android:id="@+id/imgProfile"
+            android:layout_width="@dimen/_65sdp"
+            android:layout_marginStart="@dimen/_8sdp"
+            android:layout_height="@dimen/_65sdp"
+            android:src="@drawable/profile_sample"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <com.android.platform.utils.font.ShabnamBold
+            android:id="@+id/shabnamBold3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/_12sdp"
+            android:layout_marginTop="-20sp"
+            android:text="Im calling you"
+            android:textSize="@dimen/_15sdp"
+            app:layout_constraintBottom_toBottomOf="@+id/imgProfile"
+            app:layout_constraintStart_toEndOf="@+id/imgProfile"
+            app:layout_constraintTop_toTopOf="@+id/imgProfile" />
+
+        <com.android.platform.utils.font.ShabnamBold
+            android:id="@+id/shabnamBold2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Outlandish"
+            android:textSize="@dimen/_11sdp"
+            app:layout_constraintStart_toStartOf="@+id/shabnamBold3"
+            app:layout_constraintTop_toBottomOf="@+id/shabnamBold3" />
+
+
+        <com.github.dangiashish.StyledCardView
+            android:layout_width="@dimen/_45sdp"
+            android:layout_height="@dimen/_35sdp"
+            android:layout_gravity="center"
+            android:layout_marginEnd="@dimen/_25sdp"
+            app:background_Color="@color/white"
+            app:background_Type="fill_stroke"
+            app:cornerRadius="@dimen/_15sdp"
+            app:corner_Type="circular"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:shadow0_Outer_Alpha="0.1"
+            app:shadow0_Outer_Angle="-45"
+            app:shadow0_Outer_Blur="@dimen/_2sdp"
+            app:shadow0_Outer_Color="#3F51B5"
+            app:shadow0_Outer_Distance="@dimen/_2sdp"
+            app:shadow1_Outer_Alpha="0.1"
+            app:shadow1_Outer_Angle="135"
+            app:shadow1_Outer_Blur="2dp"
+            app:shadow1_Outer_Color="#3F51B5"
+            app:shadow1_Outer_Distance="@dimen/_2sdp"
+            app:shadow_Outer_Area="@dimen/_3sdp">
+
+            <ImageView
+                android:layout_width="@dimen/_25sdp"
+                android:layout_height="@dimen/_25sdp"
+                android:layout_gravity="center"
+                android:padding="@dimen/_5sdp"
+                android:src="@drawable/play"
+                app:tint="#E91E63" />
+        </com.github.dangiashish.StyledCardView>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.cardview.widget.CardView>
+
+    <!--</com.facebook.shimmer.ShimmerFrameLayout>-->

@@ -12,7 +12,7 @@
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:background="#fff"
+        android:background="@color/white"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
@@ -164,7 +164,7 @@
             <androidx.cardview.widget.CardView
                 android:layout_marginTop="@dimen/_12sdp"
                 app:cardBackgroundColor="#fff"
-                app:cardElevation="@dimen/_3sdp"
+                app:cardElevation="@dimen/_32sdp"
                 app:cardCornerRadius="0dp"
                 android:id="@+id/crdPodcasts"
                 app:layout_constraintStart_toStartOf="parent"
@@ -176,13 +176,13 @@
                     android:paddingBottom="@dimen/_8sdp"
                     android:layout_height="match_parent">
 
-                    <com.android.platform.utils.font.ShabnamMedium
+                    <com.android.platform.utils.font.ShabnamBold
                         android:id="@+id/lblPodcasts"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_margin="@dimen/_8sdp"
-                        android:text="@string/podcasts"
-                        android:textSize="@dimen/_15sdp"
+                        android:text="@string/trendingpodcast"
+                        android:textSize="@dimen/_18sdp"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
 
@@ -192,6 +192,7 @@
                         android:backgroundTint="#6075F5"
                         android:backgroundTintMode="add"
                         android:layout_height="wrap_content"
+                        android:visibility="gone"
                         android:paddingEnd="@dimen/_15sdp"
                         android:paddingStart="@dimen/_15sdp"
                         android:paddingTop="@dimen/_2sdp"
@@ -232,149 +233,6 @@
 
             </androidx.cardview.widget.CardView>
 
-            <androidx.cardview.widget.CardView
-                android:id="@+id/crdBook"
-                android:layout_marginTop="@dimen/_12sdp"
-                app:cardBackgroundColor="#fff"
-                app:cardElevation="@dimen/_3sdp"
-                app:cardCornerRadius="0dp"
-                android:background="@drawable/custom_shadow"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/crdPodcasts"
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/_120sdp">
-
-                <androidx.constraintlayout.widget.ConstraintLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/_120sdp">
-
-                    <com.android.platform.utils.font.ShabnamMedium
-                        android:id="@+id/lblBook"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="@dimen/_8sdp"
-                        android:text="@string/books"
-                        android:textSize="@dimen/_15sdp"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
-
-                    <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:background="@drawable/cube_selected"
-                        android:backgroundTint="#6075F5"
-                        android:backgroundTintMode="add"
-                        android:layout_height="wrap_content"
-                        android:paddingEnd="@dimen/_15sdp"
-                        android:paddingStart="@dimen/_15sdp"
-                        android:paddingTop="@dimen/_2sdp"
-                        android:paddingBottom="@dimen/_2sdp"
-                        android:layout_marginEnd="@dimen/_8sdp"
-                        android:orientation="horizontal"
-                        app:layout_constraintBottom_toBottomOf="@+id/lblBook"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toTopOf="@+id/lblBook">
-
-                        <com.android.platform.utils.font.ShabnamBold
-                            android:textColor="@color/white"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center_vertical"
-                            android:layout_marginEnd="@dimen/_3sdp"
-                            android:text="@string/category" />
-
-                        <ImageView
-                            android:layout_width="@dimen/_15sdp"
-                            android:layout_height="@dimen/_15sdp"
-                            android:layout_gravity="center_vertical"
-                            android:src="@drawable/category"
-                            app:tint="@color/white" />
-
-                    </LinearLayout>
-
-
-                    <androidx.recyclerview.widget.RecyclerView
-                        android:id="@+id/recBook"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/_3sdp"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/lblBook" />
-                </androidx.constraintlayout.widget.ConstraintLayout>
-
-            </androidx.cardview.widget.CardView>
-
-
-            <androidx.cardview.widget.CardView
-                android:id="@+id/crdMusic"
-                android:layout_marginTop="@dimen/_12sdp"
-                app:cardBackgroundColor="#fff"
-                app:cardElevation="@dimen/_3sdp"
-                app:cardCornerRadius="0dp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/crdBook"
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/_590sdp">
-
-                <androidx.constraintlayout.widget.ConstraintLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/_120sdp">
-
-                    <com.android.platform.utils.font.ShabnamMedium
-                        android:id="@+id/lblMusic"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="@dimen/_8sdp"
-                        android:text="@string/music"
-                        android:textSize="@dimen/_15sdp"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
-
-                    <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:background="@drawable/cube_selected"
-                        android:backgroundTint="#6075F5"
-                        android:backgroundTintMode="add"
-                        android:layout_height="wrap_content"
-                        android:paddingEnd="@dimen/_15sdp"
-                        android:paddingStart="@dimen/_15sdp"
-                        android:paddingTop="@dimen/_2sdp"
-                        android:paddingBottom="@dimen/_2sdp"
-                        android:layout_marginEnd="@dimen/_8sdp"
-                        android:orientation="horizontal"
-                        app:layout_constraintBottom_toBottomOf="@+id/lblMusic"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toTopOf="@+id/lblMusic">
-
-                        <com.android.platform.utils.font.ShabnamBold
-                            android:textColor="@color/white"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center_vertical"
-                            android:layout_marginEnd="@dimen/_3sdp"
-                            android:text="@string/category" />
-
-                        <ImageView
-                            android:layout_width="@dimen/_15sdp"
-                            android:layout_height="@dimen/_15sdp"
-                            android:layout_gravity="center_vertical"
-                            android:src="@drawable/category"
-                            app:tint="@color/white" />
-
-                    </LinearLayout>
-
-
-                    <androidx.recyclerview.widget.RecyclerView
-                        android:id="@+id/recMusic"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/_3sdp"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/lblMusic" />
-                </androidx.constraintlayout.widget.ConstraintLayout>
-
-            </androidx.cardview.widget.CardView>
 
 
 

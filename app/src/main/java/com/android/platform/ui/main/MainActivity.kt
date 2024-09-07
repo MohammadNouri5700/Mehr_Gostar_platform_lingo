@@ -9,6 +9,7 @@ import android.util.Log
 import android.view.View
 import android.view.WindowInsets
 import android.view.WindowInsetsController
+import android.view.WindowManager
 import android.view.animation.AccelerateDecelerateInterpolator
 import android.view.animation.AnticipateOvershootInterpolator
 import android.widget.ImageView
@@ -37,6 +38,7 @@ import com.google.android.gms.tasks.OnCompleteListener
 import com.google.firebase.Firebase
 import com.google.firebase.analytics.FirebaseAnalytics
 import com.google.firebase.messaging.messaging
+import com.scottyab.rootbeer.RootBeer
 import dagger.android.support.DaggerAppCompatActivity
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
@@ -57,6 +59,14 @@ class MainActivity : DaggerAppCompatActivity() {
     private lateinit var bottomNavImages: List<ImageView>
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_SECURE, WindowManager.LayoutParams.FLAG_SECURE);
+
+        val rootBeer = RootBeer(this)
+        if (rootBeer.isRooted) {
+            showToast("ROOT Device is denied")
+            finishAffinity()
+        }
+
         (applicationContext as PlatformApplication).appComponent.inject(this)
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
@@ -126,6 +136,9 @@ class MainActivity : DaggerAppCompatActivity() {
         })
         initMain()
 
+
+        val firebaseAnalytics = FirebaseAnalytics.getInstance(this)
+        firebaseAnalytics.logEvent("HomePage", null)
 
     }
 

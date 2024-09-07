@@ -4,6 +4,7 @@ plugins {
     alias(libs.plugins.org.jetbrains.kotlin.kapt)
     id("com.google.gms.google-services")
     id("com.google.firebase.crashlytics")
+    id("com.google.firebase.firebase-perf")
 }
 // Sign info : al: key0 pass:Nouri5700
 android {
@@ -97,8 +98,8 @@ dependencies {
     implementation (libs.shimmer)
 
     implementation (libs.styledcardview)
-
-
+    implementation(libs.firebase.perf)
+    implementation (libs.rootbeer.lib)
 
 
 

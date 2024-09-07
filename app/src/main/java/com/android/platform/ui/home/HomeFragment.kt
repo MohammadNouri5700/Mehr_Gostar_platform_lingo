@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.android.platform.PlatformApplication
 import com.android.platform.R
 import com.android.platform.databinding.FragmentHomeBinding
+import com.android.platform.ui.home.story.PodcastAdapter
 import com.android.platform.ui.home.story.StoryAdapter
 import com.android.platform.ui.main.MainActivity
 import com.android.platform.ui.main.MainViewModel
@@ -48,8 +49,8 @@ class HomeFragment : Fragment() {
         binding.recStory.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
         binding.recStory.adapter = StoryAdapter(listOf("55 دقیقه پیش","55 دقیقه پیش","55 دقیقه پیش","55 دقیقه پیش","55 دقیقه پیش","55 دقیقه پیش","55 دقیقه پیش"))
 
-        binding.recPodcasts.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
-        binding.recPodcasts.adapter = StoryAdapter(listOf("علمی و تخیلی", "ترسناک","درام"))
+        binding.recPodcasts.layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
+        binding.recPodcasts.adapter = PodcastAdapter(listOf("علمی و تخیلی", "ترسناک","درام","درام","درام","درام","درام","درام","درام","درام","درام","درام","درام","درام","درام","درام","درام","درام","درام","درام","درام","درام","درام","درام","درام"))
 
     }
 
