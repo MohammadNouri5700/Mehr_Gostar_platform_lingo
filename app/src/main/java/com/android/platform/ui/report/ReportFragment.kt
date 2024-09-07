@@ -12,7 +12,9 @@ import com.android.platform.PlatformApplication
 import com.android.platform.R
 import com.android.platform.databinding.FragmentHomeBinding
 import com.android.platform.databinding.FragmentReportBinding
+import com.android.platform.ui.main.MainActivity
 import com.android.platform.ui.main.MainViewModel
+import com.android.platform.utils.extension.setPage
 import dagger.android.support.DaggerFragment
 import javax.inject.Inject
 

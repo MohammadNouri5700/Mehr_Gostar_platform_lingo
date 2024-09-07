@@ -31,9 +31,11 @@ import com.android.platform.databinding.ActivityMainBinding
 import com.android.platform.ui.home.HomeFragment
 import com.android.platform.ui.learn.LearnFragment
 import com.android.platform.ui.report.ReportFragment
+import com.android.platform.utils.extension.setPage
 import com.android.platform.utils.extension.showToast
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.firebase.Firebase
+import com.google.firebase.analytics.FirebaseAnalytics
 import com.google.firebase.messaging.messaging
 import dagger.android.support.DaggerAppCompatActivity
 import kotlinx.coroutines.Dispatchers
@@ -62,6 +64,7 @@ class MainActivity : DaggerAppCompatActivity() {
         setContentView(binding.root)
         bottomNavImages =
             listOf(binding.imgHome, binding.imgLearn, binding.imgReport, binding.imgProfile)
+
 
 
 
@@ -198,6 +201,7 @@ class MainActivity : DaggerAppCompatActivity() {
             transaction.commit()
         }
     }
+
     private fun showFragment(tag: String) {
         val transaction = supportFragmentManager.beginTransaction()
 
@@ -213,9 +217,16 @@ class MainActivity : DaggerAppCompatActivity() {
         supportFragmentManager.findFragmentByTag(tag)?.let { fragment ->
             transaction.show(fragment)
             transaction.commitAllowingStateLoss()
+            mainViewModel.viewModelScope.launch {
+                withContext(Dispatchers.IO) {
+                    setPage(tag, fragment::class.java.simpleName)
+                }
+            }
         } ?: run {
             showToast("Fragment with tag $tag not found")
         }
+
+
     }
 
 
@@ -291,11 +302,10 @@ class MainActivity : DaggerAppCompatActivity() {
                     transaction.commitNowAllowingStateLoss()
                 }
             }
-            delay(1000)
+            delay(10)
             loadUI()
         }
     }
-
 
 
     private fun loadUI() {

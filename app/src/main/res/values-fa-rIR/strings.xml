@@ -3,4 +3,11 @@
     <string name="app_name">Platform</string>
     <string name="doublebackmessage">برای بازگشت دوباره سعی کنید</string>
     <string name="mylevels">دوره های من</string>
+    <string name="search">جستجو . . .</string>
+    <string name="students">" دانشجویان  "</string>
+    <string name="ourlanguagelearners">زیان آموزان ما</string>
+    <string name="podcasts">پادکست ها</string>
+    <string name="books">کتاب ها</string>
+    <string name="category">دسته بندی</string>
+    <string name="music">آهنگ ها</string>
 </resources>

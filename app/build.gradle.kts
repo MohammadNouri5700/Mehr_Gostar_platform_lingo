@@ -96,4 +96,11 @@ dependencies {
     implementation (libs.firebase.messaging.directboot)
     implementation (libs.shimmer)
 
+    implementation (libs.styledcardview)
+
+
+
+
+
+
 }
