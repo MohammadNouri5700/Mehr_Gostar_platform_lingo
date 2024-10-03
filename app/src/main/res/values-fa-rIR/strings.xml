@@ -13,4 +13,8 @@
     <string name="trendingpodcast">بهترین پادکست ها</string>
     <string name="successstories">داستان های موفقیت</string>
     <string name="hereisyourlastactivity.">در اینجا آخرین فعالیت شما.</string>
+    <string name="yourprogress">پیشرفت شما</string>
+    <string name="getrewardbydoingtasks">با انجام تسک ها میتونی تخفیف بگیری</string>
+    <string name="yourlevels">درس های شما</string>
+    <string name="min">دقیقه</string>
 </resources>

@@ -11,6 +11,10 @@
     <color name="textGray">#23222F80</color>
     <color name="pointBackground">#FFD736</color>
     <color name="pointCircleBackground">#FFF0E9</color>
+    <color name="selectedNavigation">#06433E</color>
+    <color name="unselectedNavigation">#CECCD4</color>
+    <color name="progressbarProgress">#FFB3C3</color>
+    <color name="progressbarProgressBackground">#3D00000F</color>
 
 
 

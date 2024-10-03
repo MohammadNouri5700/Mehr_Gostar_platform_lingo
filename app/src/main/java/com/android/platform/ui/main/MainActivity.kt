@@ -3,8 +3,6 @@ package com.android.platform.ui.main
 import android.animation.ArgbEvaluator
 import android.animation.ObjectAnimator
 import android.animation.ValueAnimator
-import android.graphics.BitmapFactory
-import android.graphics.Color
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
@@ -32,7 +30,7 @@ import com.android.platform.PlatformApplication
 import com.android.platform.R
 import com.android.platform.databinding.ActivityMainBinding
 import com.android.platform.ui.home.HomeFragment
-import com.android.platform.ui.learn.LearnFragment
+import com.android.platform.ui.level.LevelFragment
 import com.android.platform.ui.report.ReportFragment
 import com.android.platform.utils.extension.setPage
 import com.android.platform.utils.extension.showToast
@@ -161,8 +159,8 @@ class MainActivity : DaggerAppCompatActivity() {
     }
 
     private fun animateToSelect(imageView: ImageView) {
-        val colorFrom = ContextCompat.getColor(this, R.color.black)
-        val colorTo = ContextCompat.getColor(this, R.color.blue)
+        val colorFrom = ContextCompat.getColor(this, R.color.unselectedNavigation)
+        val colorTo = ContextCompat.getColor(this, R.color.selectedNavigation)
         val colorAnimation = ValueAnimator.ofObject(ArgbEvaluator(), colorFrom, colorTo)
         colorAnimation.duration = 300
         colorAnimation.addUpdateListener { animator ->
@@ -174,7 +172,8 @@ class MainActivity : DaggerAppCompatActivity() {
     }
 
     private fun animateToDESelect(imageView: ImageView) {
-        val colorFrom = ContextCompat.getColor(this, R.color.black)
+
+        val colorFrom = ContextCompat.getColor(this, R.color.selectedNavigation)
         val colorTo = ContextCompat.getColor(this, R.color.black)
         val colorAnimation = ValueAnimator.ofObject(ArgbEvaluator(), colorFrom, colorTo)
         colorAnimation.duration = 0
@@ -301,7 +300,7 @@ class MainActivity : DaggerAppCompatActivity() {
             withContext(Dispatchers.Default) {
                 val fragments = listOf(
                     HomeFragment() to "HOME",
-                    LearnFragment() to "LEARN",
+                    LevelFragment() to "LEARN",
                     ReportFragment() to "REPORT",
                     ReportFragment() to "PROFILE"
                 )

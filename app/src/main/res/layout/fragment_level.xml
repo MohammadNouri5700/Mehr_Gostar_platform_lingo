@@ -1,0 +1,186 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+
+    <data>
+
+        <variable
+            name="viewModel"
+            type="com.android.platform.ui.level.LevelViewModel" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:background="@color/white"
+        android:paddingStart="@dimen/_12sdp"
+        android:paddingEnd="@dimen/_12sdp"
+        android:paddingTop="@dimen/_12sdp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/containerHeader"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_60sdp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <com.android.platform.utils.font.QuicksandBold
+                android:id="@+id/quicksandBold"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/yourprogress"
+                android:textSize="@dimen/_20sdp"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <com.android.platform.utils.font.Inter
+                android:textColor="@color/gray"
+                android:layout_width="wrap_content"
+                android:layout_marginTop="@dimen/_3sdp"
+                android:layout_height="wrap_content"
+                android:text="@string/getrewardbydoingtasks"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/quicksandBold" />
+
+
+            <com.android.platform.utils.ui.CircularImageView
+                android:id="@+id/circularImageView"
+                android:layout_width="@dimen/_52sdp"
+                android:layout_height="@dimen/_52sdp"
+                android:src="@drawable/profile_sample"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <com.android.platform.utils.font.InterBold
+                android:id="@+id/interBold"
+                android:layout_width="@dimen/_45sdp"
+                android:layout_height="@dimen/_13sdp"
+                android:background="@drawable/background_point"
+                android:gravity="center_horizontal|center_vertical"
+                android:text="     152 pt"
+                android:textColor="@color/black"
+                android:textSize="@dimen/_7sdp"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="@+id/circularImageView"
+                app:layout_constraintEnd_toEndOf="@+id/circularImageView"
+                app:layout_constraintStart_toStartOf="@+id/circularImageView" />
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recTask"
+            android:layout_marginTop="@dimen/_12sdp"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_130sdp"
+            app:layout_constraintTop_toBottomOf="@+id/containerHeader"
+            tools:layout_editor_absoluteX="16dp" />
+
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:background="@drawable/level_round"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginTop="@dimen/_20sdp"
+            android:layout_marginBottom="@dimen/_20sdp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/recTask">
+
+            <FrameLayout
+                android:id="@+id/frameLayout"
+                android:layout_width="@dimen/_20sdp"
+                android:layout_height="@dimen/_2sdp"
+                android:layout_marginTop="@dimen/_12sdp"
+                android:background="@drawable/round_bottom_45"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <com.android.platform.utils.font.QuicksandBold
+                android:id="@+id/quicksandBold2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_8sdp"
+                android:text="@string/yourlevels"
+                android:textSize="@dimen/_17sdp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/frameLayout" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recLevel"
+                android:padding="@dimen/_3sdp"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_marginTop="@dimen/_12sdp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/quicksandBold2" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

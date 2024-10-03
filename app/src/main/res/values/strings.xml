@@ -13,4 +13,8 @@
     <string name="trendingpodcast">Trending Podcast</string>
     <string name="successstories">Success Stories</string>
     <string name="hereisyourlastactivity.">Here is your last activity.</string>
+    <string name="yourprogress">Your Progress</string>
+    <string name="getrewardbydoingtasks">Get rewarded by doing tasks!</string>
+    <string name="yourlevels">Your Levels</string>
+    <string name="min">Mins</string>
 </resources>

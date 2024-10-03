@@ -5,5 +5,5 @@
         android:topRightRadius="0dp"
         android:bottomLeftRadius="@dimen/_45sdp"
         android:bottomRightRadius="@dimen/_45sdp"/>
-    <solid android:color="#f34" />
+    <solid android:color="@color/unselectedNavigation" />
 </shape>

@@ -5,10 +5,9 @@ import com.android.platform.PlatformApplication
 import com.android.platform.di.module.ActivityBindingModule
 import com.android.platform.di.module.AppModule
 import com.android.platform.di.module.RetrofitModule
-import com.android.platform.di.module.RoomModule
 import com.android.platform.di.module.ViewModelModule
 import com.android.platform.ui.home.HomeFragment
-import com.android.platform.ui.learn.LearnFragment
+import com.android.platform.ui.level.LevelFragment
 import com.android.platform.ui.main.MainActivity
 import com.android.platform.ui.report.ReportFragment
 import dagger.Component
@@ -34,7 +33,7 @@ interface AppComponent {
 
 //    Fragment's
     fun inject(homeFragment: HomeFragment)
-    fun inject(learnFragment: LearnFragment)
+    fun inject(levelFragment: LevelFragment)
     fun inject(reportFragment: ReportFragment)
 
 }

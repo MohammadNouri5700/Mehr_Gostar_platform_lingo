@@ -5,13 +5,12 @@ import androidx.lifecycle.ViewModelProvider
 import com.android.platform.di.factory.ViewModelFactory
 import com.android.platform.di.scop.ViewModelKey
 import com.android.platform.ui.home.HomeViewModel
-import com.android.platform.ui.learn.LearnViewModel
+import com.android.platform.ui.level.LevelViewModel
 import com.android.platform.ui.main.MainViewModel
 import com.android.platform.ui.report.ReportViewModel
 import dagger.Binds
 import dagger.Module
 import dagger.multibindings.IntoMap
-import dagger.multibindings.StringKey
 
 @Module
 abstract class ViewModelModule {
@@ -39,8 +38,8 @@ abstract class ViewModelModule {
 
     @Binds
     @IntoMap
-    @ViewModelKey(LearnViewModel::class)
-    abstract fun bindLearnViewModel(viewModel: LearnViewModel): ViewModel
+    @ViewModelKey(LevelViewModel::class)
+    abstract fun bindLearnViewModel(viewModel: LevelViewModel): ViewModel
 
 
 

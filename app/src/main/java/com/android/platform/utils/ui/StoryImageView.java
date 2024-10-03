@@ -10,13 +10,11 @@ import android.util.AttributeSet;
 
 import androidx.appcompat.widget.AppCompatImageView;
 
-import com.android.platform.R;
-
 public class StoryImageView extends AppCompatImageView {
 
     private Paint borderPaint;
-    private int borderWidth = (int) getResources().getDimension(com.intuit.sdp.R.dimen._2sdp); // ضخامت خط دور
-    private int padding = (int) getResources().getDimension(com.intuit.sdp.R.dimen._2sdp);; // فاصله بین تصویر و خط دور
+    private int borderWidth = (int) getResources().getDimension(com.intuit.sdp.R.dimen._4sdp);
+    private int padding = (int) getResources().getDimension(com.intuit.sdp.R.dimen._2sdp);;
 
     public StoryImageView(Context context) {
         super(context);
@@ -42,12 +40,11 @@ public class StoryImageView extends AppCompatImageView {
         int radius = Math.min(getWidth() / 2, getHeight() / 2);
         int adjustedRadius = radius - borderWidth / 2;
 
-        // تعریف رنگ‌ها و محل قرارگیری آنها در گرادیان
-        int[] colors = new int[]{Color.parseColor("#FB7347"), Color.parseColor("#C93C99"),
-                Color.parseColor("#9336C3"), Color.parseColor("#E9426C"),
-                Color.parseColor("#F96A4E"), Color.parseColor("#FCB050"),
-                Color.parseColor("#FB7347")}; // اضافه کردن اولین رنگ در انتها برای ایجاد یک حلقه کامل بدون درز
-        float[] positions = null; // مکان‌های دقیق رنگ‌ها، خودکار تنظیم می‌شود
+        int[] colors = new int[]{Color.parseColor("#FFB3C3"), Color.parseColor("#FFB3C3"),
+                Color.parseColor("#FFB3C3"), Color.parseColor("#FFB3C3"),
+                Color.parseColor("#FFB3C3"), Color.parseColor("#FFB3C3"),
+                Color.parseColor("#FFB3C3")};
+        float[] positions = null;
 
         SweepGradient gradient = new SweepGradient(getWidth() / 2, getHeight() / 2, colors, positions);
         borderPaint.setShader(gradient);

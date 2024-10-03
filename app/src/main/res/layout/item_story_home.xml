@@ -7,26 +7,34 @@
     app:shimmer_auto_start="true">
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="@dimen/_65sdp"
-        android:layout_height="@dimen/_65sdp">
+        android:layout_width="@dimen/_67sdp"
+        android:layout_height="wrap_content">
 
         <com.android.platform.utils.ui.StoryImageView
             android:id="@+id/imgProfile"
-            android:layout_width="@dimen/_50sdp"
-            android:layout_height="@dimen/_50sdp"
+            android:layout_width="@dimen/_60sdp"
+            android:layout_height="@dimen/_60sdp"
             android:src="@drawable/profile_sample"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <com.android.platform.utils.font.QuicksandBold
+        <com.android.platform.utils.font.QuicksandSemiBold
             android:id="@+id/txtTime"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:text="55 دقیقه پیش"
-            android:textSize="@dimen/_6sdp"
+            android:text="Else"
+            android:textSize="@dimen/_8sdp"
             app:layout_constraintTop_toBottomOf="@+id/imgProfile" />
+
+        <com.android.platform.utils.font.QuicksandLight
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/_8sdp"
+            android:gravity="center"
+            android:text="From England"
+            app:layout_constraintTop_toBottomOf="@+id/txtTime" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

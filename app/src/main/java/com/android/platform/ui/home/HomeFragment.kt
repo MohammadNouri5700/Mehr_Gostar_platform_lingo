@@ -45,12 +45,12 @@ class HomeFragment : Fragment() {
         super.onResume()
 
         binding.recStory.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
-        binding.recStory.adapter = StoryAdapter(listOf("55 دقیقه پیش","55 دقیقه پیش","55 دقیقه پیش","55 دقیقه پیش","55 دقیقه پیش","55 دقیقه پیش","55 دقیقه پیش"))
+        binding.recStory.adapter = StoryAdapter(listOf("Elsa","Elsa","Elsa","Elsa","Elsa","Elsa","Elsa","Elsa","Elsa","Elsa","Elsa"))
 
         binding.recPodcasts.layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
 //        binding.recPodcasts.adapter = PodcastAdapter(listOf("علمی و تخیلی", "ترسناک","درام","درام","درام","درام","درام","درام","درام","درام","درام","درام","درام","درام","درام","درام","درام","درام","درام","درام","درام","درام","درام","درام","درام"))
 
-        val bitmap = BitmapFactory.decodeResource(resources, com.android.platform.R.drawable.profile_sample)
+        val bitmap = BitmapFactory.decodeResource(resources, com.android.platform.R.drawable.img_fake)
         binding.roundedBlurredCardView.setImageBitmap(bitmap)
         binding.roundedBlurredCardView.setBlurredBackground(bitmap);
         val bitmapb = binding.roundedBlurredCardView.createBlurredBitmap(bitmap)
