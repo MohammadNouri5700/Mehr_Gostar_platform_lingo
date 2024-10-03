@@ -3,6 +3,8 @@ package com.android.platform.ui.main
 import android.animation.ArgbEvaluator
 import android.animation.ObjectAnimator
 import android.animation.ValueAnimator
+import android.graphics.BitmapFactory
+import android.graphics.Color
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
@@ -74,7 +76,6 @@ class MainActivity : DaggerAppCompatActivity() {
         setContentView(binding.root)
         bottomNavImages =
             listOf(binding.imgHome, binding.imgLearn, binding.imgReport, binding.imgProfile)
-
 
 
 
@@ -324,11 +325,11 @@ class MainActivity : DaggerAppCompatActivity() {
     private fun loadUI() {
         val animator =
             ObjectAnimator.ofFloat(binding.bottomNav, "translationY", 200f, 0f)
-        animator.setDuration(1000)
+        animator.setDuration(0)//TODO TIME
         animator.interpolator = AccelerateDecelerateInterpolator()
         animator.start()
         ObjectAnimator.ofFloat(binding.conLoading, "alpha", 1f, 0f).apply {
-            duration = 1000  // مدت زمان انیمیشن
+            duration = 0  // مدت زمان انیمیشن
         }.start()
         mainViewModel.openHome()
     }

@@ -20,7 +20,7 @@
         app:layout_constraintTop_toTopOf="parent"
         app:strokeWidth="0dp">
 
-        <com.android.platform.utils.font.ShabnamBold
+        <com.android.platform.utils.font.QuicksandBold
             android:id="@+id/imageView5"
             android:layout_width="@dimen/_45sdp"
             android:layout_height="match_parent"
@@ -47,7 +47,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-            <com.android.platform.utils.font.ShabnamBold
+            <com.android.platform.utils.font.QuicksandBold
                 android:id="@+id/txtName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -60,7 +60,7 @@
                 android:textColor="#2E36A5"
                 android:textSize="@dimen/_12sdp" />
 
-            <com.android.platform.utils.font.ShabnamBold
+            <com.android.platform.utils.font.QuicksandBold
                 android:id="@+id/txtTime"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

@@ -46,7 +46,7 @@ public class CircularImageView extends AppCompatImageView {
         super.onDraw(canvas);
 
         // رسم خط دور (stroke) بعد از رسم تصویر
-        canvas.drawCircle(getWidth()/2, getHeight()/2, radius - borderWidth / 2, borderPaint);
+//        canvas.drawCircle(getWidth()/2, getHeight()/2, radius - borderWidth / 2, borderPaint);
     }
 }
 

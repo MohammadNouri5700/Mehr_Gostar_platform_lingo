@@ -8,7 +8,7 @@ import androidx.core.content.res.ResourcesCompat
 import com.android.platform.R
 
 
-class ShabnamThin @JvmOverloads constructor(
+class InterBold @JvmOverloads constructor(
     context: Context,
     attrs: AttributeSet? = null,
     defStyleAttr: Int = 0
@@ -23,7 +23,7 @@ class ShabnamThin @JvmOverloads constructor(
     }
 
     private fun applyCustomFont(context: Context) {
-        val customFont = ResourcesCompat.getFont(context, R.font.shabnam_thin)
+        val customFont = ResourcesCompat.getFont(context, R.font.interbold)
         typeface = customFont
     }
     private fun applyCustomTextColor(context: Context) {

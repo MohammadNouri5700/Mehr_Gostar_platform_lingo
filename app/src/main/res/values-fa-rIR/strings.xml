@@ -11,4 +11,6 @@
     <string name="category">دسته بندی</string>
     <string name="music">آهنگ ها</string>
     <string name="trendingpodcast">بهترین پادکست ها</string>
+    <string name="successstories">داستان های موفقیت</string>
+    <string name="hereisyourlastactivity.">در اینجا آخرین فعالیت شما.</string>
 </resources>

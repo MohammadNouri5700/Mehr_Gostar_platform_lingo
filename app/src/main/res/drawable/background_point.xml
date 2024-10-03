@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!-- مستطیل -->
+    <item>
+        <shape android:shape="rectangle">
+            <solid android:color="@color/pointBackground"/>
+            <corners android:radius="@dimen/_10sdp"/> <!-- radius ثابت -->
+        </shape>
+    </item>
+
+    <!-- دایره، تنظیم شده در سمت چپ -->
+    <item android:drawable="@drawable/pointfire" android:left="@dimen/_1sdp" android:gravity="center_vertical" android:width="@dimen/_11sdp" android:height="@dimen/_11sdp">
+    </item>
+
+
+
+</layer-list>

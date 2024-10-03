@@ -8,6 +8,9 @@
 
     <color name="navLight">#455A64</color>
     <color name="navdark">#FFFFFF</color>
+    <color name="textGray">#23222F80</color>
+    <color name="pointBackground">#FFD736</color>
+    <color name="pointCircleBackground">#FFF0E9</color>
 
 
 

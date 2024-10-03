@@ -28,7 +28,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <com.android.platform.utils.font.ShabnamBold
+        <com.android.platform.utils.font.QuicksandBold
             android:id="@+id/shabnamBold3"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -40,7 +40,7 @@
             app:layout_constraintStart_toEndOf="@+id/imgProfile"
             app:layout_constraintTop_toTopOf="@+id/imgProfile" />
 
-        <com.android.platform.utils.font.ShabnamBold
+        <com.android.platform.utils.font.QuicksandBold
             android:id="@+id/shabnamBold2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

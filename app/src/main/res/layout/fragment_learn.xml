@@ -75,7 +75,7 @@
                 android:layout_marginTop="@dimen/_25sdp"
                 android:layout_marginEnd="@dimen/_20sdp">
 
-                <com.android.platform.utils.font.ShabnamBold
+                <com.android.platform.utils.font.QuicksandBold
                     android:layout_marginStart="@dimen/_45sdp"
                     android:id="@+id/shabnamBold"
                     android:layout_width="wrap_content"

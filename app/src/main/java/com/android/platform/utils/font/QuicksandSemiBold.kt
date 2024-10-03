@@ -8,7 +8,7 @@ import androidx.core.content.res.ResourcesCompat
 import com.android.platform.R
 
 
-class ShabnamLight @JvmOverloads constructor(
+class QuicksandSemiBold @JvmOverloads constructor(
     context: Context,
     attrs: AttributeSet? = null,
     defStyleAttr: Int = 0
@@ -23,7 +23,7 @@ class ShabnamLight @JvmOverloads constructor(
     }
 
     private fun applyCustomFont(context: Context) {
-        val customFont = ResourcesCompat.getFont(context, R.font.shabnam_light)
+        val customFont = ResourcesCompat.getFont(context, R.font.quicksand_semibold)
         typeface = customFont
     }
     private fun applyCustomTextColor(context: Context) {
@@ -31,6 +31,6 @@ class ShabnamLight @JvmOverloads constructor(
         val theme = context.theme
         theme.resolveAttribute(R.attr.headerTextColor, typedValue, true)
         @ColorInt val color: Int = typedValue.data
-        setTextColor(color)
+//        setTextColor(color)
     }
 }

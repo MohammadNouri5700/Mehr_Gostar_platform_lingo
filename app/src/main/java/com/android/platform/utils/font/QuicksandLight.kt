@@ -1,5 +1,4 @@
 package com.android.platform.utils.font
-
 import android.content.Context
 import android.util.AttributeSet
 import android.util.TypedValue
@@ -9,7 +8,7 @@ import androidx.core.content.res.ResourcesCompat
 import com.android.platform.R
 
 
-class ShabnamMedium @JvmOverloads constructor(
+class QuicksandLight @JvmOverloads constructor(
     context: Context,
     attrs: AttributeSet? = null,
     defStyleAttr: Int = 0
@@ -24,7 +23,7 @@ class ShabnamMedium @JvmOverloads constructor(
     }
 
     private fun applyCustomFont(context: Context) {
-        val customFont = ResourcesCompat.getFont(context, R.font.shabnam_medium)
+        val customFont = ResourcesCompat.getFont(context, R.font.quicksand_light)
         typeface = customFont
     }
     private fun applyCustomTextColor(context: Context) {
@@ -32,6 +31,6 @@ class ShabnamMedium @JvmOverloads constructor(
         val theme = context.theme
         theme.resolveAttribute(R.attr.headerTextColor, typedValue, true)
         @ColorInt val color: Int = typedValue.data
-//        setTextColor(color)
+        setTextColor(color)
     }
 }
