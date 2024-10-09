@@ -31,6 +31,7 @@ import com.android.platform.R
 import com.android.platform.databinding.ActivityMainBinding
 import com.android.platform.ui.home.HomeFragment
 import com.android.platform.ui.level.LevelFragment
+import com.android.platform.ui.profile.ProfileFragment
 import com.android.platform.ui.report.ReportFragment
 import com.android.platform.utils.extension.setPage
 import com.android.platform.utils.extension.showToast
@@ -127,9 +128,17 @@ class MainActivity : DaggerAppCompatActivity() {
                 }
 
                 "Profile" -> {
-                    resetAllColor()
-                    updateConstraintsForView(binding.constraintLayout, binding.imgProfile.id)
-                    showFragment("PROFILE")
+
+                    mainViewModel.viewModelScope.launch {
+                        val res = withContext(Dispatchers.Main) {
+                            showFragment("PROFILE")
+                        }
+                        withContext(Dispatchers.Main) {
+                            updateConstraintsForView(binding.constraintLayout, binding.imgProfile.id)
+                            resetAllColor()
+                        }
+
+                    }
                 }
             }
         })
@@ -302,7 +311,7 @@ class MainActivity : DaggerAppCompatActivity() {
                     HomeFragment() to "HOME",
                     LevelFragment() to "LEARN",
                     ReportFragment() to "REPORT",
-                    ReportFragment() to "PROFILE"
+                    ProfileFragment() to "PROFILE"
                 )
 
                 withContext(Dispatchers.Main) {

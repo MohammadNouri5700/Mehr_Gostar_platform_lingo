@@ -7,6 +7,7 @@ import com.android.platform.di.scop.ViewModelKey
 import com.android.platform.ui.home.HomeViewModel
 import com.android.platform.ui.level.LevelViewModel
 import com.android.platform.ui.main.MainViewModel
+import com.android.platform.ui.profile.ProfileViewModel
 import com.android.platform.ui.report.ReportViewModel
 import dagger.Binds
 import dagger.Module
@@ -40,6 +41,11 @@ abstract class ViewModelModule {
     @IntoMap
     @ViewModelKey(LevelViewModel::class)
     abstract fun bindLearnViewModel(viewModel: LevelViewModel): ViewModel
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(ProfileViewModel::class)
+    abstract fun bindProfileViewModel(viewModel: ProfileViewModel): ViewModel
 
 
 

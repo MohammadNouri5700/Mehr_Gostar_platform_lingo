@@ -1,0 +1,264 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+
+    <data>
+
+        <variable
+            name="viewModel"
+            type="com.android.platform.ui.profile.ProfileViewModel" />
+    </data>
+
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="?attr/pageBackground"
+        android:paddingStart="@dimen/_12sdp"
+        android:paddingTop="@dimen/_12sdp"
+        android:paddingEnd="@dimen/_12sdp">
+
+
+        <com.android.platform.utils.font.QuicksandBold
+            android:id="@+id/quicksandBold4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/profile"
+            android:textSize="@dimen/_18sdp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/constraintLayout6"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_75sdp"
+            android:layout_marginTop="@dimen/_12sdp"
+            android:background="@drawable/level_round"
+            app:layout_constraintTop_toBottomOf="@+id/quicksandBold4"
+            tools:layout_editor_absoluteX="16dp">
+
+
+            <com.android.platform.utils.ui.CircularImageView
+                android:id="@+id/circularImageView"
+                android:layout_width="@dimen/_60sdp"
+                android:layout_height="@dimen/_60sdp"
+                android:layout_marginStart="@dimen/_12sdp"
+                android:src="@drawable/profile_sample"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <com.android.platform.utils.font.InterBold
+                android:id="@+id/interBold"
+                android:layout_width="@dimen/_55sdp"
+                android:layout_height="@dimen/_15sdp"
+                android:background="@drawable/background_point"
+                android:gravity="center_horizontal|center_vertical"
+                android:text="     152 pt"
+                android:textColor="@color/black"
+                android:textSize="@dimen/_9sdp"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="@+id/circularImageView"
+                app:layout_constraintEnd_toEndOf="@+id/circularImageView"
+                app:layout_constraintStart_toStartOf="@+id/circularImageView" />
+
+
+            <com.android.platform.utils.font.QuicksandBold
+                android:id="@+id/quicksandBold10"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/_8sdp"
+                android:layout_marginBottom="@dimen/_17sdp"
+                android:text="Omid Gostar"
+                android:textSize="@dimen/_15sdp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/circularImageView"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <com.android.platform.utils.font.Inter
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="info@lingomars.ir"
+                android:textColor="#666666"
+                android:textSize="@dimen/_10sdp"
+                app:layout_constraintStart_toStartOf="@+id/quicksandBold10"
+                app:layout_constraintTop_toBottomOf="@+id/quicksandBold10" />
+
+            <ImageView
+                android:id="@+id/imageView4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/_12sdp"
+                android:src="@drawable/edit"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+        <com.android.platform.utils.font.QuicksandBold
+            android:id="@+id/quicksandBold11"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_20sdp"
+            android:text="@string/settings_preferences"
+            android:textSize="@dimen/_16sdp"
+            app:layout_constraintTop_toBottomOf="@+id/constraintLayout6"
+            tools:layout_editor_absoluteX="16dp" />
+
+
+        <RelativeLayout
+            android:id="@+id/rellanguage"
+            android:layout_marginTop="@dimen/_12sdp"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_40sdp"
+            android:background="@drawable/podcast_item"
+            app:layout_constraintTop_toBottomOf="@+id/quicksandBold11">
+
+            <com.android.platform.utils.font.QuicksandSemiBold
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:gravity="center"
+                android:layout_toEndOf="@+id/imglanguage"
+                android:text="@string/language"
+                android:textSize="@dimen/_12sdp" />
+
+            <ImageView
+                android:id="@+id/imglanguage"
+                android:layout_width="@dimen/_20sdp"
+                android:layout_height="@dimen/_20sdp"
+                android:layout_centerVertical="true"
+                android:layout_marginStart="@dimen/_12sdp"
+                android:layout_marginEnd="@dimen/_12sdp"
+                android:src="@drawable/world" />
+        </RelativeLayout>
+
+
+
+
+        <RelativeLayout
+            android:id="@+id/reltheme"
+            android:layout_marginTop="@dimen/_5sdp"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_40sdp"
+            android:background="@drawable/podcast_item"
+            app:layout_constraintTop_toBottomOf="@+id/rellanguage">
+
+            <com.android.platform.utils.font.QuicksandSemiBold
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:gravity="center"
+                android:layout_toEndOf="@+id/imgtheme"
+                android:text="@string/theme"
+                android:textSize="@dimen/_12sdp" />
+
+            <ImageView
+                android:id="@+id/imgtheme"
+                android:layout_width="@dimen/_20sdp"
+                android:layout_height="@dimen/_20sdp"
+                android:layout_centerVertical="true"
+                android:layout_marginStart="@dimen/_12sdp"
+                android:layout_marginEnd="@dimen/_12sdp"
+                android:src="@drawable/sun_light" />
+        </RelativeLayout>
+
+
+        <RelativeLayout
+            android:id="@+id/relnotification"
+            android:layout_marginTop="@dimen/_5sdp"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_40sdp"
+            android:background="@drawable/podcast_item"
+            app:layout_constraintTop_toBottomOf="@+id/reltheme">
+
+            <com.android.platform.utils.font.QuicksandSemiBold
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:gravity="center"
+                android:layout_toEndOf="@+id/imgnotification"
+                android:text="@string/notifications"
+                android:textSize="@dimen/_12sdp" />
+
+            <ImageView
+                android:id="@+id/imgnotification"
+                android:layout_width="@dimen/_20sdp"
+                android:layout_height="@dimen/_20sdp"
+                android:layout_centerVertical="true"
+                android:layout_marginStart="@dimen/_12sdp"
+                android:layout_marginEnd="@dimen/_12sdp"
+                android:src="@drawable/notification" />
+        </RelativeLayout>
+
+
+
+
+        <RelativeLayout
+            android:id="@+id/relprivacy"
+            android:layout_marginTop="@dimen/_5sdp"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_40sdp"
+            android:background="@drawable/podcast_item"
+            app:layout_constraintTop_toBottomOf="@+id/relnotification">
+
+            <com.android.platform.utils.font.QuicksandSemiBold
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:gravity="center"
+                android:layout_toEndOf="@+id/imgprivacy"
+                android:text="@string/privacy_security"
+                android:textSize="@dimen/_12sdp" />
+
+            <ImageView
+                android:id="@+id/imgprivacy"
+                android:layout_width="@dimen/_20sdp"
+                android:layout_height="@dimen/_20sdp"
+                android:layout_centerVertical="true"
+                android:layout_marginStart="@dimen/_12sdp"
+                android:layout_marginEnd="@dimen/_12sdp"
+                android:src="@drawable/privacy" />
+        </RelativeLayout>
+
+
+        <RelativeLayout
+            android:id="@+id/rellogout"
+            android:layout_marginTop="@dimen/_5sdp"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_40sdp"
+            android:background="@drawable/podcast_item"
+            app:layout_constraintTop_toBottomOf="@+id/relprivacy">
+
+            <com.android.platform.utils.font.QuicksandBold
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="#f35"
+                android:layout_centerVertical="true"
+                android:gravity="center"
+                android:layout_toEndOf="@+id/imglogout"
+                android:text="@string/logout"
+                android:textSize="@dimen/_12sdp" />
+
+            <ImageView
+                android:id="@+id/imglogout"
+                android:layout_width="@dimen/_20sdp"
+                android:layout_height="@dimen/_20sdp"
+                android:layout_centerVertical="true"
+                android:layout_marginStart="@dimen/_12sdp"
+                android:layout_marginEnd="@dimen/_12sdp"
+                android:src="@drawable/sign_out_squre" />
+        </RelativeLayout>
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+</layout>

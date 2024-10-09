@@ -9,6 +9,7 @@ import com.android.platform.di.module.ViewModelModule
 import com.android.platform.ui.home.HomeFragment
 import com.android.platform.ui.level.LevelFragment
 import com.android.platform.ui.main.MainActivity
+import com.android.platform.ui.profile.ProfileFragment
 import com.android.platform.ui.report.ReportFragment
 import dagger.Component
 import dagger.android.AndroidInjectionModule
@@ -35,5 +36,6 @@ interface AppComponent {
     fun inject(homeFragment: HomeFragment)
     fun inject(levelFragment: LevelFragment)
     fun inject(reportFragment: ReportFragment)
+    fun inject(profileFragment: ProfileFragment)
 
 }
