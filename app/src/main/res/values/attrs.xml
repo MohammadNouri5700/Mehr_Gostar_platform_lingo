@@ -4,5 +4,14 @@
     <attr name="White_Gray" format="color" />
     <attr name="navigationIconsColor" format="color" />
     <attr name="headerTextColor" format="color" />
+    <attr name="headerTextColorInverse" format="color" />
+    <attr name="pageBackground" format="color" />
+    <attr name="bottomNavigation" format="color" />
+    <attr name="levelCube" format="color" />
+
+    <attr name="itemLevelTwoInverse" format="color" />
+    <attr name="itemLevelTwo" format="color" />
+    <attr name="itemLevelThereInverse" format="color" />
+    <attr name="itemLevelThere" format="color" />
 
 </resources>

@@ -330,6 +330,6 @@ class MainActivity : DaggerAppCompatActivity() {
         ObjectAnimator.ofFloat(binding.conLoading, "alpha", 1f, 0f).apply {
             duration = 0  // مدت زمان انیمیشن
         }.start()
-        mainViewModel.openHome()
+        mainViewModel.openReport()
     }
 }

@@ -1,4 +1,5 @@
 package com.android.platform.utils.font
+
 import android.content.Context
 import android.util.AttributeSet
 import android.util.TypedValue
@@ -14,22 +15,29 @@ class QuicksandBold @JvmOverloads constructor(
     defStyleAttr: Int = 0
 ) : AppCompatTextView(context, attrs, defStyleAttr) {
 
-
-
-
     init {
         applyCustomFont(context)
-        applyCustomTextColor(context)
+        if (!isTextColorSet(attrs)) {
+            applyCustomTextColor(context)
+        }
     }
 
     private fun applyCustomFont(context: Context) {
-        typeface =ResourcesCompat.getFont(context, R.font.quicksand_bold)
+        typeface = ResourcesCompat.getFont(context, R.font.quicksand_bold)
     }
+
     private fun applyCustomTextColor(context: Context) {
         val typedValue = TypedValue()
-        val theme = context.theme
-        theme.resolveAttribute(R.attr.headerTextColor, typedValue, true)
-        @ColorInt val color: Int = typedValue.data
-//        setTextColor(color)
+        context.theme.resolveAttribute(R.attr.headerTextColor, typedValue, true)
+        setTextColor(typedValue.data)
+    }
+
+    private fun isTextColorSet(attrs: AttributeSet?): Boolean {
+        if (attrs == null) return false
+
+        val attributes = context.obtainStyledAttributes(attrs, intArrayOf(android.R.attr.textColor))
+        val hasTextColor = attributes.hasValue(0)
+        attributes.recycle()
+        return hasTextColor
     }
 }

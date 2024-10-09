@@ -32,6 +32,6 @@ class QuicksandMedium @JvmOverloads constructor(
         val theme = context.theme
         theme.resolveAttribute(R.attr.headerTextColor, typedValue, true)
         @ColorInt val color: Int = typedValue.data
-//        setTextColor(color)
+        setTextColor(color)
     }
 }

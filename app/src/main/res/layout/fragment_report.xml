@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:tools="http://schemas.android.com/tools"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:android="http://schemas.android.com/apk/res/android">
+    xmlns:tools="http://schemas.android.com/tools">
 
 
     <data>
@@ -10,11 +10,479 @@
             name="viewModel"
             type="com.android.platform.ui.report.ReportViewModel" />
     </data>
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:background="?attr/pageBackground"
+        android:paddingStart="@dimen/_12sdp"
+        android:paddingTop="@dimen/_12sdp"
+        android:paddingEnd="@dimen/_12sdp">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/containerHeader"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_60sdp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <com.android.platform.utils.font.QuicksandBold
+                android:id="@+id/quicksandBold"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/yourstatistics"
+                android:textSize="@dimen/_20sdp"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <com.android.platform.utils.font.Inter
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_3sdp"
+                android:text="@string/seehowyoudidlastdays."
+                android:textColor="@color/gray"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/quicksandBold" />
 
 
+            <com.android.platform.utils.ui.CircularImageView
+                android:id="@+id/circularImageView"
+                android:layout_width="@dimen/_52sdp"
+                android:layout_height="@dimen/_52sdp"
+                android:src="@drawable/profile_sample"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <com.android.platform.utils.font.InterBold
+                android:id="@+id/interBold"
+                android:layout_width="@dimen/_45sdp"
+                android:layout_height="@dimen/_13sdp"
+                android:background="@drawable/background_point"
+                android:gravity="center_horizontal|center_vertical"
+                android:text="     152 pt"
+                android:textColor="@color/black"
+                android:textSize="@dimen/_7sdp"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="@+id/circularImageView"
+                app:layout_constraintEnd_toEndOf="@+id/circularImageView"
+                app:layout_constraintStart_toStartOf="@+id/circularImageView" />
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/constraintLayout2"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_180sdp"
+            android:background="@drawable/level_round"
+            app:layout_constraintTop_toBottomOf="@+id/containerHeader"
+            tools:layout_editor_absoluteX="16dp">
+
+            <com.android.platform.utils.font.Inter
+                android:id="@+id/inter"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/_12sdp"
+                android:text="@string/weeklytimeonapp"
+                android:textColor="#66222F80"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <com.android.platform.utils.font.QuicksandBold
+                android:id="@+id/quicksandBold3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="-9sp"
+                android:text="8h 34min"
+                android:textSize="@dimen/_20sdp"
+                app:layout_constraintStart_toStartOf="@+id/inter"
+                app:layout_constraintTop_toBottomOf="@+id/inter" />
+
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:padding="@dimen/_5sdp"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/quicksandBold3">
+
+                <com.android.platform.utils.ui.VerticalProgressBar
+                    android:id="@+id/prone"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:layout_marginStart="@dimen/_6sdp"
+                    android:layout_marginEnd="@dimen/_6sdp"
+                    app:layout_constraintBottom_toTopOf="@+id/inter2"
+                    app:layout_constraintEnd_toStartOf="@+id/prtwo"
+                    app:layout_constraintHorizontal_chainStyle="spread"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <com.android.platform.utils.font.Inter
+                    android:id="@+id/inter2"
+                    android:layout_width="0dp"
+                    android:gravity="center"
+                    android:textSize="@dimen/_7sdp"
+                    android:layout_height="wrap_content"
+                    android:text="Sat"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="@+id/prone"
+                    app:layout_constraintStart_toStartOf="@+id/prone" />
+
+                <com.android.platform.utils.ui.VerticalProgressBar
+                    android:id="@+id/prtwo"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:layout_marginStart="@dimen/_6sdp"
+                    android:layout_marginEnd="@dimen/_6sdp"
+                    app:layout_constraintBottom_toTopOf="@+id/inter3"
+                    app:layout_constraintHorizontal_chainStyle="spread"
+                    app:layout_constraintEnd_toStartOf="@+id/prthree"
+                    app:layout_constraintStart_toEndOf="@+id/prone"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <com.android.platform.utils.font.Inter
+                    android:id="@+id/inter3"
+                    android:layout_width="0dp"
+                    android:gravity="center"
+                    android:textSize="@dimen/_7sdp"
+                    android:layout_height="wrap_content"
+                    android:text="Tue"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="@+id/prtwo"
+                    app:layout_constraintStart_toStartOf="@+id/prtwo" />
+
+
+
+                <com.android.platform.utils.ui.VerticalProgressBar
+                    android:id="@+id/prthree"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:layout_marginStart="@dimen/_6sdp"
+                    android:layout_marginEnd="@dimen/_6sdp"
+                    app:layout_constraintBottom_toTopOf="@+id/inter4"
+                    app:layout_constraintHorizontal_chainStyle="spread"
+                    app:layout_constraintEnd_toStartOf="@+id/prfour"
+                    app:layout_constraintStart_toEndOf="@+id/prtwo"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <com.android.platform.utils.font.Inter
+                    android:id="@+id/inter4"
+                    android:layout_width="0dp"
+                    android:gravity="center"
+                    android:textSize="@dimen/_7sdp"
+                    android:layout_height="wrap_content"
+                    android:text="Wed"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="@+id/prthree"
+                    app:layout_constraintStart_toStartOf="@+id/prthree" />
+
+
+
+
+                <com.android.platform.utils.ui.VerticalProgressBar
+                    android:id="@+id/prfour"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:layout_marginStart="@dimen/_6sdp"
+                    android:layout_marginEnd="@dimen/_6sdp"
+                    app:layout_constraintBottom_toTopOf="@+id/inter5"
+                    app:layout_constraintHorizontal_chainStyle="spread"
+                    app:layout_constraintEnd_toStartOf="@+id/prfive"
+                    app:layout_constraintStart_toEndOf="@+id/prthree"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <com.android.platform.utils.font.Inter
+                    android:id="@+id/inter5"
+                    android:layout_width="0dp"
+                    android:gravity="center"
+                    android:textSize="@dimen/_7sdp"
+                    android:layout_height="wrap_content"
+                    android:text="Thu"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="@+id/prfour"
+                    app:layout_constraintStart_toStartOf="@+id/prfour" />
+
+                <com.android.platform.utils.ui.VerticalProgressBar
+                    android:id="@+id/prfive"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:layout_marginStart="@dimen/_6sdp"
+                    android:layout_marginEnd="@dimen/_6sdp"
+                    app:layout_constraintBottom_toTopOf="@+id/inter6"
+                    app:layout_constraintHorizontal_chainStyle="spread"
+                    app:layout_constraintEnd_toStartOf="@+id/prsix"
+                    app:layout_constraintStart_toEndOf="@+id/prfour"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <com.android.platform.utils.font.Inter
+                    android:id="@+id/inter6"
+                    android:layout_width="0dp"
+                    android:gravity="center"
+                    android:textSize="@dimen/_7sdp"
+                    android:layout_height="wrap_content"
+                    android:text="Fri"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="@+id/prfive"
+                    app:layout_constraintStart_toStartOf="@+id/prfive" />
+
+
+
+
+                <com.android.platform.utils.ui.VerticalProgressBar
+                    android:id="@+id/prsix"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:layout_marginStart="@dimen/_6sdp"
+                    android:layout_marginEnd="@dimen/_6sdp"
+                    app:layout_constraintBottom_toTopOf="@+id/inter7"
+                    app:layout_constraintHorizontal_chainStyle="spread"
+                    app:layout_constraintStart_toEndOf="@+id/prfive"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+
+                <com.android.platform.utils.font.Inter
+                    android:id="@+id/inter7"
+                    android:layout_width="0dp"
+                    android:gravity="center"
+                    android:textSize="@dimen/_7sdp"
+                    android:layout_height="wrap_content"
+                    android:text="Sun"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="@+id/prsix"
+                    app:layout_constraintStart_toStartOf="@+id/prsix" />
+
+
+
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+
+
+
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/constraintLayout5"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_200sdp"
+            android:layout_marginTop="@dimen/_12sdp"
+            app:layout_constraintTop_toBottomOf="@+id/constraintLayout2"
+            tools:layout_editor_absoluteX="16dp">
+
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/constraintLayout3"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:background="@drawable/round_60"
+                android:backgroundTint="#FFF6B1"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintHeight_percent="0.85"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintWidth_percent="0.47">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/_8sdp"
+                    android:src="@drawable/cloclreport"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <com.android.platform.utils.font.Inter
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/_8sdp"
+                    android:layout_marginBottom="-10sp"
+                    android:text="@string/weekly_watch_time"
+                    android:textColor="?attr/itemLevelThereInverse"
+                    app:layout_constraintBottom_toTopOf="@+id/quicksandBold5"
+                    app:layout_constraintStart_toStartOf="@+id/quicksandBold5" />
+
+                <com.android.platform.utils.font.QuicksandBold
+                    android:id="@+id/quicksandBold5"
+
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/_8sdp"
+                    android:layout_marginBottom="@dimen/_12sdp"
+                    android:text="7h 45min"
+                    android:textSize="@dimen/_18sdp"
+                    android:textStyle="bold"
+                    app:layout_constraintBottom_toBottomOf="parent" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/constraintLayout4"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:background="@drawable/round_60"
+                android:backgroundTint="#9BA9EA"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHeight_percent="0.40"
+                app:layout_constraintStart_toEndOf="@+id/constraintLayout3"
+                app:layout_constraintTop_toTopOf="@+id/constraintLayout3"
+                app:layout_constraintWidth_percent="0.47">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/_8sdp"
+                    android:src="@drawable/cloclreport"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <com.android.platform.utils.font.QuicksandBold
+                    android:id="@+id/quicksandBold6"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/_8sdp"
+                    android:layout_marginBottom="@dimen/_10sdp"
+                    android:text="274"
+                    android:textColor="?attr/headerTextColorInverse"
+                    android:textSize="@dimen/_30sdp"
+                    android:textStyle="bold"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <com.android.platform.utils.font.Inter
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="-10sp"
+                    android:text="@string/correct_answers"
+                    android:textColor="#B2FFFFFF"
+                    app:layout_constraintStart_toStartOf="@+id/quicksandBold6"
+                    app:layout_constraintTop_toBottomOf="@+id/quicksandBold6" />
+
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_marginTop="@dimen/_8sdp"
+                android:background="@drawable/round_60"
+                android:backgroundTint="#FFB3C3"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHeight_percent="0.40"
+                app:layout_constraintStart_toEndOf="@+id/constraintLayout3"
+                app:layout_constraintTop_toBottomOf="@+id/constraintLayout4"
+                app:layout_constraintWidth_percent="0.47">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/_8sdp"
+                    android:src="@drawable/cloclreport"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <com.android.platform.utils.font.QuicksandBold
+                    android:id="@+id/quicksandBold7"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/_8sdp"
+                    android:layout_marginBottom="@dimen/_10sdp"
+                    android:text="74"
+                    android:textSize="@dimen/_30sdp"
+                    android:textStyle="bold"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <com.android.platform.utils.font.Inter
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="-10sp"
+                    android:text="@string/incorrect_answers"
+                    android:textColor="?attr/itemLevelThereInverse"
+                    app:layout_constraintStart_toStartOf="@+id/quicksandBold7"
+                    app:layout_constraintTop_toBottomOf="@+id/quicksandBold7" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_65sdp"
+            android:background="@drawable/podcast_item"
+            app:layout_constraintTop_toBottomOf="@+id/constraintLayout5"
+            tools:layout_editor_absoluteX="16dp">
+
+            <com.android.platform.utils.font.QuicksandBold
+                android:id="@+id/quicksandBold8"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/_12sdp"
+                android:layout_marginBottom="@dimen/_12sdp"
+                android:text="125"
+                android:textSize="@dimen/_16sdp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <com.android.platform.utils.font.QuicksandBold
+                android:id="@+id/quicksandBold9"
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:text="/1000"
+                android:textColor="#c2c2c5"
+                android:textSize="@dimen/_16sdp"
+                app:layout_constraintBottom_toBottomOf="@+id/quicksandBold8"
+                app:layout_constraintStart_toEndOf="@+id/quicksandBold8"
+                app:layout_constraintTop_toTopOf="@+id/quicksandBold8" />
+
+            <com.android.platform.utils.font.Inter
+                android:id="@+id/lblgetreward"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="-5sp"
+                android:text="@string/points_to_get_rewarded"
+                android:textColor="#c2c2c5"
+                android:textSize="@dimen/_9sdp"
+                app:layout_constraintStart_toStartOf="@+id/quicksandBold8"
+                app:layout_constraintTop_toBottomOf="@+id/quicksandBold8" />
+
+            <ProgressBar
+                android:id="@+id/customProgressBar"
+                style="?android:attr/progressBarStyleHorizontal"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_6sdp"
+                android:layout_marginStart="@dimen/_12sdp"
+                android:layout_marginTop="-10sp"
+                android:layout_marginEnd="@dimen/_12sdp"
+                android:background="@drawable/progress_bg"
+                android:indeterminateOnly="false"
+                android:max="100"
+                android:progress="75"
+                android:progressDrawable="@drawable/progress_bg_indicator"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/lblgetreward" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/_12sdp"
+                android:layout_marginBottom="@dimen/_2sdp"
+                android:src="@drawable/gift"
+                app:layout_constraintBottom_toBottomOf="@+id/lblgetreward"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/quicksandBold9" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

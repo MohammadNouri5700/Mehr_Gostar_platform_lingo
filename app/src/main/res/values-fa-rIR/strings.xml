@@ -17,4 +17,12 @@
     <string name="getrewardbydoingtasks">با انجام تسک ها میتونی تخفیف بگیری</string>
     <string name="yourlevels">درس های شما</string>
     <string name="min">دقیقه</string>
+    <string name="yourstatistics">آمار و گزارشات</string>
+    <string name="seehowyoudidlastdays.">روند پیشرفت شما با توجه به نمودار ها</string>
+    <string name="weeklytimeonapp">آخرین هفته در اپلیکیشن</string>
+    <string name="weekly_watch_time">Weekly watch time</string>
+    <string name="correct_answers">Correct answers</string>
+    <string name="incorrect_answers">Incorrect answers</string>
+    <string name="points_to_get_rewarded">Points to get rewarded!</string>
+
 </resources>

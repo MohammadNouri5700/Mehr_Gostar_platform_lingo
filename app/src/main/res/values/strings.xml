@@ -17,4 +17,11 @@
     <string name="getrewardbydoingtasks">Get rewarded by doing tasks!</string>
     <string name="yourlevels">Your Levels</string>
     <string name="min">Mins</string>
+    <string name="yourstatistics">Your Statistics</string>
+    <string name="seehowyoudidlastdays.">See how you did last 7 days.</string>
+    <string name="weeklytimeonapp">Weekly time on app</string>
+    <string name="weekly_watch_time">Weekly watch time</string>
+    <string name="correct_answers">Correct answers</string>
+    <string name="incorrect_answers">Incorrect answers</string>
+    <string name="points_to_get_rewarded">Points to get rewarded!</string>
 </resources>

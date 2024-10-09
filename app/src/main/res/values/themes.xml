@@ -10,6 +10,14 @@
         <item name="White_Gray">@color/white</item>
         <item name="navigationIconsColor">@color/navLight</item>
         <item name="headerTextColor">@color/black</item>
+        <item name="headerTextColorInverse">@color/white</item>
+        <item name="pageBackground">@color/backgroundPageLight</item>
+        <item name="itemLevelTwo">@color/itemLevelTwoLight</item>
+        <item name="itemLevelTwoInverse">@color/itemLevelTwoDark</item>
+        <item name="bottomNavigation">@color/bottomNavigationLight</item>
+        <item name="levelCube">@color/levelCubeLight</item>
+        <item name="itemLevelThere">@color/itemLevelThereLight</item>
+        <item name="itemLevelThereInverse">@color/itemLevelThereDark</item>
     </style>
 
 
@@ -23,11 +31,19 @@
         <item name="White_Gray">@color/gray</item>
         <item name="navigationIconsColor">@color/navdark</item>
         <item name="headerTextColor">@color/white</item>
+        <item name="headerTextColorInverse">@color/black</item>
+        <item name="pageBackground">@color/backgroundPageDark</item>
+        <item name="itemLevelTwo">@color/itemLevelTwoDark</item>
+        <item name="itemLevelTwoInverse">@color/itemLevelTwoLight</item>
+        <item name="bottomNavigation">@color/bottomNavigationDark</item>
+        <item name="levelCube">@color/levelCubeDark</item>
+        <item name="itemLevelThere">@color/itemLevelThereDark</item>
+        <item name="itemLevelThereInverse">@color/itemLevelThereLight</item>
     </style>
 
 
 
-
+<!--=====================================================================================================-->
 
     <style name="BottomNavigationCardViewStyle" parent="@style/Widget.MaterialComponents.CardView">
         <item name="shapeAppearanceOverlay">@style/Overlay_BottomNavigationCardViewStyle</item>
