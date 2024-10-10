@@ -148,6 +148,8 @@ class MainActivity : DaggerAppCompatActivity() {
         val firebaseAnalytics = FirebaseAnalytics.getInstance(this)
         firebaseAnalytics.logEvent("HomePage", null)
 
+
+
     }
 
 
@@ -337,8 +339,8 @@ class MainActivity : DaggerAppCompatActivity() {
         animator.interpolator = AccelerateDecelerateInterpolator()
         animator.start()
         ObjectAnimator.ofFloat(binding.conLoading, "alpha", 1f, 0f).apply {
-            duration = 0  // مدت زمان انیمیشن
+            duration = 0
         }.start()
-        mainViewModel.openReport()
+        mainViewModel.openHome()
     }
 }

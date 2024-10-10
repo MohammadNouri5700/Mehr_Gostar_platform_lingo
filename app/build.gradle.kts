@@ -1,3 +1,5 @@
+import com.google.protobuf.gradle.id
+
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.jetbrains.kotlin.android)
@@ -5,9 +7,21 @@ plugins {
     id("com.google.gms.google-services")
     id("com.google.firebase.crashlytics")
     id("com.google.firebase.firebase-perf")
+    id("com.google.protobuf")
 }
 // Sign info : al: key0 pass:Nouri5700
 android {
+
+
+    sourceSets {
+        getByName("main") {
+            java.srcDirs(
+                "build/generated/source/proto/main/grpc",
+                "build/generated/source/proto/main/java"
+            )
+        }
+    }
+
     namespace = "com.android.platform"
     compileSdk = 34
 
@@ -15,8 +29,8 @@ android {
         applicationId = "com.android.platform.germany"
         minSdk = 26
         targetSdk = 34
-        versionCode = 2
-        versionName = "1.0.2"
+        versionCode = 3
+        versionName = "1.0.3"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -57,20 +71,19 @@ dependencies {
     androidTestImplementation(libs.androidx.espresso.core)
 
 // Dagger 2 dependencies
-    kapt (libs.dagger.compiler)
-    kapt (libs.dagger.android.processor)
-    implementation (libs.dagger)
-    implementation (libs.dagger.android)
-    implementation (libs.dagger.android.support)
+    kapt(libs.dagger.compiler)
+    kapt(libs.dagger.android.processor)
+    implementation(libs.dagger)
+    implementation(libs.dagger.android)
+    implementation(libs.dagger.android.support)
 //    ksp ("com.google.dagger:hilt-compiler:2.49")
 
 
     // Room dependencies
     implementation(libs.room.runtime)
     annotationProcessor(libs.room.compiler)
-    kapt (libs.room.compiler)
-    implementation (libs.androidx.room.ktx)
-    
+    kapt(libs.room.compiler)
+    implementation(libs.androidx.room.ktx)
 
 
     // Kotlin Coroutines
@@ -90,19 +103,63 @@ dependencies {
     // Responsive UI
     implementation(libs.sdp.android)
 
-    implementation(platform(libs.firebase.bom))
-    implementation(libs.firebase.analytics)
-    implementation(libs.firebase.messaging)
-    implementation(libs.firebase.crashlytics)
-    implementation (libs.firebase.messaging.directboot)
-    implementation (libs.shimmer)
+    implementation(platform(libs.firebase.bom)){
+        exclude(group = "com.google.firebase", module = "protolite-well-known-types")
+    }
+    implementation(libs.firebase.analytics){
+        exclude(group = "com.google.firebase", module = "protolite-well-known-types")
+    }
+    implementation(libs.firebase.crashlytics){
+        exclude(group = "com.google.firebase", module = "protolite-well-known-types")
+    }
+    implementation(libs.firebase.messaging.directboot){
+        exclude(group = "com.google.firebase", module = "protolite-well-known-types")
+    }
+    implementation(libs.shimmer)
+
+    implementation(libs.firebase.messaging){
+        exclude(group = "com.google.firebase", module = "protolite-well-known-types")
+    }
+
+    implementation(libs.styledcardview)
+    implementation(libs.firebase.perf){
+        exclude(group = "com.google.firebase", module = "protolite-well-known-types")
+    }
+    implementation(libs.rootbeer.lib)
 
 
-    implementation (libs.styledcardview)
-    implementation(libs.firebase.perf)
-    implementation (libs.rootbeer.lib)
+//    implementation("com.google.protobuf:protobuf-javalite:4.27.0")
 
 
+    implementation("io.grpc:grpc-okhttp:1.68.0")
+    implementation("io.grpc:grpc-protobuf-lite:1.68.0")
+//    implementation("io.grpc:grpc-protobuf:1.68.0")
+    implementation("io.grpc:grpc-stub:1.68.0")
+    compileOnly("org.apache.tomcat:annotations-api:6.0.53")
 
+}
 
+protobuf {
+    protoc {
+        artifact = "com.google.protobuf:protoc:4.28.1"
+    }
+    plugins {
+        id("grpc") {
+            artifact = "io.grpc:protoc-gen-grpc-java:1.68.0"
+        }
+    }
+    generateProtoTasks {
+        all().forEach { task ->
+            task.builtins {
+                create("java") {
+                    option("lite")
+                }
+            }
+            task.plugins {
+                id("grpc") {
+                    option("lite")
+                }
+            }
+        }
+    }
 }
