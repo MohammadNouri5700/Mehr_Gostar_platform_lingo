@@ -25,7 +25,7 @@ class GrpcModule {
 
     @Provides
     @Singleton
-    fun provideYourGrpcService(channel: ManagedChannel): UserGrpcServiceGrpc.UserGrpcServiceStub {
+    fun provideUserGrpcService(channel: ManagedChannel): UserGrpcServiceGrpc.UserGrpcServiceStub {
         return UserGrpcServiceGrpc.newStub(channel)
     }
 }

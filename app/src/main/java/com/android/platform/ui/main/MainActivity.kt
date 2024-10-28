@@ -325,7 +325,7 @@ class MainActivity : DaggerAppCompatActivity() {
 
             withContext(Dispatchers.IO) {
                 val request = LoginRequest.newBuilder()
-                    .setMacAddress("851818")
+                    .setMacAddress("1288")
                     .setPhoneNumber("09386174857")
                     .build()
 

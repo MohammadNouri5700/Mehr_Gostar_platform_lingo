@@ -7,6 +7,7 @@ import com.android.platform.di.module.ActivityBindingModule
 import com.android.platform.di.module.AppModule
 import com.android.platform.di.module.GrpcModule
 import com.android.platform.di.module.RetrofitModule
+import com.android.platform.di.module.RoomModule
 import com.android.platform.di.module.ViewModelModule
 import com.android.platform.ui.home.HomeFragment
 import com.android.platform.ui.level.LevelFragment
@@ -24,6 +25,7 @@ import javax.inject.Singleton
     AndroidSupportInjectionModule::class,
     AppModule::class,
     RetrofitModule::class,
+    RoomModule::class,
     ViewModelModule::class,
     GrpcModule::class,
     ActivityBindingModule::class

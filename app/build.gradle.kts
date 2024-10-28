@@ -2,17 +2,18 @@ import com.google.protobuf.gradle.*
 
 plugins {
     alias(libs.plugins.android.application)
-    alias(libs.plugins.jetbrains.kotlin.android)
     alias(libs.plugins.org.jetbrains.kotlin.kapt)
+    alias(libs.plugins.jetbrains.kotlin.android)
     id("com.google.gms.google-services")
     id("com.google.firebase.crashlytics")
     id("com.google.firebase.firebase-perf")
-    id("com.google.protobuf") version "0.9.4"
-
+    id("com.google.protobuf")
 }
 
 // Sign info : al: key0 pass:Nouri5700
 android {
+
+
 
     signingConfigs {
         create("Release") {
@@ -59,6 +60,7 @@ android {
         dataBinding = true
     }
 
+    System.setProperty("dagger.hilt.disableInstallInCheck", "true")
 }
 val grpcKotlinVersion = "1.0.0" // https://github.com/grpc/grpc-kotlin/releases
 val grpcVersion = "1.35.0" // https://github.com/grpc/grpc-java/releases
@@ -90,6 +92,10 @@ dependencies {
     annotationProcessor(libs.room.compiler)
     kapt(libs.room.compiler)
     implementation(libs.androidx.room.ktx)
+//    implementation ("androidx.room:room-runtime:2.4.3")
+//    kapt ("androidx.room:room-compiler:2.4.3")
+//    implementation ("androidx.room:room-ktx:2.4.3")
+
 
     // Kotlin Coroutines
     implementation(libs.coroutines.core)
@@ -141,6 +147,10 @@ dependencies {
     implementation (libs.grpc.kotlin.stub.lite)
     implementation (libs.grpc.okhttp)
     implementation (libs.javax.annotation.api)
+
+    // GSON
+    implementation ("com.google.code.gson:gson:2.11.0")
+
 
 }
 protobuf {
