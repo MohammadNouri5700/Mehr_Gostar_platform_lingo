@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<network-security-config>
+    <domain-config cleartextTrafficPermitted="false">
+        <domain includeSubdomains="true">https://demo.lingomars.ir/</domain>
+        <domain includeSubdomains="true">http://demo.lingomars.ir/</domain>
+        <domain includeSubdomains="true">https://lingomars.ir/</domain>
+        <domain includeSubdomains="true">http://lingomars.ir/</domain>
+        <domain includeSubdomains="true">lingomars.ir</domain>
+
+    </domain-config>
+</network-security-config>

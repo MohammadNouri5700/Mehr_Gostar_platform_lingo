@@ -1,20 +1,23 @@
 [versions]
-agp = "8.5.0"
+agp = "8.6.1"
 annotation = "1.8.2"
 firebaseBom = "33.2.0"
 firebaseMessagingDirectboot = "24.0.1"
-kotlin = "2.0.0"
+grpcKotlinVersion = "1.0.0"
+grpcVersion = "1.35.0"
+javaxAnnotationApi = "1.3.2"
+kotlin = "1.8.10"
 coreKtx = "1.13.1"
 junit = "4.13.2"
 junitVersion = "1.2.1"
 espressoCore = "3.6.1"
-appcompat = "1.7.0"
+appcompat = "1.6.1"
+kotlinxCoroutinesAndroid = "1.4.2"
 material = "1.12.0"
 activity = "1.9.1"
 constraintlayout = "2.1.4"
-
 dagger = "2.49"
-
+protobufVersion = "3.15.1"
 room = "2.4.3"
 coroutines_android = "1.8.0"
 coroutines_core = "1.8.0"
@@ -39,6 +42,9 @@ firebase-crashlytics = { module = "com.google.firebase:firebase-crashlytics" }
 firebase-messaging = { module = "com.google.firebase:firebase-messaging" }
 firebase-messaging-directboot = { module = "com.google.firebase:firebase-messaging-directboot", version.ref = "firebaseMessagingDirectboot" }
 firebase-perf = { module = "com.google.firebase:firebase-perf" }
+grpc-kotlin-stub-lite = { module = "io.grpc:grpc-kotlin-stub-lite", version.ref = "grpcKotlinVersion" }
+grpc-okhttp = { module = "io.grpc:grpc-okhttp", version.ref = "grpcVersion" }
+javax-annotation-api = { module = "javax.annotation:javax.annotation-api", version.ref = "javaxAnnotationApi" }
 junit = { group = "junit", name = "junit", version.ref = "junit" }
 androidx-junit = { group = "androidx.test.ext", name = "junit", version.ref = "junitVersion" }
 androidx-espresso-core = { group = "androidx.test.espresso", name = "espresso-core", version.ref = "espressoCore" }
@@ -55,6 +61,7 @@ dagger-android-support = { group = "com.google.dagger", name = "dagger-android-s
 dagger-android-processor = { group = "com.google.dagger", name = "dagger-android-processor", version.ref = "dagger" }
 
 # Room
+protobuf-javalite = { module = "com.google.protobuf:protobuf-javalite", version.ref = "protobufVersion" }
 room-runtime = { group = "androidx.room", name = "room-runtime", version.ref = "room" }
 room-compiler = { group = "androidx.room", name = "room-compiler", version.ref = "room" }
 

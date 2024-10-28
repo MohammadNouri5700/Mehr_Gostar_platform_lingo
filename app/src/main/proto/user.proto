@@ -1,0 +1,31 @@
+syntax = "proto3";
+
+option java_multiple_files = true;
+option java_package = "com.android.platform";
+option java_outer_classname = "UserProto";
+
+package user;
+
+service UserGrpcService {
+	rpc Login (LoginRequest) returns (LoginReply);
+	rpc Register (RegisterRequest) returns (RegisterReply);
+}
+
+message LoginRequest{
+	string phoneNumber = 1;
+	string macAddress = 2;
+}
+
+message LoginReply {
+	string token = 1;
+}
+
+message RegisterRequest{
+	string phoneNumber = 1;
+	string macAddress = 2;
+}
+
+message RegisterReply {
+	string token = 1;
+}
+

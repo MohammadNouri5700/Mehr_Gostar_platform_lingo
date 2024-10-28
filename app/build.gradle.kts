@@ -1,4 +1,4 @@
-import com.google.protobuf.gradle.id
+import com.google.protobuf.gradle.*
 
 plugins {
     alias(libs.plugins.android.application)
@@ -7,18 +7,19 @@ plugins {
     id("com.google.gms.google-services")
     id("com.google.firebase.crashlytics")
     id("com.google.firebase.firebase-perf")
-    id("com.google.protobuf")
+    id("com.google.protobuf") version "0.9.4"
+
 }
+
 // Sign info : al: key0 pass:Nouri5700
 android {
 
-
-    sourceSets {
-        getByName("main") {
-            java.srcDirs(
-                "build/generated/source/proto/main/grpc",
-                "build/generated/source/proto/main/java"
-            )
+    signingConfigs {
+        create("Release") {
+            storeFile = file("/home/leo/AndroidStudioProjects/Platform/key/debug.jks")
+            storePassword = "Nouri5700"
+            keyAlias = "key0"
+            keyPassword = "Nouri5700"
         }
     }
 
@@ -33,6 +34,7 @@ android {
         versionName = "1.0.3"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+        signingConfig = signingConfigs.getByName("Release")
     }
 
     buildTypes {
@@ -42,6 +44,7 @@ android {
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
+            signingConfig = signingConfigs.getByName("Release")
         }
     }
     compileOptions {
@@ -56,8 +59,13 @@ android {
         dataBinding = true
     }
 
-    System.setProperty("dagger.hilt.disableInstallInCheck", "true")
 }
+val grpcKotlinVersion = "1.0.0" // https://github.com/grpc/grpc-kotlin/releases
+val grpcVersion = "1.35.0" // https://github.com/grpc/grpc-java/releases
+val kotlin_version = "1.8.10"
+val protobufVersion = "3.15.1" // https://github.com/protocolbuffers/protobuf/releases
+val protobufGradlePluginVersion = "0.9.4" //https://github.com/google/protobuf-gradle-plugin
+
 
 dependencies {
     implementation(libs.androidx.core.ktx)
@@ -70,21 +78,18 @@ dependencies {
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
 
-// Dagger 2 dependencies
+    // Dagger 2 dependencies
     kapt(libs.dagger.compiler)
     kapt(libs.dagger.android.processor)
     implementation(libs.dagger)
     implementation(libs.dagger.android)
     implementation(libs.dagger.android.support)
-//    ksp ("com.google.dagger:hilt-compiler:2.49")
-
 
     // Room dependencies
     implementation(libs.room.runtime)
     annotationProcessor(libs.room.compiler)
     kapt(libs.room.compiler)
     implementation(libs.androidx.room.ktx)
-
 
     // Kotlin Coroutines
     implementation(libs.coroutines.core)
@@ -103,60 +108,65 @@ dependencies {
     // Responsive UI
     implementation(libs.sdp.android)
 
-    implementation(platform(libs.firebase.bom)){
+    // Firebase dependencies
+    implementation(platform(libs.firebase.bom)) {
         exclude(group = "com.google.firebase", module = "protolite-well-known-types")
     }
-    implementation(libs.firebase.analytics){
+    implementation(libs.firebase.analytics) {
         exclude(group = "com.google.firebase", module = "protolite-well-known-types")
     }
-    implementation(libs.firebase.crashlytics){
+    implementation(libs.firebase.crashlytics) {
         exclude(group = "com.google.firebase", module = "protolite-well-known-types")
     }
-    implementation(libs.firebase.messaging.directboot){
+    implementation(libs.firebase.messaging.directboot) {
         exclude(group = "com.google.firebase", module = "protolite-well-known-types")
     }
     implementation(libs.shimmer)
 
-    implementation(libs.firebase.messaging){
+    implementation(libs.firebase.messaging) {
         exclude(group = "com.google.firebase", module = "protolite-well-known-types")
     }
 
     implementation(libs.styledcardview)
-    implementation(libs.firebase.perf){
+    implementation(libs.firebase.perf) {
         exclude(group = "com.google.firebase", module = "protolite-well-known-types")
     }
     implementation(libs.rootbeer.lib)
 
 
-//    implementation("com.google.protobuf:protobuf-javalite:4.27.0")
+    // Protobuf
+    implementation (libs.protobuf.javalite)
 
-
-    implementation("io.grpc:grpc-okhttp:1.68.0")
-    implementation("io.grpc:grpc-protobuf-lite:1.68.0")
-//    implementation("io.grpc:grpc-protobuf:1.68.0")
-    implementation("io.grpc:grpc-stub:1.68.0")
-    compileOnly("org.apache.tomcat:annotations-api:6.0.53")
+    // gRPC
+    implementation (libs.grpc.kotlin.stub.lite)
+    implementation (libs.grpc.okhttp)
+    implementation (libs.javax.annotation.api)
 
 }
-
 protobuf {
     protoc {
-        artifact = "com.google.protobuf:protoc:4.28.1"
+        artifact = "com.google.protobuf:protoc:$protobufVersion"
     }
     plugins {
         id("grpc") {
-            artifact = "io.grpc:protoc-gen-grpc-java:1.68.0"
+            artifact = "io.grpc:protoc-gen-grpc-java:$grpcVersion"
+        }
+        id("grpckt") {
+            artifact = "io.grpc:protoc-gen-grpc-kotlin:$grpcKotlinVersion:jdk7@jar"
         }
     }
     generateProtoTasks {
-        all().forEach { task ->
-            task.builtins {
-                create("java") {
+        all().forEach {
+            it.builtins {
+                id("java") {
                     option("lite")
                 }
             }
-            task.plugins {
+            it.plugins {
                 id("grpc") {
+                    option("lite")
+                }
+                id("grpckt") {
                     option("lite")
                 }
             }

@@ -5,6 +5,8 @@ import android.animation.ObjectAnimator
 import android.animation.ValueAnimator
 import android.os.Build
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.util.Log
 import android.view.View
 import android.view.WindowInsets
@@ -13,6 +15,7 @@ import android.view.WindowManager
 import android.view.animation.AccelerateDecelerateInterpolator
 import android.view.animation.AnticipateOvershootInterpolator
 import android.widget.ImageView
+import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
 import androidx.activity.viewModels
 import androidx.appcompat.view.ContextThemeWrapper
@@ -26,8 +29,14 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import androidx.transition.ChangeBounds
 import androidx.transition.TransitionManager
+import com.android.platform.LoginReply
+import com.android.platform.LoginRequest
+//import com.android.platform.LoginReply
+//import com.android.platform.LoginRequest
 import com.android.platform.PlatformApplication
 import com.android.platform.R
+import com.android.platform.UserGrpcServiceGrpc
+//import com.android.platform.UserGrpcServiceGrpc
 import com.android.platform.databinding.ActivityMainBinding
 import com.android.platform.ui.home.HomeFragment
 import com.android.platform.ui.level.LevelFragment
@@ -41,15 +50,28 @@ import com.google.firebase.analytics.FirebaseAnalytics
 import com.google.firebase.messaging.messaging
 import com.scottyab.rootbeer.RootBeer
 import dagger.android.support.DaggerAppCompatActivity
+//import io.grpc.Context
+
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import java.security.KeyStore
+import java.security.SecureRandom
+import java.security.cert.CertificateException
+import java.security.cert.CertificateFactory
+import java.security.cert.X509Certificate
+import java.util.concurrent.TimeUnit
 import javax.inject.Inject
+import javax.net.ssl.HttpsURLConnection
+import javax.net.ssl.SSLContext
+import javax.net.ssl.TrustManagerFactory
+import javax.net.ssl.X509TrustManager
 
 
 class MainActivity : DaggerAppCompatActivity() {
-
+    @Inject
+    lateinit var greeterStub: UserGrpcServiceGrpc.UserGrpcServiceStub
 
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
@@ -60,7 +82,10 @@ class MainActivity : DaggerAppCompatActivity() {
     private lateinit var bottomNavImages: List<ImageView>
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        getWindow().setFlags(WindowManager.LayoutParams.FLAG_SECURE, WindowManager.LayoutParams.FLAG_SECURE);
+        getWindow().setFlags(
+            WindowManager.LayoutParams.FLAG_SECURE,
+            WindowManager.LayoutParams.FLAG_SECURE
+        );
 
         val rootBeer = RootBeer(this)
         if (rootBeer.isRooted) {
@@ -134,7 +159,10 @@ class MainActivity : DaggerAppCompatActivity() {
                             showFragment("PROFILE")
                         }
                         withContext(Dispatchers.Main) {
-                            updateConstraintsForView(binding.constraintLayout, binding.imgProfile.id)
+                            updateConstraintsForView(
+                                binding.constraintLayout,
+                                binding.imgProfile.id
+                            )
                             resetAllColor()
                         }
 
@@ -149,9 +177,37 @@ class MainActivity : DaggerAppCompatActivity() {
         firebaseAnalytics.logEvent("HomePage", null)
 
 
-
     }
+    private fun trustEveryone() {
+        try {
+            HttpsURLConnection.setDefaultHostnameVerifier { hostname, session -> true }
+            val context = SSLContext.getInstance("TLS")
+            context.init(null, arrayOf<X509TrustManager>(object : X509TrustManager {
+                @Throws(CertificateException::class)
+                override fun checkClientTrusted(
+                    chain: Array<X509Certificate?>?,
+                    authType: String?
+                ) {
+                }
 
+                @Throws(CertificateException::class)
+                override fun checkServerTrusted(
+                    chain: Array<X509Certificate?>?,
+                    authType: String?
+                ) {
+                }
+
+                override fun getAcceptedIssuers(): Array<X509Certificate?> {
+                    return arrayOfNulls<X509Certificate>(0)
+                }
+            }), SecureRandom())
+            HttpsURLConnection.setDefaultSSLSocketFactory(
+                context.socketFactory
+            )
+        } catch (e: java.lang.Exception) { // should never happen
+            e.printStackTrace()
+        }
+    }
 
     private fun updateConstraintsForView(motionLayout: MotionLayout, imageViewId: Int) {
         val constraintSet = ConstraintSet()
@@ -257,6 +313,48 @@ class MainActivity : DaggerAppCompatActivity() {
     private var doubleBackToExitPressedOnce = false
 
     private fun initMain() {
+
+
+
+        mainViewModel.viewModelScope.launch {
+            System.setProperty("io.grpc.internal.logId", "FINE");
+            System.setProperty(
+                "io.grpc.netty.shaded.io.netty.handler.logging.LoggingHandler.level",
+                "DEBUG"
+            );
+
+            withContext(Dispatchers.IO) {
+                val request = LoginRequest.newBuilder()
+                    .setMacAddress("851818")
+                    .setPhoneNumber("09386174857")
+                    .build()
+
+                var token=""
+                greeterStub.login(request, object : io.grpc.stub.StreamObserver<LoginReply> {
+                    override fun onNext(value: LoginReply?) {
+                        value?.let {
+//                            showToast(it.token)
+                            token=it.token
+                            Log.e("APP", "TOKEN == ${it.token}")
+                        }
+                    }
+
+                    override fun onError(t: Throwable?) {
+                        Log.e("APP", "we err ${t?.message}")
+                        t?.printStackTrace()
+
+                    }
+
+                    override fun onCompleted() {
+                        Handler(Looper.getMainLooper()).postDelayed(Runnable {
+                            Toast.makeText(applicationContext,token,Toast.LENGTH_LONG).show()
+                        },10)
+                    }
+                })
+            }
+        }
+
+
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
             val controller = window.insetsController
             controller?.let {
@@ -287,6 +385,14 @@ class MainActivity : DaggerAppCompatActivity() {
         })
 
         mainViewModel.viewModelScope.launch {
+
+
+
+
+
+
+
+
             withContext(Dispatchers.IO) {
                 Firebase.messaging.token.addOnCompleteListener(
                     OnCompleteListener { task ->

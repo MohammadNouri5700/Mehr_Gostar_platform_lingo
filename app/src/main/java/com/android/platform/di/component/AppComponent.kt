@@ -1,9 +1,11 @@
 package com.android.platform.di.component
 
 
+
 import com.android.platform.PlatformApplication
 import com.android.platform.di.module.ActivityBindingModule
 import com.android.platform.di.module.AppModule
+import com.android.platform.di.module.GrpcModule
 import com.android.platform.di.module.RetrofitModule
 import com.android.platform.di.module.ViewModelModule
 import com.android.platform.ui.home.HomeFragment
@@ -23,6 +25,7 @@ import javax.inject.Singleton
     AppModule::class,
     RetrofitModule::class,
     ViewModelModule::class,
+    GrpcModule::class,
     ActivityBindingModule::class
 ])
 interface AppComponent {

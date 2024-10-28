@@ -1,9 +1,11 @@
 package com.android.platform.di.module
 
 
-import com.android.platform.BarkReply
-import com.android.platform.GreeterProto
-import com.android.platform.ServiceFindmyclsGrpc
+
+
+
+
+import com.android.platform.UserGrpcServiceGrpc
 import dagger.Module
 import dagger.Provides
 import io.grpc.ManagedChannel
@@ -16,14 +18,14 @@ class GrpcModule {
     @Provides
     @Singleton
     fun provideGrpcChannel(): ManagedChannel {
-        return ManagedChannelBuilder.forAddress("server_address", 50051)
-            .usePlaintext()
+        return ManagedChannelBuilder.forAddress("demo.lingomars.ir",443)
+            .useTransportSecurity()
             .build()
     }
 
     @Provides
     @Singleton
-    fun provideYourGrpcService(channel: ManagedChannel): ServiceFindmyclsGrpc.ServiceFindmyclsStub {
-        return ServiceFindmyclsGrpc.newStub(channel)
+    fun provideYourGrpcService(channel: ManagedChannel): UserGrpcServiceGrpc.UserGrpcServiceStub {
+        return UserGrpcServiceGrpc.newStub(channel)
     }
 }

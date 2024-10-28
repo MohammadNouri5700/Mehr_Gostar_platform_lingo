@@ -4,6 +4,7 @@ package com.android.platform.ui.home
 import android.graphics.BitmapFactory
 import android.graphics.Color
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -16,10 +17,16 @@ import com.android.platform.R
 import com.android.platform.databinding.FragmentHomeBinding
 import com.android.platform.ui.home.story.StoryAdapter
 import com.android.platform.utils.ui.RoundedBlurredCardView
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
+import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
 
 class HomeFragment : Fragment() {
+
+
+
 
 
     @Inject
@@ -55,6 +62,12 @@ class HomeFragment : Fragment() {
         binding.roundedBlurredCardView.setBlurredBackground(bitmap);
         val bitmapb = binding.roundedBlurredCardView.createBlurredBitmap(bitmap)
         binding.roundedBlurredCardView.setBackgroundColor(Color.TRANSPARENT);
+
+
+
+
+
+
 
     }
 
