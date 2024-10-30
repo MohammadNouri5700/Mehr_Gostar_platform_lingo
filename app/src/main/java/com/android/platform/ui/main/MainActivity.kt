@@ -38,6 +38,8 @@ import com.android.platform.R
 import com.android.platform.UserGrpcServiceGrpc
 //import com.android.platform.UserGrpcServiceGrpc
 import com.android.platform.databinding.ActivityMainBinding
+import com.android.platform.repository.data.database.AppDatabase
+import com.android.platform.repository.data.database.UserLogDao
 import com.android.platform.ui.home.HomeFragment
 import com.android.platform.ui.level.LevelFragment
 import com.android.platform.ui.profile.ProfileFragment
@@ -61,6 +63,7 @@ import java.security.SecureRandom
 import java.security.cert.CertificateException
 import java.security.cert.CertificateFactory
 import java.security.cert.X509Certificate
+import java.time.LocalDate
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 import javax.net.ssl.HttpsURLConnection
@@ -72,6 +75,10 @@ import javax.net.ssl.X509TrustManager
 class MainActivity : DaggerAppCompatActivity() {
     @Inject
     lateinit var greeterStub: UserGrpcServiceGrpc.UserGrpcServiceStub
+
+
+    @Inject
+    lateinit var userLogDao: UserLogDao
 
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
@@ -176,8 +183,8 @@ class MainActivity : DaggerAppCompatActivity() {
         val firebaseAnalytics = FirebaseAnalytics.getInstance(this)
         firebaseAnalytics.logEvent("HomePage", null)
 
-
     }
+
     private fun trustEveryone() {
         try {
             HttpsURLConnection.setDefaultHostnameVerifier { hostname, session -> true }
@@ -315,26 +322,30 @@ class MainActivity : DaggerAppCompatActivity() {
     private fun initMain() {
 
 
-
         mainViewModel.viewModelScope.launch {
-            System.setProperty("io.grpc.internal.logId", "FINE");
-            System.setProperty(
-                "io.grpc.netty.shaded.io.netty.handler.logging.LoggingHandler.level",
-                "DEBUG"
-            );
 
             withContext(Dispatchers.IO) {
+
+
+                val (minutes, seconds) = withContext(Dispatchers.IO) {
+                    userLogDao.getDurationForDateCompleted(LocalDate.now())
+                }
+
+                withContext(Dispatchers.Main) {
+                    showToast("Today min== $minutes and sec ==$seconds")
+                }
+
                 val request = LoginRequest.newBuilder()
                     .setMacAddress("1288")
                     .setPhoneNumber("09386174857")
                     .build()
 
-                var token=""
+                var token = ""
                 greeterStub.login(request, object : io.grpc.stub.StreamObserver<LoginReply> {
                     override fun onNext(value: LoginReply?) {
                         value?.let {
 //                            showToast(it.token)
-                            token=it.token
+                            token = it.token
                             Log.e("APP", "TOKEN == ${it.token}")
                         }
                     }
@@ -347,8 +358,8 @@ class MainActivity : DaggerAppCompatActivity() {
 
                     override fun onCompleted() {
                         Handler(Looper.getMainLooper()).postDelayed(Runnable {
-                            Toast.makeText(applicationContext,token,Toast.LENGTH_LONG).show()
-                        },10)
+                            Toast.makeText(applicationContext, token, Toast.LENGTH_LONG).show()
+                        }, 10)
                     }
                 })
             }
@@ -385,12 +396,6 @@ class MainActivity : DaggerAppCompatActivity() {
         })
 
         mainViewModel.viewModelScope.launch {
-
-
-
-
-
-
 
 
             withContext(Dispatchers.IO) {
