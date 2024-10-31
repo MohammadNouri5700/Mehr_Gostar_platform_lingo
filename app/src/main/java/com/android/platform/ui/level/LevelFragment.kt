@@ -38,7 +38,6 @@ class LevelFragment : Fragment() {
     private lateinit var levelAdapter: LevelAdapter
 
 
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -53,13 +52,19 @@ class LevelFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
-        binding.recTask.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
-        val imageList = listOf<Task>(Task(1,"dvd","2"),Task(1,"dvd","2"),Task(1,"dvd","2")) // Replace with your images
-        taskAdapter = TaskAdapter(imageList,requireContext())
-        binding.recTask.adapter=taskAdapter
+        binding.recTask.layoutManager =
+            LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
+        val imageList = listOf<Task>(
+            Task(1, "dvd", "2"),
+            Task(1, "dvd", "2"),
+            Task(1, "dvd", "2")
+        ) // Replace with your images
+        taskAdapter = TaskAdapter(imageList, requireContext())
+        binding.recTask.adapter = taskAdapter
 
 
-        binding.recLevel.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
+        binding.recLevel.layoutManager =
+            LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
 //        val imageListc = listOf<Level>(Level(1,"dvd",37),Level(1,"dvd",24),Level(1,"dvd",6)) // Replace with your images
 
 
@@ -69,10 +74,13 @@ class LevelFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         viewModel.event.observe(viewLifecycleOwner, Observer { data ->
-            when(data){
-                "LevelsUpdated"->{
-                    levelAdapter = viewModel.levelsReply?.let { LevelAdapter(it,requireContext()) }!!
-                    binding.recLevel.adapter=levelAdapter
+            when (data) {
+                "LevelsUpdated" -> {
+                    viewModel.call.enqueueMainTask {
+                        levelAdapter =
+                            viewModel.levelsReply?.let { LevelAdapter(it, requireContext()) }!!
+                        binding.recLevel.adapter = levelAdapter
+                    }
                 }
             }
         })

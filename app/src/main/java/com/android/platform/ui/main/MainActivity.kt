@@ -39,6 +39,7 @@ import com.android.platform.R
 import com.android.platform.UserGrpcServiceGrpc
 //import com.android.platform.UserGrpcServiceGrpc
 import com.android.platform.databinding.ActivityMainBinding
+import com.android.platform.di.factory.CallQueueManager
 import com.android.platform.repository.data.database.AppDatabase
 import com.android.platform.repository.data.database.UserLogDao
 import com.android.platform.ui.home.HomeFragment
@@ -78,8 +79,6 @@ import javax.net.ssl.X509TrustManager
 class MainActivity : DaggerAppCompatActivity() {
 
 
-
-
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
 
@@ -109,9 +108,6 @@ class MainActivity : DaggerAppCompatActivity() {
             listOf(binding.imgHome, binding.imgLearn, binding.imgReport, binding.imgProfile)
 
 
-
-
-
     }
 
     override fun onResume() {
@@ -123,75 +119,53 @@ class MainActivity : DaggerAppCompatActivity() {
                     val packageInfo = this.packageManager.getPackageInfo(packageName, 0)
                     val versionName = packageInfo.versionName
                     binding.txtVersion.text = "  ورژن شماره  : $versionName"
-                    lifecycleScope.launch {
-                        mainViewModel.getToken()
-                    }
+                    mainViewModel.viewGetToken()
                 }
-                "Init"->{
+
+                "Init" -> {
                     initMain()
                 }
 
                 "Home" -> {
-                    mainViewModel.viewModelScope.launch {
-                        val res = withContext(Dispatchers.Main) {
-                            showFragment("HOME")
-                        }
-                        withContext(Dispatchers.Main) {
-                            updateConstraintsForView(binding.constraintLayout, binding.imgHome.id)
-                            resetAllColor()
-                        }
+                    mainViewModel.call.enqueueMainTask {
+                        showFragment("HOME")
+                        updateConstraintsForView(binding.constraintLayout, binding.imgHome.id)
+                        resetAllColor()
                     }
                 }
 
                 "Learn" -> {
-                    mainViewModel.viewModelScope.launch {
-                        val res = withContext(Dispatchers.Main) {
-                            showFragment("LEARN")
-                        }
-                        withContext(Dispatchers.Main) {
-                            updateConstraintsForView(binding.constraintLayout, binding.imgLearn.id)
-                            resetAllColor()
-                        }
-
+                    mainViewModel.call.enqueueMainTask {
+                        showFragment("LEARN")
+                        updateConstraintsForView(binding.constraintLayout, binding.imgLearn.id)
+                        resetAllColor()
                     }
                 }
 
                 "Report" -> {
-                    mainViewModel.viewModelScope.launch {
-                        val res = withContext(Dispatchers.Main) {
-                            showFragment("REPORT")
-                        }
-                        withContext(Dispatchers.Main) {
-                            updateConstraintsForView(binding.constraintLayout, binding.imgReport.id)
-                            resetAllColor()
-                        }
-
+                    mainViewModel.call.enqueueMainTask {
+                        showFragment("REPORT")
+                        updateConstraintsForView(binding.constraintLayout, binding.imgReport.id)
+                        resetAllColor()
                     }
                 }
 
                 "Profile" -> {
-
-                    mainViewModel.viewModelScope.launch {
-                        val res = withContext(Dispatchers.Main) {
-                            showFragment("PROFILE")
-                        }
-                        withContext(Dispatchers.Main) {
-                            updateConstraintsForView(
-                                binding.constraintLayout,
-                                binding.imgProfile.id
-                            )
-                            resetAllColor()
-                        }
-
+                    mainViewModel.call.enqueueMainTask {
+                        showFragment("PROFILE")
+                        updateConstraintsForView(binding.constraintLayout, binding.imgProfile.id)
+                        resetAllColor()
                     }
                 }
             }
         })
-        val firebaseAnalytics = FirebaseAnalytics.getInstance(this)
-        firebaseAnalytics.logEvent("HomePage", null)
+
+            val firebaseAnalytics = FirebaseAnalytics.getInstance(this)
+            firebaseAnalytics.logEvent("HomePage", null)
+
+
 
     }
-
 
 
     private fun updateConstraintsForView(motionLayout: MotionLayout, imageViewId: Int) {
@@ -282,10 +256,8 @@ class MainActivity : DaggerAppCompatActivity() {
         supportFragmentManager.findFragmentByTag(tag)?.let { fragment ->
             transaction.show(fragment)
             transaction.commitAllowingStateLoss()
-            mainViewModel.viewModelScope.launch {
-                withContext(Dispatchers.IO) {
-                    setPage(tag, fragment::class.java.simpleName)
-                }
+            mainViewModel.call.enqueueIoTask {
+                setPage(tag, fragment::class.java.simpleName)
             }
         } ?: run {
             showToast("Fragment with tag $tag not found")
@@ -301,7 +273,7 @@ class MainActivity : DaggerAppCompatActivity() {
 
         loadHeavyFragmentsInBackground()
 
-        mainViewModel.viewModelScope.launch {
+        mainViewModel.call.enqueueIoTask {
             mainViewModel.getTest()
         }
 
@@ -327,7 +299,7 @@ class MainActivity : DaggerAppCompatActivity() {
                 } else {
                     doubleBackToExitPressedOnce = true
                     showToast(R.string.doublebackmessage)
-                    mainViewModel.viewModelScope.launch {
+                    mainViewModel.call.enqueueMainTask {
                         delay(2000)
                         doubleBackToExitPressedOnce = false
                     }
@@ -338,7 +310,7 @@ class MainActivity : DaggerAppCompatActivity() {
         mainViewModel.viewModelScope.launch {
 
 
-            withContext(Dispatchers.IO) {
+            mainViewModel.call.enqueueIoTask {
                 Firebase.messaging.token.addOnCompleteListener(
                     OnCompleteListener { task ->
                         if (!task.isSuccessful) {
@@ -360,7 +332,7 @@ class MainActivity : DaggerAppCompatActivity() {
     private fun loadHeavyFragmentsInBackground() {
         mainViewModel.viewModelScope.launch(Dispatchers.Main) {
 
-            withContext(Dispatchers.Default) {
+            mainViewModel.call.enqueueApplicationTask {
                 val fragments = listOf(
                     HomeFragment() to "HOME",
                     LevelFragment() to "LEARN",
@@ -368,7 +340,7 @@ class MainActivity : DaggerAppCompatActivity() {
                     SignFragment() to "PROFILE"
                 )
 
-                withContext(Dispatchers.Main) {
+                mainViewModel.call.enqueueMainTask {
                     val transaction = supportFragmentManager.beginTransaction()
 
                     fragments.forEach { (fragment, tag) ->

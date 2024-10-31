@@ -71,7 +71,6 @@
 
 
             <ImageView
-                android:tint="@color/gray"
                 android:layout_width="@dimen/_18sdp"
                 android:layout_height="@dimen/_18sdp"
                 android:layout_marginEnd="@dimen/_15sdp"
@@ -171,179 +170,27 @@
 
                     <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/recPodcasts"
-                        android:layout_width="match_parent"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:visibility="visible"
                         android:layout_marginTop="@dimen/_7sdp"
-                        app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
+                        android:layout_marginEnd="@dimen/_3sdp"
+                        app:layout_constraintEnd_toStartOf="@+id/recPodcasts2"
                         app:layout_constraintTop_toBottomOf="@+id/lblPodcast" />
 
-
-                    <LinearLayout
-                        android:visibility="gone"
-                        android:layout_width="match_parent"
-                        android:layout_height="@dimen/_250sdp"
-                        android:orientation="horizontal"
-                        android:layout_marginTop="@dimen/_8sdp"
-                        app:layout_constraintTop_toTopOf="@+id/recPodcasts">
-
-
-                        <LinearLayout
-                            android:layout_width="wrap_content"
-                            android:layout_height="match_parent"
-                            android:layout_marginEnd="@dimen/_8sdp"
-                            android:layout_weight="0.5"
-                            android:orientation="vertical">
-
-
-                            <RelativeLayout
-                                android:background="@drawable/podcast_item"
-                                android:layout_width="match_parent"
-                                android:layout_height="@dimen/_45sdp">
-                                <com.android.platform.utils.font.QuicksandSemiBold
-                                    android:layout_width="match_parent"
-                                    android:text="Education"
-                                    android:gravity="center"
-                                    android:textSize="@dimen/_12sdp"
-                                    android:layout_height="match_parent"/>
-                                <ImageView
-                                    android:src="@drawable/education"
-                                    android:layout_centerVertical="true"
-                                    android:layout_marginEnd="@dimen/_12sdp"
-                                    android:layout_marginStart="@dimen/_12sdp"
-                                    android:layout_width="@dimen/_25sdp"
-                                    android:layout_height="@dimen/_25sdp"/>
-                            </RelativeLayout>
-
-
-                            <RelativeLayout
-                                android:background="@drawable/podcast_item"
-                                android:layout_width="match_parent"
-                                android:layout_marginTop="@dimen/_8sdp"
-                                android:layout_height="@dimen/_45sdp">
-                                <com.android.platform.utils.font.QuicksandSemiBold
-                                    android:layout_width="match_parent"
-                                    android:text="Arts"
-                                    android:gravity="center"
-                                    android:textSize="@dimen/_12sdp"
-                                    android:layout_height="match_parent"/>
-                                <ImageView
-                                    android:src="@drawable/music"
-                                    android:layout_centerVertical="true"
-                                    android:layout_marginEnd="@dimen/_12sdp"
-                                    android:layout_marginStart="@dimen/_12sdp"
-                                    android:layout_width="@dimen/_25sdp"
-                                    android:layout_height="@dimen/_25sdp"/>
-                            </RelativeLayout>
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/recPodcasts2"
+                        android:layout_width="0dp"
+                        android:layout_marginStart="@dimen/_3sdp"
+                        android:layout_height="wrap_content"
+                        app:layout_constraintBottom_toBottomOf="@+id/recPodcasts"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toEndOf="@+id/recPodcasts"
+                        app:layout_constraintTop_toTopOf="@+id/recPodcasts" />
 
 
 
-
-                            <RelativeLayout
-                                android:background="@drawable/podcast_item"
-                                android:layout_width="match_parent"
-                                android:layout_marginTop="@dimen/_8sdp"
-                                android:layout_height="@dimen/_45sdp">
-                                <com.android.platform.utils.font.QuicksandSemiBold
-                                    android:layout_width="match_parent"
-                                    android:text="Food"
-                                    android:gravity="center"
-                                    android:textSize="@dimen/_12sdp"
-                                    android:layout_height="match_parent"/>
-                                <ImageView
-                                    android:src="@drawable/food"
-                                    android:layout_centerVertical="true"
-                                    android:layout_marginEnd="@dimen/_12sdp"
-                                    android:layout_marginStart="@dimen/_12sdp"
-                                    android:layout_width="@dimen/_25sdp"
-                                    android:layout_height="@dimen/_25sdp"/>
-                            </RelativeLayout>
-
-
-
-                        </LinearLayout>
-
-
-
-
-
-
-
-
-                        <LinearLayout
-                            android:layout_width="wrap_content"
-                            android:layout_height="match_parent"
-                            android:layout_weight="0.5"
-                            android:layout_marginStart="@dimen/_8sdp"
-                            android:orientation="vertical">
-
-
-                            <RelativeLayout
-                                android:background="@drawable/podcast_item"
-                                android:layout_width="match_parent"
-                                android:layout_height="@dimen/_45sdp">
-                                <com.android.platform.utils.font.QuicksandSemiBold
-                                    android:layout_width="match_parent"
-                                    android:text="Science"
-                                    android:gravity="center"
-                                    android:textSize="@dimen/_12sdp"
-                                    android:layout_height="match_parent"/>
-                                <ImageView
-                                    android:src="@drawable/since"
-                                    android:layout_centerVertical="true"
-                                    android:layout_marginEnd="@dimen/_12sdp"
-                                    android:layout_marginStart="@dimen/_12sdp"
-                                    android:layout_width="@dimen/_25sdp"
-                                    android:layout_height="@dimen/_25sdp"/>
-                            </RelativeLayout>
-
-                            <RelativeLayout
-                                android:background="@drawable/podcast_item"
-                                android:layout_width="match_parent"
-                                android:layout_marginTop="@dimen/_8sdp"
-                                android:layout_height="@dimen/_45sdp">
-                                <com.android.platform.utils.font.QuicksandSemiBold
-                                    android:layout_width="match_parent"
-                                    android:text="Comedy"
-                                    android:gravity="center"
-                                    android:textSize="@dimen/_12sdp"
-                                    android:layout_height="match_parent"/>
-                                <ImageView
-                                    android:src="@drawable/comedy"
-                                    android:layout_centerVertical="true"
-                                    android:layout_marginEnd="@dimen/_12sdp"
-                                    android:layout_marginStart="@dimen/_12sdp"
-                                    android:layout_width="@dimen/_25sdp"
-                                    android:layout_height="@dimen/_25sdp"/>
-                            </RelativeLayout>
-
-
-                            <RelativeLayout
-                                android:background="@drawable/podcast_item"
-                                android:layout_width="match_parent"
-                                android:layout_marginTop="@dimen/_8sdp"
-                                android:layout_height="@dimen/_45sdp">
-                                <com.android.platform.utils.font.QuicksandSemiBold
-                                    android:layout_width="match_parent"
-                                    android:text="Sport"
-                                    android:gravity="center"
-                                    android:textSize="@dimen/_12sdp"
-                                    android:layout_height="match_parent"/>
-                                <ImageView
-                                    android:src="@drawable/sport"
-                                    android:layout_centerVertical="true"
-                                    android:layout_marginEnd="@dimen/_12sdp"
-                                    android:layout_marginStart="@dimen/_12sdp"
-                                    android:layout_width="@dimen/_25sdp"
-                                    android:layout_height="@dimen/_25sdp"/>
-                            </RelativeLayout>
-
-
-                        </LinearLayout>
-
-
-                    </LinearLayout>
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
 

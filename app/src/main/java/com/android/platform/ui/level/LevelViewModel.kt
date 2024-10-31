@@ -11,13 +11,17 @@ import com.android.platform.LevelsReply
 import com.android.platform.LevelsRequest
 import com.android.platform.PodcastCategoryReply
 import com.android.platform.PodcastCategoryRequest
+import com.android.platform.di.factory.CallQueueManager
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
 import javax.inject.Inject
 
-class LevelViewModel  @Inject constructor(val Stub: LevelGrpc.LevelStub) : ViewModel() {
+class LevelViewModel @Inject constructor(
+    val Stub: LevelGrpc.LevelStub,
+    val call: CallQueueManager
+) : ViewModel() {
 
 
     var levelsReply: LevelsReply? = null
@@ -27,10 +31,8 @@ class LevelViewModel  @Inject constructor(val Stub: LevelGrpc.LevelStub) : ViewM
 
     init {
         _event.value = "Loading"
-        viewModelScope.launch {
-            withContext(Dispatchers.IO){
-                getLevels()
-            }
+        call.enqueueIoTask {
+            getLevels()
         }
     }
 
@@ -40,7 +42,7 @@ class LevelViewModel  @Inject constructor(val Stub: LevelGrpc.LevelStub) : ViewM
             .build()
         Stub.getLevels(request, object : io.grpc.stub.StreamObserver<LevelsReply> {
             override fun onNext(value: LevelsReply?) {
-                levelsReply=value
+                levelsReply = value
                 _event.postValue("LevelsUpdated")
             }
 
@@ -55,10 +57,6 @@ class LevelViewModel  @Inject constructor(val Stub: LevelGrpc.LevelStub) : ViewM
             }
         })
     }
-
-
-
-
 
 
 }

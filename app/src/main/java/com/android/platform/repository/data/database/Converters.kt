@@ -1,5 +1,6 @@
 package com.android.platform.repository.data.database
 
+import android.util.Base64
 import androidx.room.TypeConverter
 import com.android.platform.repository.data.model.NotificationSettingEntity
 import com.google.gson.Gson
@@ -43,6 +44,17 @@ object Converters {
     @TypeConverter
     fun toNotificationSettingEntity(value: String?): NotificationSettingEntity? {
         return gson.fromJson(value, NotificationSettingEntity::class.java)
+    }
+
+
+    @TypeConverter
+    fun fromByteArray(byteArray: ByteArray?): String? {
+        return byteArray?.let { Base64.encodeToString(it, Base64.DEFAULT) }
+    }
+
+    @TypeConverter
+    fun toByteArray(string: String?): ByteArray? {
+        return string?.let { Base64.decode(it, Base64.DEFAULT) }
     }
 
 }

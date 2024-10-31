@@ -4,25 +4,17 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
 import com.android.platform.HomeGrpc
-import com.android.platform.PodcastCategory
 import com.android.platform.PodcastCategoryReply
 import com.android.platform.PodcastCategoryRequest
-import com.android.platform.RegisterReply
-import com.android.platform.RegisterRequest
 import com.android.platform.StorisReply
 import com.android.platform.StorisRequest
-import com.android.platform.UserGrpcServiceGrpc
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.awaitAll
+import com.android.platform.di.factory.CallQueueManager
 import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import okhttp3.internal.wait
 import javax.inject.Inject
 
-class HomeViewModel @Inject constructor(val Stub: HomeGrpc.HomeStub) : ViewModel() {
+class HomeViewModel @Inject constructor(val stub: HomeGrpc.HomeStub, val call: CallQueueManager) : ViewModel() {
 
     var stories: StorisReply? = null
     var podcastCategory: PodcastCategoryReply? = null
@@ -35,14 +27,10 @@ class HomeViewModel @Inject constructor(val Stub: HomeGrpc.HomeStub) : ViewModel
 
     init {
         _event.value = "Loading"
-        viewModelScope.launch {
-           withContext(Dispatchers.IO){
-                getStory()
-            }
-            withContext(Dispatchers.IO){
-                getPodcastCategory()
-            }
+        call.enqueueIoTask {
+            getStory()
         }
+
     }
 
 
@@ -51,9 +39,9 @@ class HomeViewModel @Inject constructor(val Stub: HomeGrpc.HomeStub) : ViewModel
             .setCount(10)
             .setPage(1)
             .build()
-        Stub.getStoris(request, object : io.grpc.stub.StreamObserver<StorisReply> {
+        stub.getStoris(request, object : io.grpc.stub.StreamObserver<StorisReply> {
             override fun onNext(value: StorisReply?) {
-                stories=value
+                stories = value
                 _event.postValue("StoryUpdate")
             }
 
@@ -69,25 +57,28 @@ class HomeViewModel @Inject constructor(val Stub: HomeGrpc.HomeStub) : ViewModel
         })
     }
 
-    private fun getPodcastCategory() {
+    fun getPodcastCategory() {
         val request = PodcastCategoryRequest.newBuilder()
             .build()
-        Stub.getPodcastCategory(request, object : io.grpc.stub.StreamObserver<PodcastCategoryReply> {
-            override fun onNext(value: PodcastCategoryReply?) {
-                podcastCategory=value
-                _event.postValue("PodcastCategoryUpdate")
-            }
+        stub.getPodcastCategory(
+            request,
+            object : io.grpc.stub.StreamObserver<PodcastCategoryReply> {
+                override fun onNext(value: PodcastCategoryReply?) {
 
-            override fun onError(t: Throwable?) {
-                Log.e("APP", "we err ${t?.message}")
-                t?.printStackTrace()
+                    podcastCategory = value
+                    _event.postValue("PodcastCategoryUpdate")
+                }
 
-            }
+                override fun onError(t: Throwable?) {
+                    Log.e("APP", "we err ${t?.message}")
+                    t?.printStackTrace()
 
-            override fun onCompleted() {
-                Log.e("APP", "onCompleted PodcastCategoryReply")
-            }
-        })
+                }
+
+                override fun onCompleted() {
+                    Log.e("APP", "onCompleted PodcastCategoryReply")
+                }
+            })
     }
 
 

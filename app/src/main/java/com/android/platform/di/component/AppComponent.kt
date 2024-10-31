@@ -5,7 +5,9 @@ package com.android.platform.di.component
 import com.android.platform.PlatformApplication
 import com.android.platform.di.module.ActivityBindingModule
 import com.android.platform.di.module.AppModule
+import com.android.platform.di.module.CoroutineModule
 import com.android.platform.di.module.GrpcModule
+import com.android.platform.di.module.QueueModule
 import com.android.platform.di.module.RetrofitModule
 import com.android.platform.di.module.RoomModule
 import com.android.platform.di.module.ViewModelModule
@@ -29,6 +31,8 @@ import javax.inject.Singleton
     RoomModule::class,
     ViewModelModule::class,
     GrpcModule::class,
+    CoroutineModule::class,
+    QueueModule::class,
     ActivityBindingModule::class
 ])
 interface AppComponent {

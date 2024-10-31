@@ -9,6 +9,7 @@ import com.android.platform.LoginReply
 import com.android.platform.LoginRequest
 import com.android.platform.PlatformApplication
 import com.android.platform.UserGrpcServiceGrpc
+import com.android.platform.di.factory.CallQueueManager
 import com.android.platform.repository.data.database.UserLogDao
 import com.android.platform.utils.extension.showToast
 import kotlinx.coroutines.Dispatchers
@@ -21,6 +22,9 @@ class MainViewModel @Inject constructor() : ViewModel() {
 
     @Inject
     lateinit var userLogDao: UserLogDao
+
+    @Inject
+    lateinit var call: CallQueueManager
 
     @Inject
     lateinit var greeterStub: UserGrpcServiceGrpc.UserGrpcServiceStub
@@ -47,8 +51,13 @@ class MainViewModel @Inject constructor() : ViewModel() {
         _event.postValue("Profile")
     }
 
-    suspend fun getToken() {
-        withContext(Dispatchers.IO) {
+    fun viewGetToken(){
+        call.enqueueIoTask {
+            getToken()
+        }
+    }
+    private  fun getToken() {
+        call.enqueueIoTask {
             val request = LoginRequest.newBuilder()
                 .setMacAddress("1288")
                 .setPhoneNumber("09386174857")

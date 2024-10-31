@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.android.platform.di.factory.CallQueueManager
 import com.android.platform.repository.data.database.UserLogDao
 import com.android.platform.utils.extension.getLastSevenDays
 import com.android.platform.utils.extension.getPercentageOfDay
@@ -13,8 +14,7 @@ import kotlinx.coroutines.withContext
 import java.time.LocalDate
 import javax.inject.Inject
 
-class ReportViewModel  @Inject constructor(val userLogDao: UserLogDao) : ViewModel() {
-
+class ReportViewModel  @Inject constructor(val userLogDao: UserLogDao,val call: CallQueueManager) : ViewModel() {
 
 
     private val _event = MutableLiveData<String>()

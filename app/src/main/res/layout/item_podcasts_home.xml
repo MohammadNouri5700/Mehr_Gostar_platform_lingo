@@ -1,17 +1,10 @@
-<?xml version="1.0" encoding="utf-8"?><!--<com.facebook.shimmer.ShimmerFrameLayout -->
-<!--    android:id="@+id/shiStory"-->
-
-<!--    android:layout_width="wrap_content"-->
-<!--    android:layout_height="wrap_content"-->
-<!--    app:shimmer_auto_start="true">-->
-
+<!-- res/layout/item_podcast.xml -->
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="@dimen/_150sdp"
+    android:layout_width="match_parent"
+    android:layout_marginTop="@dimen/_5sdp"
     android:layout_height="@dimen/_45sdp"
-
     android:background="@drawable/podcast_item">
-
 
     <com.android.platform.utils.font.QuicksandSemiBold
         android:id="@+id/txttitle"
@@ -22,13 +15,10 @@
         android:textSize="@dimen/_12sdp" />
 
     <ImageView
+        android:id="@+id/imgcompat"
         android:layout_width="@dimen/_25sdp"
         android:layout_height="@dimen/_25sdp"
         android:layout_centerVertical="true"
         android:layout_marginStart="@dimen/_12sdp"
-        android:layout_marginEnd="@dimen/_12sdp"
-        android:src="@drawable/education" />
-
+        android:layout_marginEnd="@dimen/_12sdp" />
 </RelativeLayout>
-
-    <!--</com.facebook.shimmer.ShimmerFrameLayout>-->
