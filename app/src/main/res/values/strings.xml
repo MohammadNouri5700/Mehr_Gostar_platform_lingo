@@ -31,4 +31,9 @@
     <string name="notifications">Notifications</string>
     <string name="privacy_security"><![CDATA[Privacy & Security]]></string>
     <string name="logout">Logout</string>
+    <string name="welcome">Welcome!</string>
+    <string name="login">Login</string>
+    <string name="getverificationcode">Get Verification Code</string>
+    <string name="enterphonenumbertologin">Enter your mobile number to sign in.</string>
+    <string name="enterverificationcode">Enter Verification Code</string>
 </resources>

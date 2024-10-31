@@ -46,6 +46,23 @@ interface UserLogDao {
         }
     }
 
+    suspend fun calculateDurationForLastWeek(): String {
+        var totalSeconds = 0L
+        for (i in 0..6){
+            val logs = getUserLogsByDate(LocalDate.now().minusDays(i.toLong()))
+
+            val sec = logs.sumOf { log ->
+                Duration.between(log.startTime, log.endTime).seconds
+            }
+            totalSeconds+=sec
+        }
+
+        val hours = totalSeconds / 3600
+        val minutes = (totalSeconds % 3600) / 60
+
+        return "${hours}h ${minutes}min"
+    }
+
     suspend fun getDurationForDateCompleted(date: LocalDate): Pair<Long, Long> {
         val logs = getUserLogsByDate(date)
 

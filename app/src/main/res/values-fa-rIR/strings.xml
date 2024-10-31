@@ -31,5 +31,8 @@
     <string name="notifications">Notifications</string>
     <string name="privacy_security"><![CDATA[Privacy & Security]]></string>
     <string name="logout">Logout</string>
+    <string name="welcome">خوش آمدید</string>
+    <string name="login">ورود</string>
+    <string name="getverificationcode">دریافت کد ورود</string>
 
 </resources>

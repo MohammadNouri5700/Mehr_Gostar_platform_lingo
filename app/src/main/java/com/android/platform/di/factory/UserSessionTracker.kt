@@ -41,6 +41,7 @@ class UserSessionTracker(private val userLogDao: UserLogDao) {
             userLogDao.insert(userLog)
         }
 
+
         sessionStartTime = null
     }
 }

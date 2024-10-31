@@ -26,6 +26,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.viewModelScope
 import androidx.transition.ChangeBounds
 import androidx.transition.TransitionManager
@@ -43,6 +44,7 @@ import com.android.platform.repository.data.database.UserLogDao
 import com.android.platform.ui.home.HomeFragment
 import com.android.platform.ui.level.LevelFragment
 import com.android.platform.ui.profile.ProfileFragment
+import com.android.platform.ui.registeration.SignFragment
 import com.android.platform.ui.report.ReportFragment
 import com.android.platform.utils.extension.setPage
 import com.android.platform.utils.extension.showToast
@@ -58,6 +60,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import okhttp3.internal.wait
 import java.security.KeyStore
 import java.security.SecureRandom
 import java.security.cert.CertificateException
@@ -73,12 +76,9 @@ import javax.net.ssl.X509TrustManager
 
 
 class MainActivity : DaggerAppCompatActivity() {
-    @Inject
-    lateinit var greeterStub: UserGrpcServiceGrpc.UserGrpcServiceStub
 
 
-    @Inject
-    lateinit var userLogDao: UserLogDao
+
 
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
@@ -116,9 +116,12 @@ class MainActivity : DaggerAppCompatActivity() {
                     val packageInfo = this.packageManager.getPackageInfo(packageName, 0)
                     val versionName = packageInfo.versionName
                     binding.txtVersion.text = "  ورژن شماره  : $versionName"
-
-                    loadHeavyFragmentsInBackground()
-
+                    lifecycleScope.launch {
+                        mainViewModel.getToken()
+                    }
+                }
+                "Init"->{
+                    initMain()
                 }
 
                 "Home" -> {
@@ -177,7 +180,7 @@ class MainActivity : DaggerAppCompatActivity() {
                 }
             }
         })
-        initMain()
+
 
 
         val firebaseAnalytics = FirebaseAnalytics.getInstance(this)
@@ -321,48 +324,10 @@ class MainActivity : DaggerAppCompatActivity() {
 
     private fun initMain() {
 
+        loadHeavyFragmentsInBackground()
 
         mainViewModel.viewModelScope.launch {
-
-            withContext(Dispatchers.IO) {
-
-
-                val (minutes, seconds) = withContext(Dispatchers.IO) {
-                    userLogDao.getDurationForDateCompleted(LocalDate.now())
-                }
-
-                withContext(Dispatchers.Main) {
-                    showToast("Today min== $minutes and sec ==$seconds")
-                }
-
-                val request = LoginRequest.newBuilder()
-                    .setMacAddress("1288")
-                    .setPhoneNumber("09386174857")
-                    .build()
-
-                var token = ""
-                greeterStub.login(request, object : io.grpc.stub.StreamObserver<LoginReply> {
-                    override fun onNext(value: LoginReply?) {
-                        value?.let {
-//                            showToast(it.token)
-                            token = it.token
-                            Log.e("APP", "TOKEN == ${it.token}")
-                        }
-                    }
-
-                    override fun onError(t: Throwable?) {
-                        Log.e("APP", "we err ${t?.message}")
-                        t?.printStackTrace()
-
-                    }
-
-                    override fun onCompleted() {
-                        Handler(Looper.getMainLooper()).postDelayed(Runnable {
-                            Toast.makeText(applicationContext, token, Toast.LENGTH_LONG).show()
-                        }, 10)
-                    }
-                })
-            }
+            mainViewModel.getTest()
         }
 
 
@@ -419,12 +384,13 @@ class MainActivity : DaggerAppCompatActivity() {
 
     private fun loadHeavyFragmentsInBackground() {
         mainViewModel.viewModelScope.launch(Dispatchers.Main) {
+
             withContext(Dispatchers.Default) {
                 val fragments = listOf(
                     HomeFragment() to "HOME",
                     LevelFragment() to "LEARN",
                     ReportFragment() to "REPORT",
-                    ProfileFragment() to "PROFILE"
+                    SignFragment() to "PROFILE"
                 )
 
                 withContext(Dispatchers.Main) {
@@ -435,11 +401,13 @@ class MainActivity : DaggerAppCompatActivity() {
                     }
 
                     transaction.commitNowAllowingStateLoss()
+                    delay(100)
+                    loadUI()
                 }
             }
-            delay(10)
-            loadUI()
+
         }
+
     }
 
 
@@ -452,6 +420,6 @@ class MainActivity : DaggerAppCompatActivity() {
         ObjectAnimator.ofFloat(binding.conLoading, "alpha", 1f, 0f).apply {
             duration = 0
         }.start()
-        mainViewModel.openHome()
+        mainViewModel.openFirst()
     }
 }

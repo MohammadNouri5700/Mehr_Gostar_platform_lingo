@@ -15,7 +15,7 @@ public class VerticalProgressBar extends View {
     private Paint backgroundPaint;
     private Paint progressPaint;
     private int max = 100;
-    private int progress = 0;
+    private float progress = 0;
     private Path path = new Path();
 
     public VerticalProgressBar(Context context, AttributeSet attrs) {
@@ -31,10 +31,7 @@ public class VerticalProgressBar extends View {
         progressPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
         progressPaint.setColor(0xFF08433e); // Red color for progress
         progressPaint.setStyle(Paint.Style.FILL);
-        Random random = new Random();
-        int randomNumber = random.nextInt(max - 50 + 1) + 50;
         setMax(100);
-        setProgress(randomNumber);
     }
 
     @Override
@@ -52,6 +49,10 @@ public class VerticalProgressBar extends View {
         // Drawing the progress with rounded corners
         if (progress > 0) {
             float progressHeight = height * progress / max;
+            // Ensure minimum height for progress to display rounded corners properly
+            float minHeight = 2 * radius /3; // At least twice the radius to form a complete round
+            progressHeight = Math.max(progressHeight, minHeight); // Use the greater of the calculated height or the minimum height
+
             Path progressPath = new Path();
             // Ensure that the progress bar also has rounded corners
             progressPath.addRoundRect(new RectF(0, height - progressHeight, width, height), radius, radius, Path.Direction.CW);
@@ -59,7 +60,8 @@ public class VerticalProgressBar extends View {
         }
     }
 
-    public void setProgress(int progress) {
+
+    public void setProgress(float progress) {
         this.progress = Math.max(0, Math.min(progress, max)); // Ensure progress does not go out of bounds
         invalidate(); // Redraw the view
     }
@@ -68,7 +70,7 @@ public class VerticalProgressBar extends View {
         this.max = max;
     }
 
-    public int getProgress() {
+    public float getProgress() {
         return progress;
     }
 

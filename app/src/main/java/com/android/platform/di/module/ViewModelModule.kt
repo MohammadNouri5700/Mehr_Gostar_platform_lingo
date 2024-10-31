@@ -8,6 +8,7 @@ import com.android.platform.ui.home.HomeViewModel
 import com.android.platform.ui.level.LevelViewModel
 import com.android.platform.ui.main.MainViewModel
 import com.android.platform.ui.profile.ProfileViewModel
+import com.android.platform.ui.registeration.SignViewModel
 import com.android.platform.ui.report.ReportViewModel
 import dagger.Binds
 import dagger.Module
@@ -46,6 +47,11 @@ abstract class ViewModelModule {
     @IntoMap
     @ViewModelKey(ProfileViewModel::class)
     abstract fun bindProfileViewModel(viewModel: ProfileViewModel): ViewModel
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(SignViewModel::class)
+    abstract fun bindSignViewModel(viewModel: SignViewModel): ViewModel
 
 
 

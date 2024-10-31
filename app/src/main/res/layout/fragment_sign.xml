@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+
+    <data>
+
+        <variable
+            name="viewModel"
+            type="com.android.platform.ui.registeration.SignViewModel" />
+    </data>
+
+    <androidx.constraintlayout.motion.widget.MotionLayout
+        android:id="@+id/constraintLayout7"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#fff"
+        app:layoutDescription="@xml/fragment_sign_xml_constraintlayout7_scene">
+
+
+        <ImageView
+            android:id="@+id/imageView5"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/login"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <com.android.platform.utils.font.QuicksandBold
+            android:id="@+id/quicksandBold3"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_5sdp"
+            android:gravity="center"
+            android:padding="@dimen/_1sdp"
+            android:text="@string/welcome"
+            android:textSize="@dimen/_18sdp"
+            app:layout_constraintTop_toBottomOf="@+id/imageView5" />
+
+
+        <com.android.platform.utils.font.Inter
+            android:id="@+id/inter8"
+            android:visibility="visible"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="@string/enterphonenumbertologin"
+            android:textColor="#8023222F"
+            app:layout_constraintTop_toBottomOf="@+id/quicksandBold3" />
+
+        <EditText
+            android:id="@+id/editText"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_45sdp"
+            android:layout_margin="@dimen/_12sdp"
+            android:visibility="visible"
+            android:background="@drawable/bg_edittext"
+            android:hint="0912"
+            android:inputType="phone"
+            android:lines="0"
+            android:maxLength="11"
+            android:textColorHint="#ADCECE"
+            app:layout_constraintTop_toBottomOf="@+id/inter8"
+            tools:layout_editor_absoluteX="16dp" />
+
+
+        <ImageView
+            android:id="@+id/imageView6"
+            android:layout_width="@dimen/_20sdp"
+            android:layout_height="@dimen/_45sdp"
+            android:layout_marginStart="@dimen/_10sdp"
+            android:src="@drawable/phone"
+            android:visibility="visible"
+            app:layout_constraintBottom_toBottomOf="@+id/editText"
+            app:layout_constraintStart_toStartOf="@+id/editText"
+            app:layout_constraintTop_toTopOf="@+id/editText" />
+
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/appCompatButton"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_45sdp"
+            android:layout_margin="@dimen/_12sdp"
+            android:background="@drawable/button_simple"
+            android:fontFamily="@font/quicksand_bold"
+            android:text="@string/getverificationcode"
+            android:textColor="#fff"
+            android:textSize="@dimen/_12sdp"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+
+    </androidx.constraintlayout.motion.widget.MotionLayout>
+
+
+</layout>

@@ -1,0 +1,61 @@
+syntax = "proto3";
+
+option java_multiple_files = true;
+option java_package = "com.android.platform";
+option java_outer_classname = "HomeProto";
+
+package home;
+
+service Home {
+	rpc GetPodcastCategory (PodcastCategoryRequest) returns (PodcastCategoryReply);
+	rpc GetPodcasts (PodcastsRequest) returns (PodcastsReply);
+	rpc GetStoris (StorisRequest) returns (StorisReply);
+}
+
+// GetPodcasts
+message PodcastsRequest{
+	int32 podcastCategoryId = 1;
+	int32 count = 2;
+	int32 page = 3;
+}
+
+message PodcastsReply {
+	repeated Podcast podcasts = 1;
+}
+
+message Podcast {
+	string title = 1;
+	string sound = 2;
+	string image = 3;
+}
+
+// GetPodcastsCategory
+message PodcastCategoryRequest{
+}
+
+message PodcastCategoryReply{
+	repeated PodcastCategory podcastCategories = 1;
+}
+
+message PodcastCategory{
+	int32 id = 1;
+	string name = 2;
+	string icon = 3;
+}
+
+// GetStoris
+message StorisRequest{
+	int32 count = 1;
+	int32 page = 2;
+}
+
+message StorisReply{
+	repeated Story storis = 1;
+}
+
+message Story{
+	string fullName = 1;
+	string location = 2;
+	string picture = 3;
+	string video = 4;
+}

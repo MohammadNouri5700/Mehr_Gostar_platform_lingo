@@ -9,10 +9,11 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.android.platform.R
+import com.android.platform.StorisReply
 import com.facebook.shimmer.ShimmerFrameLayout
 import kotlinx.coroutines.delay
 
-class StoryAdapter(private val items: List<String>) :
+class StoryAdapter(private val items: StorisReply) :
     RecyclerView.Adapter<StoryAdapter.ViewHolder>() {
 
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
@@ -28,13 +29,12 @@ class StoryAdapter(private val items: List<String>) :
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.textView.text = items[position]
-        if (position!=0)
+        holder.textView.text = items.getStoris(position).fullName
             holder.shimmer.hideShimmer()
         holder.imageView.setOnClickListener {
                 holder.shimmer.hideShimmer()
         }
     }
 
-    override fun getItemCount() = items.size
+    override fun getItemCount() = items.storisCount
 }

@@ -1,0 +1,31 @@
+syntax = "proto3";
+
+option java_multiple_files = true;
+option java_package = "com.android.platform";
+option java_outer_classname = "ProfileProto";
+
+package profile;
+
+service Profile {
+	rpc GetProfile (ProfileRequest) returns (ProfileReply);
+	rpc UpdateProfile (UpdateProfileRequest) returns (UpdateProfileReply);
+}
+
+message ProfileRequest{}
+
+message ProfileReply{
+	string firstName = 2;
+	string lastName = 3;
+	string email = 5;
+	int32 point = 6;
+	string image = 7;
+}
+
+message UpdateProfileRequest{
+	string firstName = 1;
+	string lastName = 2;
+	string email = 4;
+	int32 point = 5;
+}
+
+message UpdateProfileReply{}

@@ -23,9 +23,9 @@ message LoginReply {
 message RegisterRequest{
 	string phoneNumber = 1;
 	string macAddress = 2;
+	string fcmToken = 3;
 }
 
 message RegisterReply {
 	string token = 1;
 }
-

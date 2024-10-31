@@ -8,15 +8,16 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.android.platform.PodcastCategoryReply
 import com.android.platform.R
 import com.facebook.shimmer.ShimmerFrameLayout
 import kotlinx.coroutines.delay
 
-class PodcastAdapter(private val items: List<String>) :
+class PodcastAdapter(val items: PodcastCategoryReply) :
     RecyclerView.Adapter<PodcastAdapter.ViewHolder>() {
 
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-//        val textView: TextView = view.findViewById(R.id.txtTime)
+        val textView: TextView = view.findViewById(R.id.txttitle)
 //        val imageView: ImageView = view.findViewById(R.id.imgProfile)
 //        val shimmer: ShimmerFrameLayout = view.findViewById(R.id.shiStory)
     }
@@ -28,7 +29,7 @@ class PodcastAdapter(private val items: List<String>) :
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-//        holder.textView.text = items[position]
+        holder.textView.text = items.getPodcastCategories(position).name
 //        if (position!=0)
 //            holder.shimmer.hideShimmer()
 //        holder.imageView.setOnClickListener {
@@ -36,5 +37,5 @@ class PodcastAdapter(private val items: List<String>) :
 //        }
     }
 
-    override fun getItemCount() = items.size
+    override fun getItemCount() = items.podcastCategoriesCount
 }
