@@ -89,7 +89,7 @@ class MainActivity : DaggerAppCompatActivity() {
     private lateinit var bottomNavImages: List<ImageView>
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        getWindow().setFlags(
+        window.setFlags(
             WindowManager.LayoutParams.FLAG_SECURE,
             WindowManager.LayoutParams.FLAG_SECURE
         );
@@ -109,6 +109,13 @@ class MainActivity : DaggerAppCompatActivity() {
             listOf(binding.imgHome, binding.imgLearn, binding.imgReport, binding.imgProfile)
 
 
+
+
+
+    }
+
+    override fun onResume() {
+        super.onResume()
 
         mainViewModel.event.observe(this, Observer {
             when (it) {
@@ -180,44 +187,12 @@ class MainActivity : DaggerAppCompatActivity() {
                 }
             }
         })
-
-
-
         val firebaseAnalytics = FirebaseAnalytics.getInstance(this)
         firebaseAnalytics.logEvent("HomePage", null)
 
     }
 
-    private fun trustEveryone() {
-        try {
-            HttpsURLConnection.setDefaultHostnameVerifier { hostname, session -> true }
-            val context = SSLContext.getInstance("TLS")
-            context.init(null, arrayOf<X509TrustManager>(object : X509TrustManager {
-                @Throws(CertificateException::class)
-                override fun checkClientTrusted(
-                    chain: Array<X509Certificate?>?,
-                    authType: String?
-                ) {
-                }
 
-                @Throws(CertificateException::class)
-                override fun checkServerTrusted(
-                    chain: Array<X509Certificate?>?,
-                    authType: String?
-                ) {
-                }
-
-                override fun getAcceptedIssuers(): Array<X509Certificate?> {
-                    return arrayOfNulls<X509Certificate>(0)
-                }
-            }), SecureRandom())
-            HttpsURLConnection.setDefaultSSLSocketFactory(
-                context.socketFactory
-            )
-        } catch (e: java.lang.Exception) { // should never happen
-            e.printStackTrace()
-        }
-    }
 
     private fun updateConstraintsForView(motionLayout: MotionLayout, imageViewId: Int) {
         val constraintSet = ConstraintSet()

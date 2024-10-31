@@ -68,8 +68,8 @@ public class RoundedBlurredCardView extends FrameLayout {
             progressBar.setMax(100);
             progressBar.setMin(0);
             progressBar.setBackgroundColor(Color.TRANSPARENT);
-            progressBar.setProgressTintList(ColorStateList.valueOf(getResources().getColor(android.R.color.white)));
-            ProgressBarParams = new LayoutParams(LayoutParams.MATCH_PARENT, 4);
+            progressBar.setProgressTintList(ColorStateList.valueOf(getResources().getColor(android.R.color.holo_red_dark)));
+            ProgressBarParams = new LayoutParams(LayoutParams.MATCH_PARENT, 6);
             ProgressBarParams.topMargin = getHeight() / 3 * 2;
             if (ProgressBarParams.topMargin == 0)
                 progressBar = null;
