@@ -16,6 +16,7 @@
         android:id="@+id/main"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="#fff"
         tools:context=".ui.main.MainActivity">
 
 
@@ -109,9 +110,9 @@
                     android:layout_height="match_parent"
                     android:layout_marginStart="0dp"
                     android:layout_marginEnd="0dp"
-                    android:padding="@dimen/_22sdp"
+                    android:padding="@dimen/_19sdp"
                     android:scaleType="centerCrop"
-                    android:src="@drawable/home"
+                    android:src="@drawable/home_light"
                     app:layout_constraintEnd_toStartOf="@+id/imgLearn"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintWidth_percent="0.2" />
@@ -125,7 +126,7 @@
                     android:layout_marginEnd="0dp"
                     android:padding="@dimen/_22sdp"
                     android:scaleType="centerCrop"
-                    android:src="@drawable/level"
+                    android:src="@drawable/book_light"
                     app:layout_constraintEnd_toStartOf="@+id/imgReport"
                     app:layout_constraintStart_toEndOf="@+id/imgHome"
                     app:layout_constraintWidth_percent="0.2" />
@@ -139,7 +140,7 @@
                     android:layout_marginEnd="0dp"
                     android:padding="@dimen/_22sdp"
                     android:scaleType="centerCrop"
-                    android:src="@drawable/report"
+                    android:src="@drawable/chart_light"
                     app:layout_constraintEnd_toStartOf="@+id/imgProfile"
                     app:layout_constraintStart_toEndOf="@+id/imgLearn"
                     app:layout_constraintWidth_percent="0.2" />
@@ -151,7 +152,7 @@
                     android:layout_height="match_parent"
                     android:padding="@dimen/_22sdp"
                     android:scaleType="centerCrop"
-                    android:src="@drawable/profile"
+                    android:src="@drawable/user_light"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toEndOf="@+id/imgReport"
                     app:layout_constraintWidth_percent="0.2" />

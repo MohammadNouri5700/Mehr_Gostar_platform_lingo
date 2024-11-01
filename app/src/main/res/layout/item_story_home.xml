@@ -14,7 +14,7 @@
             android:id="@+id/imgProfile"
             android:layout_width="@dimen/_60sdp"
             android:layout_height="@dimen/_60sdp"
-            android:src="@drawable/profile_sample"
+            android:src="@drawable/userprofile"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -29,6 +29,7 @@
             app:layout_constraintTop_toBottomOf="@+id/imgProfile" />
 
         <com.android.platform.utils.font.QuicksandLight
+            android:id="@+id/txtLocation"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textSize="@dimen/_8sdp"

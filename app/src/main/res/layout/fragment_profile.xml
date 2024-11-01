@@ -47,7 +47,7 @@
                 android:layout_width="@dimen/_60sdp"
                 android:layout_height="@dimen/_60sdp"
                 android:layout_marginStart="@dimen/_12sdp"
-                android:src="@drawable/profile_sample"
+                android:src="@drawable/userprofile"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -73,7 +73,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/_8sdp"
                 android:layout_marginBottom="@dimen/_17sdp"
-                android:text="Omid Gostar"
+                android:text=""
                 android:textSize="@dimen/_15sdp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/circularImageView"
@@ -82,7 +82,7 @@
             <com.android.platform.utils.font.Inter
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="info@lingomars.ir"
+                android:text=""
                 android:textColor="#666666"
                 android:textSize="@dimen/_10sdp"
                 app:layout_constraintStart_toStartOf="@+id/quicksandBold10"

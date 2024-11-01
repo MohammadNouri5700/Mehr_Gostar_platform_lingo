@@ -1,51 +1,39 @@
 package com.android.platform.ui.main
 
-import android.animation.ArgbEvaluator
+import android.animation.AnimatorSet
 import android.animation.ObjectAnimator
-import android.animation.ValueAnimator
+import android.content.Intent
 import android.os.Build
 import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
 import android.util.Log
 import android.view.View
 import android.view.WindowInsets
 import android.view.WindowInsetsController
 import android.view.WindowManager
-import android.view.animation.AccelerateDecelerateInterpolator
 import android.view.animation.AnticipateOvershootInterpolator
 import android.widget.ImageView
-import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
 import androidx.activity.viewModels
 import androidx.appcompat.view.ContextThemeWrapper
 import androidx.constraintlayout.motion.widget.MotionLayout
 import androidx.constraintlayout.widget.ConstraintSet
-import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.viewModelScope
 import androidx.transition.ChangeBounds
 import androidx.transition.TransitionManager
-import com.android.platform.LoginReply
-import com.android.platform.LoginRequest
 //import com.android.platform.LoginReply
 //import com.android.platform.LoginRequest
 import com.android.platform.PlatformApplication
 import com.android.platform.R
-import com.android.platform.UserGrpcServiceGrpc
 //import com.android.platform.UserGrpcServiceGrpc
 import com.android.platform.databinding.ActivityMainBinding
-import com.android.platform.di.factory.CallQueueManager
-import com.android.platform.repository.data.database.AppDatabase
-import com.android.platform.repository.data.database.UserLogDao
 import com.android.platform.ui.home.HomeFragment
 import com.android.platform.ui.level.LevelFragment
 import com.android.platform.ui.profile.ProfileFragment
-import com.android.platform.ui.registeration.SignFragment
+import com.android.platform.ui.registeration.Login
 import com.android.platform.ui.report.ReportFragment
 import com.android.platform.utils.extension.setPage
 import com.android.platform.utils.extension.showToast
@@ -60,20 +48,7 @@ import dagger.android.support.DaggerAppCompatActivity
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
-import okhttp3.internal.wait
-import java.security.KeyStore
-import java.security.SecureRandom
-import java.security.cert.CertificateException
-import java.security.cert.CertificateFactory
-import java.security.cert.X509Certificate
-import java.time.LocalDate
-import java.util.concurrent.TimeUnit
 import javax.inject.Inject
-import javax.net.ssl.HttpsURLConnection
-import javax.net.ssl.SSLContext
-import javax.net.ssl.TrustManagerFactory
-import javax.net.ssl.X509TrustManager
 
 
 class MainActivity : DaggerAppCompatActivity() {
@@ -112,16 +87,26 @@ class MainActivity : DaggerAppCompatActivity() {
 
     override fun onResume() {
         super.onResume()
-
+        binding.imgHome.tag="UNFILL";
+        binding.imgLearn.tag="UNFILL";
+        binding.imgReport.tag="UNFILL";
+        binding.imgProfile.tag="UNFILL";
         mainViewModel.event.observe(this, Observer {
             when (it) {
                 "Loading" -> {
                     val packageInfo = this.packageManager.getPackageInfo(packageName, 0)
                     val versionName = packageInfo.versionName
                     binding.txtVersion.text = "  ورژن شماره  : $versionName"
-                    mainViewModel.viewGetToken()
+                    mainViewModel.viewGetToken(this)
                 }
 
+                "ErrorLogin"->{
+                    showToast("Authentication Error")
+                    mainViewModel.preferences.putString("PHONE","")
+                    mainViewModel.preferences.putString("TOKEN","")
+                    startActivity(Intent(this,Login::class.java))
+                    finish()
+                }
                 "Init" -> {
                     initMain()
                 }
@@ -129,40 +114,39 @@ class MainActivity : DaggerAppCompatActivity() {
                 "Home" -> {
                     mainViewModel.call.enqueueMainTask {
                         showFragment("HOME")
-                        updateConstraintsForView(binding.constraintLayout, binding.imgHome.id)
                         resetAllColor()
+                        updateConstraintsForView(binding.constraintLayout, binding.imgHome.id)
                     }
                 }
 
                 "Learn" -> {
                     mainViewModel.call.enqueueMainTask {
                         showFragment("LEARN")
-                        updateConstraintsForView(binding.constraintLayout, binding.imgLearn.id)
                         resetAllColor()
+                        updateConstraintsForView(binding.constraintLayout, binding.imgLearn.id)
                     }
                 }
 
                 "Report" -> {
                     mainViewModel.call.enqueueMainTask {
                         showFragment("REPORT")
-                        updateConstraintsForView(binding.constraintLayout, binding.imgReport.id)
                         resetAllColor()
+                        updateConstraintsForView(binding.constraintLayout, binding.imgReport.id)
                     }
                 }
 
                 "Profile" -> {
                     mainViewModel.call.enqueueMainTask {
                         showFragment("PROFILE")
-                        updateConstraintsForView(binding.constraintLayout, binding.imgProfile.id)
                         resetAllColor()
+                        updateConstraintsForView(binding.constraintLayout, binding.imgProfile.id)
                     }
                 }
             }
         })
 
-            val firebaseAnalytics = FirebaseAnalytics.getInstance(this)
-            firebaseAnalytics.logEvent("HomePage", null)
-
+        val firebaseAnalytics = FirebaseAnalytics.getInstance(this)
+        firebaseAnalytics.logEvent("HomePage", null)
 
 
     }
@@ -177,7 +161,7 @@ class MainActivity : DaggerAppCompatActivity() {
 
         val transition = ChangeBounds()
         transition.interpolator = AnticipateOvershootInterpolator()
-        transition.duration = 600
+        transition.duration = 700
 
         TransitionManager.beginDelayedTransition(motionLayout, transition)
         constraintSet.applyTo(motionLayout)
@@ -185,30 +169,74 @@ class MainActivity : DaggerAppCompatActivity() {
     }
 
     private fun animateToSelect(imageView: ImageView) {
-        val colorFrom = ContextCompat.getColor(this, R.color.unselectedNavigation)
-        val colorTo = ContextCompat.getColor(this, R.color.selectedNavigation)
-        val colorAnimation = ValueAnimator.ofObject(ArgbEvaluator(), colorFrom, colorTo)
-        colorAnimation.duration = 300
-        colorAnimation.addUpdateListener { animator ->
-            imageView.setColorFilter(animator.animatedValue as Int)
+        mainViewModel.call.enqueueMainTask {
+            when (imageView.id) {
+                R.id.imgHome -> {
+                    binding.imgHome.apply {
+                        alpha = 0f; binding.imgHome.tag =
+                        "FILL"; setImageResource(R.drawable.home_fill)
+                    }.animate().alpha(1f).setDuration(700).start()
+                }
+
+                R.id.imgLearn -> {
+                    binding.imgLearn.apply {
+                        alpha = 0f; binding.imgLearn.tag =
+                        "FILL"; setImageResource(R.drawable.book_fill)
+                    }.animate().alpha(1f).setDuration(700).start()
+                }
+
+                R.id.imgReport -> {
+                    binding.imgReport.apply {
+                        alpha = 0f;binding.imgReport.tag =
+                        "FILL"; setImageResource(R.drawable.chart_fill)
+                    }.animate().alpha(1f).setDuration(700).start()
+                }
+
+                R.id.imgProfile -> {
+                    binding.imgProfile.apply {
+                        alpha = 0f;binding.imgProfile.tag =
+                        "FILL"; setImageResource(R.drawable.user_fill)
+                    }.animate().alpha(1f).setDuration(700).start()
+                }
+            }
         }
-        colorAnimation.repeatCount = 0
-        colorAnimation.repeatMode = ValueAnimator.REVERSE
-        colorAnimation.start()
+
     }
 
     private fun animateToDESelect(imageView: ImageView) {
+        mainViewModel.call.enqueueMainTask {
+            when (imageView.id) {
+                R.id.imgHome -> {
+                    if (binding.imgHome.tag == "FILL") binding.imgHome.apply {tag="UNFILL";  alpha = 0.7F;setImageResource(R.drawable.home_light) }
+                        .animate().alpha(1f).setDuration(700).start()
+                }
 
-        val colorFrom = ContextCompat.getColor(this, R.color.selectedNavigation)
-        val colorTo = ContextCompat.getColor(this, R.color.black)
-        val colorAnimation = ValueAnimator.ofObject(ArgbEvaluator(), colorFrom, colorTo)
-        colorAnimation.duration = 0
-        colorAnimation.addUpdateListener { animator ->
-            imageView.setColorFilter(animator.animatedValue as Int)
+                R.id.imgLearn -> {
+                    if (binding.imgLearn.tag == "FILL") binding.imgLearn.apply {tag="UNFILL";  alpha = 0.7F;setImageResource(R.drawable.book_light) }
+                        .animate().alpha(1f).setDuration(700).start()
+                }
+
+                R.id.imgReport -> {
+                    if (binding.imgReport.tag == "FILL") binding.imgReport.apply {
+                        alpha = 0.7F;
+                        tag="UNFILL";
+                        setImageResource(
+                            R.drawable.chart_light
+                        )
+                    }.animate().alpha(1f).setDuration(700).start()
+                }
+
+                R.id.imgProfile -> {
+                    if (binding.imgProfile.tag == "FILL") binding.imgProfile.apply {
+                        alpha = 0.7F;
+                        tag="UNFILL";
+                        setImageResource(
+                            R.drawable.user_light
+                        )
+                    }.animate().alpha(1f).setDuration(700).start()
+                }
+            }
         }
-        colorAnimation.repeatCount = 0
-        colorAnimation.repeatMode = ValueAnimator.REVERSE
-        colorAnimation.start()
     }
 
     private fun resetAllColor() {
@@ -270,6 +298,7 @@ class MainActivity : DaggerAppCompatActivity() {
     private var doubleBackToExitPressedOnce = false
 
     private fun initMain() {
+
 
         loadHeavyFragmentsInBackground()
 
@@ -337,7 +366,7 @@ class MainActivity : DaggerAppCompatActivity() {
                     HomeFragment() to "HOME",
                     LevelFragment() to "LEARN",
                     ReportFragment() to "REPORT",
-                    SignFragment() to "PROFILE"
+                    ProfileFragment() to "PROFILE"
                 )
 
                 mainViewModel.call.enqueueMainTask {
@@ -359,14 +388,21 @@ class MainActivity : DaggerAppCompatActivity() {
 
 
     private fun loadUI() {
-        val animator =
-            ObjectAnimator.ofFloat(binding.bottomNav, "translationY", 200f, 0f)
-        animator.setDuration(0)//TODO TIME
-        animator.interpolator = AccelerateDecelerateInterpolator()
-        animator.start()
-        ObjectAnimator.ofFloat(binding.conLoading, "alpha", 1f, 0f).apply {
-            duration = 0
-        }.start()
+        mainViewModel.call.enqueueMainTask {
+            binding.bottomNav.animate().translationY(0f).setDuration(1000).start()
+            AnimatorSet().apply {
+                playTogether(
+                    ObjectAnimator.ofFloat(binding.bottomNav, "translationY", binding.bottomNav.height.toFloat(),0F),
+                    ObjectAnimator.ofFloat(binding.bottomNav, "alpha", 0f, 1f)
+                )
+                duration = 1000
+                start()
+            }
+        }
         mainViewModel.openFirst()
+        mainViewModel.call.enqueueMainTask {
+            delay(1000)
+            binding.conLoading.visibility=View.GONE
+        }
     }
 }

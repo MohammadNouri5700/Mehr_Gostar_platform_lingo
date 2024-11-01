@@ -1,36 +1,28 @@
-package com.android.platform.ui.registeration
+package com.android.platform.ui.registeration.old
 
-import android.app.Dialog
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.constraintlayout.motion.widget.MotionLayout
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.lifecycleScope
-import androidx.lifecycle.viewModelScope
 import com.android.platform.PlatformApplication
 import com.android.platform.R
-import com.android.platform.databinding.FragmentReportBinding
 import com.android.platform.databinding.FragmentSignBinding
-import com.android.platform.utils.extension.getLastSevenDays
-import com.android.platform.utils.extension.hideKeyboard
+import com.android.platform.di.factory.CallQueueManager
+import com.android.platform.utils.extension.getAndroidId
 import com.android.platform.utils.extension.isValidPhoneNumber
-import com.android.platform.utils.extension.showToast
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 
-class SignFragment : Fragment() {
+class SignFragment @Inject constructor() : Fragment() {
+
+    @Inject
+    lateinit var call: CallQueueManager
 
 
     @Inject
@@ -68,16 +60,11 @@ class SignFragment : Fragment() {
 
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
                 if (s.toString().length >= 10 && isValidPhoneNumber(s.toString())) {
-                    binding.editText.isEnabled=false
+                    binding.editText.isEnabled = false
 
-                    lifecycleScope.launch {
-                        withContext(Dispatchers.IO){
-                            viewModel.registerUser()
-                        }
+                    call.enqueueIoTask {
+                        viewModel.registerUser(s.toString(), getAndroidId(requireContext()))
                     }
-//                    activity?.hideKeyboard()
-//                    motionLayout.setTransition(R.id.end, R.id.verification)
-//                    motionLayout.transitionToEnd()
                 }
             }
 

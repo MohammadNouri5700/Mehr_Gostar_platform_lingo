@@ -9,8 +9,6 @@ package level;
 service Level {
 	rpc GetLevels (LevelsRequest) returns (LevelsReply);
 	rpc GetLessons (LessonsRequest) returns (LessonsReply);
-	rpc GetAwards (AwardsRequest) returns (AwardsReply);
-	rpc SaveUserAward (SaveUserAwardRequest) returns (SaveUserAwardReply);
 }
 
 message LevelsRequest{
@@ -26,27 +24,6 @@ message LevelModel{
 	int32 timeInSum = 3;
 	int32 progress = 4;
 }
-
-message AwardsRequest{}
-
-message AwardsReply {
-	repeated AwardModel awards = 1;
-}
-
-message AwardModel {
-	int32 awardId = 1;
-	string title = 2;
-	int32 score = 3;
-	string video = 4;
-	string image = 5;
-	bool accomplished = 6;
-}
-
-message SaveUserAwardRequest{
-	int32 awardId = 1;
-}
-
-message SaveUserAwardReply{}
 
 message LessonsRequest{
 	int32 levelId = 1;

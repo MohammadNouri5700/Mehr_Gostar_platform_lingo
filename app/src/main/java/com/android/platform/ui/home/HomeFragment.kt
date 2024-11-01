@@ -87,7 +87,7 @@ class HomeFragment : Fragment() {
             when (data) {
                 "StoryUpdate" -> {
                     viewModel.call.enqueueMainTask {
-                        binding.recStory.adapter = viewModel.stories?.let { StoryAdapter(it) }
+                        binding.recStory.adapter = viewModel.stories?.let { StoryAdapter(it,imageDao,viewModel.call,requireContext()) }
                     }
                     viewModel.getPodcastCategory()
                 }

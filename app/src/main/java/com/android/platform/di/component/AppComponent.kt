@@ -10,12 +10,15 @@ import com.android.platform.di.module.GrpcModule
 import com.android.platform.di.module.QueueModule
 import com.android.platform.di.module.RetrofitModule
 import com.android.platform.di.module.RoomModule
+import com.android.platform.di.module.SharedPreferencesModule
+import com.android.platform.di.module.UIModule
 import com.android.platform.di.module.ViewModelModule
 import com.android.platform.ui.home.HomeFragment
 import com.android.platform.ui.level.LevelFragment
 import com.android.platform.ui.main.MainActivity
 import com.android.platform.ui.profile.ProfileFragment
-import com.android.platform.ui.registeration.SignFragment
+import com.android.platform.ui.registeration.Login
+import com.android.platform.ui.registeration.old.SignFragment
 import com.android.platform.ui.report.ReportFragment
 import dagger.Component
 import dagger.android.AndroidInjectionModule
@@ -33,6 +36,8 @@ import javax.inject.Singleton
     GrpcModule::class,
     CoroutineModule::class,
     QueueModule::class,
+    UIModule::class,
+    SharedPreferencesModule::class,
     ActivityBindingModule::class
 ])
 interface AppComponent {
@@ -40,7 +45,8 @@ interface AppComponent {
 
 //    Activity's
 //    fun inject(activity: CourseActivity)
-    fun inject(mainActivity: MainActivity)
+    fun inject(activity: MainActivity)
+    fun inject(activity: Login)
 
 //    Fragment's
     fun inject(homeFragment: HomeFragment)

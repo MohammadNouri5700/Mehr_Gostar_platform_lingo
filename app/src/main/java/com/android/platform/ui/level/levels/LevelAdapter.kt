@@ -23,7 +23,7 @@ class LevelAdapter(private val levelList: LevelsReply, private val context: Cont
         holder.progressBar.setProgress(level.progress)
         holder.percentage.text = level.progress.toString()
         holder.name.text = level.title
-        holder.mins.text = level.timeInSum.toString()
+        holder.mins.setText(" "+level.timeInSum+" ")
     }
 
     override fun getItemCount(): Int = levelList.levelsCount

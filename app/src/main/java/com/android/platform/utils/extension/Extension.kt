@@ -6,6 +6,7 @@ import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.drawable.Drawable
 import android.os.Bundle
+import android.provider.Settings.Secure
 import android.util.Log
 import android.view.View
 import android.view.inputmethod.InputMethodManager
@@ -18,13 +19,14 @@ import com.bumptech.glide.request.transition.Transition
 import com.google.firebase.analytics.FirebaseAnalytics
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.io.ByteArrayOutputStream
+import java.security.AccessController.getContext
 import java.time.LocalDate
 import java.time.format.TextStyle
 import java.util.Locale
+
 
 fun Activity.showToast(message: String) {
     Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
@@ -60,7 +62,7 @@ fun getLastSevenDays(): List<String> {
     return (0..6).map { i ->
         LocalDate.now().minusDays(i.toLong())
             .dayOfWeek
-            .getDisplayName(TextStyle.SHORT, Locale.getDefault())
+            .getDisplayName(TextStyle.SHORT, Locale("fa","IR"))
     }
 }
 
@@ -90,7 +92,9 @@ fun Activity.hideKeyboard() {
 fun byteArrayToBitmap(byteArray: ByteArray?): Bitmap? {
     return byteArray?.let { BitmapFactory.decodeByteArray(it, 0, it.size) }
 }
-
+fun getAndroidId(context: Context): String {
+    return Secure.getString(context.contentResolver, Secure.ANDROID_ID)
+}
 suspend fun saveImageFromUrl(url: String, imageDao: ImageDao,context: Context) {
     val existingImage = imageDao.getImageByUrl(url)
     if (existingImage == null) {

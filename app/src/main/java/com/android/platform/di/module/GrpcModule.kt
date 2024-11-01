@@ -10,6 +10,7 @@ import com.android.platform.LevelGrpc
 import com.android.platform.PlatformApplication
 import com.android.platform.UserGrpcServiceGrpc
 import com.android.platform.di.factory.BearerTokenInterceptor
+import com.android.platform.di.factory.Preferences
 import dagger.Module
 import dagger.Provides
 import io.grpc.ManagedChannel
@@ -25,8 +26,8 @@ class GrpcModule {
 
     @Provides
     @Singleton
-    fun provideBearerTokenInterceptor(): BearerTokenInterceptor {
-        return BearerTokenInterceptor()
+    fun provideBearerTokenInterceptor(preferences: Preferences): BearerTokenInterceptor {
+        return BearerTokenInterceptor(preferences)
     }
 
 

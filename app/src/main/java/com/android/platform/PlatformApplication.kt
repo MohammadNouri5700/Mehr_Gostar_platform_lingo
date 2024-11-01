@@ -21,10 +21,6 @@ import javax.inject.Inject
 
 class PlatformApplication : Application(), HasAndroidInjector {
 
-    companion object{
-        var token:String = ""
-    }
-
     @Inject
     lateinit var androidInjector: DispatchingAndroidInjector<Any>
     lateinit var appComponent: AppComponent

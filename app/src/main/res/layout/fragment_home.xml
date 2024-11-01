@@ -51,7 +51,7 @@
                 android:id="@+id/circularImageView"
                 android:layout_width="@dimen/_52sdp"
                 android:layout_height="@dimen/_52sdp"
-                android:src="@drawable/profile_sample"
+                android:src="@drawable/userprofile"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
