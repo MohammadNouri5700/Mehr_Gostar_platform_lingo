@@ -2,6 +2,8 @@ package com.android.platform
 
 import android.app.Activity
 import android.app.Application
+import android.content.Context
+import android.content.res.Configuration
 import android.os.Bundle
 import com.android.platform.di.component.AppComponent
 import com.android.platform.di.component.DaggerAppComponent
@@ -17,6 +19,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.supervisorScope
 import kotlinx.coroutines.withContext
 import java.time.LocalDate
+import java.util.Locale
 import javax.inject.Inject
 
 class PlatformApplication : Application(), HasAndroidInjector {
@@ -29,10 +32,16 @@ class PlatformApplication : Application(), HasAndroidInjector {
     lateinit var userLogDao: UserLogDao
 
     private lateinit var userSessionTracker: UserSessionTracker
-
+    fun setLocale(context: Context, languageCode: String) {
+        val locale = Locale(languageCode)
+        Locale.setDefault(locale)
+        val config = Configuration(context.resources.configuration)
+        config.setLocale(locale)
+        context.resources.updateConfiguration(config, context.resources.displayMetrics)
+    }
     override fun onCreate() {
         super.onCreate()
-
+        setLocale(this, "en")
         appComponent = DaggerAppComponent.builder()
             .appModule(AppModule(this))
             .build()

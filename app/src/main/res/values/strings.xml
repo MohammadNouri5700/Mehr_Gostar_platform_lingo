@@ -36,4 +36,8 @@
     <string name="getverificationcode">Get Verification Code</string>
     <string name="enterphonenumbertologin">Enter your mobile number to sign in.</string>
     <string name="enterverificationcode">Enter Verification Code</string>
+    <string name="course_list">Course List</string>
+    <string name="h">h</string>
+    <string name="lesson">Lesson</string>
+    <string name="courseoverview">Course Overview</string>
 </resources>

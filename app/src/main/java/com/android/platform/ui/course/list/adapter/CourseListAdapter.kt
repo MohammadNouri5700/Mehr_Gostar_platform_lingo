@@ -1,44 +1,39 @@
-package com.android.platform.ui.level.levels
+package com.android.platform.ui.course.list.adapter
 
-import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import com.android.platform.LevelsReply
+import com.android.platform.LessonsReply
 import com.android.platform.R
-import com.android.platform.ui.level.LevelViewModel
+import com.android.platform.ui.course.list.CourseListViewModel
+import com.android.platform.ui.level.levels.LevelAdapter
 import com.android.platform.utils.ui.CircleProgressBar
 
-class LevelAdapter(private val levelList: LevelsReply,
-                   private val context: Context,
-                   private val viewModel: LevelViewModel
-) : RecyclerView.Adapter<LevelAdapter.TaskViewHolder>() {
+class CourseListAdapter(val lessonsReply: LessonsReply,val viewModel: CourseListViewModel) : RecyclerView.Adapter<CourseListAdapter.TaskViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TaskViewHolder {
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.item_level, parent, false)
+        val view = LayoutInflater.from(parent.context).inflate(R.layout.item_course, parent, false)
         return TaskViewHolder(view)
     }
 
     override fun onBindViewHolder(holder: TaskViewHolder, position: Int) {
-        val level = levelList.getLevels(position)
-        holder.progressBar.setProgress(level.progress)
-        holder.percentage.text = level.progress.toString()
+        val level = lessonsReply.getLessons(position)
         holder.name.text = level.title
-        holder.mins.setText(" "+level.timeInSum+" ")
 
         holder.itemView.setOnClickListener{
-            viewModel.onLevelClicked(level.levelId)
+            viewModel.openCourse(level.lessonId)
         }
     }
 
-    override fun getItemCount(): Int = levelList.levelsCount
+    override fun getItemCount(): Int = lessonsReply.lessonsCount
 
     class TaskViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val name: TextView = itemView.findViewById(R.id.lblName)
+        val lessonCount: TextView = itemView.findViewById(R.id.lbllesson)
         val mins: TextView = itemView.findViewById(R.id.lblMins)
+        val hour: TextView = itemView.findViewById(R.id.lblhour)
         val percentage: TextView = itemView.findViewById(R.id.lblpercentage)
         val progressBar: CircleProgressBar = itemView.findViewById(R.id.progressbarCircle)
     }

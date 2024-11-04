@@ -64,6 +64,10 @@ class MainViewModel @Inject constructor() : ViewModel() {
     }
     private  fun getToken(context: Context) {
         call.enqueueIoTask {
+            if (preferences.getString("PHONE")==null||preferences.getString("PHONE")==""){
+                _event.postValue("ErrorLogin")
+                return@enqueueIoTask
+            }
             val request = LoginRequest.newBuilder()
                 .setMacAddress(getAndroidId(context))
                 .setPhoneNumber(preferences.getString("PHONE"))
@@ -95,7 +99,7 @@ class MainViewModel @Inject constructor() : ViewModel() {
     }
 
     fun openFirst() {
-        openHome()
+        openLearn()
     }
 
 }

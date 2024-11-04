@@ -82,15 +82,6 @@ class MainActivity : DaggerAppCompatActivity() {
         bottomNavImages =
             listOf(binding.imgHome, binding.imgLearn, binding.imgReport, binding.imgProfile)
 
-
-    }
-
-    override fun onResume() {
-        super.onResume()
-        binding.imgHome.tag="UNFILL";
-        binding.imgLearn.tag="UNFILL";
-        binding.imgReport.tag="UNFILL";
-        binding.imgProfile.tag="UNFILL";
         mainViewModel.event.observe(this, Observer {
             when (it) {
                 "Loading" -> {
@@ -100,13 +91,14 @@ class MainActivity : DaggerAppCompatActivity() {
                     mainViewModel.viewGetToken(this)
                 }
 
-                "ErrorLogin"->{
+                "ErrorLogin" -> {
                     showToast("Authentication Error")
-                    mainViewModel.preferences.putString("PHONE","")
-                    mainViewModel.preferences.putString("TOKEN","")
-                    startActivity(Intent(this,Login::class.java))
+                    mainViewModel.preferences.putString("PHONE", "")
+                    mainViewModel.preferences.putString("TOKEN", "")
+                    startActivity(Intent(this, Login::class.java))
                     finish()
                 }
+
                 "Init" -> {
                     initMain()
                 }
@@ -145,12 +137,43 @@ class MainActivity : DaggerAppCompatActivity() {
             }
         })
 
-        val firebaseAnalytics = FirebaseAnalytics.getInstance(this)
-        firebaseAnalytics.logEvent("HomePage", null)
+        initFullScreen()
+    }
 
+    fun initFullScreen(){
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+            val controller = window.insetsController
+            controller?.let {
+                it.hide(WindowInsets.Type.statusBars() or WindowInsets.Type.navigationBars())
+                it.systemBarsBehavior = WindowInsetsController.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE
+            }
+        } else {
+            val decorView = window.decorView
+            val uiOptions = (View.SYSTEM_UI_FLAG_FULLSCREEN
+                    or View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
+                    or View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY)
+            decorView.systemUiVisibility = uiOptions
+        }
+    }
+    override fun onResume() {
+        super.onResume()
+
+        setTag()
+        val firebaseAnalytics = FirebaseAnalytics.getInstance(this)
+        firebaseAnalytics.logEvent("OpenApp", null)
 
     }
 
+    private fun setTag() {
+        if (binding.imgHome.tag == null)
+            binding.imgHome.tag = "INFILL"
+        if (binding.imgLearn.tag == null)
+            binding.imgLearn.tag = "INFILL"
+        if (binding.imgReport.tag == null)
+            binding.imgReport.tag = "INFILL"
+        if (binding.imgProfile.tag == null)
+            binding.imgProfile.tag = "INFILL"
+    }
 
     private fun updateConstraintsForView(motionLayout: MotionLayout, imageViewId: Int) {
         val constraintSet = ConstraintSet()
@@ -207,19 +230,23 @@ class MainActivity : DaggerAppCompatActivity() {
         mainViewModel.call.enqueueMainTask {
             when (imageView.id) {
                 R.id.imgHome -> {
-                    if (binding.imgHome.tag == "FILL") binding.imgHome.apply {tag="UNFILL";  alpha = 0.7F;setImageResource(R.drawable.home_light) }
+                    if (binding.imgHome.tag == "FILL") binding.imgHome.apply {
+                        tag = "UNFILL"; alpha = 0.7F;setImageResource(R.drawable.home_light)
+                    }
                         .animate().alpha(1f).setDuration(700).start()
                 }
 
                 R.id.imgLearn -> {
-                    if (binding.imgLearn.tag == "FILL") binding.imgLearn.apply {tag="UNFILL";  alpha = 0.7F;setImageResource(R.drawable.book_light) }
+                    if (binding.imgLearn.tag == "FILL") binding.imgLearn.apply {
+                        tag = "UNFILL"; alpha = 0.7F;setImageResource(R.drawable.book_light)
+                    }
                         .animate().alpha(1f).setDuration(700).start()
                 }
 
                 R.id.imgReport -> {
                     if (binding.imgReport.tag == "FILL") binding.imgReport.apply {
                         alpha = 0.7F;
-                        tag="UNFILL";
+                        tag = "UNFILL";
                         setImageResource(
                             R.drawable.chart_light
                         )
@@ -229,7 +256,7 @@ class MainActivity : DaggerAppCompatActivity() {
                 R.id.imgProfile -> {
                     if (binding.imgProfile.tag == "FILL") binding.imgProfile.apply {
                         alpha = 0.7F;
-                        tag="UNFILL";
+                        tag = "UNFILL";
                         setImageResource(
                             R.drawable.user_light
                         )
@@ -307,19 +334,7 @@ class MainActivity : DaggerAppCompatActivity() {
         }
 
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
-            val controller = window.insetsController
-            controller?.let {
-                it.hide(WindowInsets.Type.statusBars() or WindowInsets.Type.navigationBars())
-                it.systemBarsBehavior = WindowInsetsController.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE
-            }
-        } else {
-            val decorView = window.decorView
-            val uiOptions = (View.SYSTEM_UI_FLAG_FULLSCREEN
-                    or View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
-                    or View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY)
-            decorView.systemUiVisibility = uiOptions
-        }
+
 
         onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
@@ -392,7 +407,12 @@ class MainActivity : DaggerAppCompatActivity() {
             binding.bottomNav.animate().translationY(0f).setDuration(1000).start()
             AnimatorSet().apply {
                 playTogether(
-                    ObjectAnimator.ofFloat(binding.bottomNav, "translationY", binding.bottomNav.height.toFloat(),0F),
+                    ObjectAnimator.ofFloat(
+                        binding.bottomNav,
+                        "translationY",
+                        binding.bottomNav.height.toFloat(),
+                        0F
+                    ),
                     ObjectAnimator.ofFloat(binding.bottomNav, "alpha", 0f, 1f)
                 )
                 duration = 1000
@@ -402,7 +422,7 @@ class MainActivity : DaggerAppCompatActivity() {
         mainViewModel.openFirst()
         mainViewModel.call.enqueueMainTask {
             delay(1000)
-            binding.conLoading.visibility=View.GONE
+            binding.conLoading.visibility = View.GONE
         }
     }
 }

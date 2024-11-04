@@ -12,6 +12,7 @@ import com.android.platform.LevelsRequest
 import com.android.platform.PodcastCategoryReply
 import com.android.platform.PodcastCategoryRequest
 import com.android.platform.di.factory.CallQueueManager
+import com.android.platform.di.factory.SingleLiveEvent
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -25,9 +26,10 @@ class LevelViewModel @Inject constructor(
 
 
     var levelsReply: LevelsReply? = null
-
     private val _event = MutableLiveData<String>()
     val event: LiveData<String> get() = _event
+    private val _selectedLevelId = SingleLiveEvent<Int>()
+    val selectedLevelId: LiveData<Int> get() = _selectedLevelId
 
     init {
         _event.value = "Loading"
@@ -36,6 +38,10 @@ class LevelViewModel @Inject constructor(
         }
     }
 
+
+    fun onLevelClicked(levelId: Int) {
+        _selectedLevelId.value = levelId
+    }
 
     private fun getLevels() {
         val request = LevelsRequest.newBuilder()

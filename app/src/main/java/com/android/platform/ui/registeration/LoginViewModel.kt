@@ -40,7 +40,7 @@ class LoginViewModel @Inject constructor() : ViewModel() {
 
     }
     fun isRegistered():Boolean{
-        return preferences.getString("TOKEN")!=null
+        return preferences.getString("TOKEN")!=""
     }
 
 

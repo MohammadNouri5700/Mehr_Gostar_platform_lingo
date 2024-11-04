@@ -9,7 +9,7 @@ import com.android.platform.repository.data.model.NotificationSettingEntity
 import com.android.platform.repository.data.model.SettingEntity
 import com.android.platform.repository.data.model.UserLogEntity
 
-@Database(entities = [UserLogEntity::class,ImageEntity::class,ExerciseLogEntity::class,NotificationSettingEntity::class,SettingEntity::class], version = 1, exportSchema = false)
+@Database(entities = [UserLogEntity::class,ImageEntity::class,ExerciseLogEntity::class,NotificationSettingEntity::class,SettingEntity::class], version = 5, exportSchema = false)
 @TypeConverters(Converters::class)
 abstract class AppDatabase : RoomDatabase() {
     abstract fun userLogDao(): UserLogDao

@@ -27,6 +27,8 @@ import com.android.platform.ui.main.MainViewModel
 import com.android.platform.utils.extension.getAndroidId
 import com.android.platform.utils.extension.isValidPhoneNumber
 import com.android.platform.utils.extension.showToast
+import com.google.firebase.crashlytics.ktx.crashlytics
+import com.google.firebase.ktx.Firebase
 import dagger.android.support.DaggerAppCompatActivity
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -48,8 +50,10 @@ class Login : DaggerAppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         (applicationContext as PlatformApplication).appComponent.inject(this)
-
         if (viewModel.isRegistered()){
+            viewModel.call.enqueueIoTask {
+                viewModel.preferences.getString("PHONE","NULL")?.let { Firebase.crashlytics.setUserId(it) }
+            }
             startActivity(Intent(this,MainActivity::class.java))
             finish()
         }

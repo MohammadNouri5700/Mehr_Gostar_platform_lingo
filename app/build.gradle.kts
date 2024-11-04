@@ -31,8 +31,8 @@ android {
         applicationId = "com.android.platform.germany"
         minSdk = 26
         targetSdk = 34
-        versionCode = 3
-        versionName = "1.0.3"
+        versionCode = 7
+        versionName = "1.0.8"
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
 
     }
@@ -157,6 +157,8 @@ dependencies {
 
     implementation ("com.github.bumptech.glide:glide:4.16.0")
 
+
+    implementation ("com.google.android.exoplayer:exoplayer:2.18.1")
 
 }
 protobuf {

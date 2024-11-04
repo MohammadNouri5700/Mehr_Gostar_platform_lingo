@@ -1,26 +1,23 @@
 package com.android.platform.ui.level
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.app.ActivityOptionsCompat
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.android.platform.PlatformApplication
 import com.android.platform.R
 import com.android.platform.databinding.FragmentLevelBinding
-import com.android.platform.ui.level.levels.Level
+import com.android.platform.ui.course.list.CourseList
 import com.android.platform.ui.level.levels.LevelAdapter
 import com.android.platform.ui.level.task.Task
 import com.android.platform.ui.level.task.TaskAdapter
-import com.android.platform.utils.ui.CircleProgressBar
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 
@@ -65,9 +62,17 @@ class LevelFragment : Fragment() {
 
         binding.recLevel.layoutManager =
             LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
-//        val imageListc = listOf<Level>(Level(1,"dvd",37),Level(1,"dvd",24),Level(1,"dvd",6)) // Replace with your images
 
 
+        viewModel.selectedLevelId.observe(viewLifecycleOwner) { levelId ->
+            levelId?.let {
+                val intent = Intent(activity, CourseList::class.java)
+                intent.putExtra("LEVEL_ID", it)
+                intent.putExtra("LEVEL_NAME", viewModel.levelsReply?.levelsList?.find { item-> item.levelId==it }?.title)
+                startActivity(intent)
+//                activity?.overridePendingTransition(0, android.R.anim.fade_out);
+            }
+        }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -78,7 +83,13 @@ class LevelFragment : Fragment() {
                 "LevelsUpdated" -> {
                     viewModel.call.enqueueMainTask {
                         levelAdapter =
-                            viewModel.levelsReply?.let { LevelAdapter(it, requireContext()) }!!
+                            viewModel.levelsReply?.let {
+                                LevelAdapter(
+                                    it,
+                                    requireContext(),
+                                    viewModel
+                                )
+                            }!!
                         binding.recLevel.adapter = levelAdapter
                     }
                 }

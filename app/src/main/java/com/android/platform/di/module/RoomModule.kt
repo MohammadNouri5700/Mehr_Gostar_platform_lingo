@@ -24,7 +24,7 @@ class RoomModule {
             context.applicationContext,
             AppDatabase::class.java,
             "lingoDB"
-        ).build()
+        ).fallbackToDestructiveMigration().build()
     }
 
     @Singleton

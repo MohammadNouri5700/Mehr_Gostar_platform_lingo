@@ -7,5 +7,28 @@ option java_outer_classname = "LessonProto";
 package lesson;
 
 service Lesson {
+  rpc GetLesson (LessonRequest) returns (LessonReply);
+}
 
+message LessonRequest{
+  int32 lessonId = 1;
+}
+
+message LessonReply{
+  int32 id = 1;
+  string title = 2;
+  string description = 3;
+  string video = 4;
+  ContentModel Vocabulary = 5;
+  ContentModel Speaking = 6;
+  ContentModel Grammer = 7;
+}
+
+//Vocab, Speaking, Grammar
+message ContentModel{
+  int32 id = 1;
+  string title = 2;
+  string context = 3;
+  string description = 4;
+  string video = 5;
 }

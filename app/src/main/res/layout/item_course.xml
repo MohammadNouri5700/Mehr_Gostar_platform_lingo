@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout
-    android:background="@drawable/cube_item"
+    android:background="@drawable/courselist_item_background"
     android:layout_margin="@dimen/_5sdp"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -13,10 +13,8 @@
         android:layout_width="@dimen/_40sdp"
         android:layout_height="@dimen/_40sdp"
         android:layout_marginStart="@dimen/_12sdp"
-        android:background="@drawable/cube_item"
-        android:backgroundTint="#F2F2F3"
+        android:background="@drawable/booki_in_cube"
         android:padding="@dimen/_8sdp"
-        android:src="@drawable/star"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -32,7 +30,7 @@
 
 
     <RelativeLayout
-        android:layout_width="@dimen/_100sdp"
+        android:layout_width="@dimen/_150sdp"
         android:layout_height="@dimen/_15sdp"
         app:layout_constraintBottom_toBottomOf="@+id/imageView"
         app:layout_constraintStart_toStartOf="@+id/lblName"
@@ -47,19 +45,77 @@
 
         <com.android.platform.utils.font.QuicksandSemiBold
             android:layout_toEndOf="@+id/imageView3"
+            android:id="@+id/lblhour"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:visibility="visible"
+            android:layout_marginStart="@dimen/_2sdp"
+            android:text="1"
+            android:textSize="@dimen/_9sdp" />
+
+        <com.android.platform.utils.font.QuicksandRegular
+            android:id="@+id/lblhourtxt"
+            android:layout_width="wrap_content"
+            android:layout_toEndOf="@+id/lblhour"
+            android:layout_height="match_parent"
+            android:text="@string/h"
+            android:textSize="@dimen/_9sdp" />
+
+        <com.android.platform.utils.font.QuicksandSemiBold
+            android:layout_toEndOf="@+id/lblhourtxt"
             android:id="@+id/lblMins"
             android:layout_width="wrap_content"
+            android:layout_marginStart="@dimen/_2sdp"
             android:layout_height="match_parent"
             android:visibility="visible"
             android:text="30 "
             android:textSize="@dimen/_9sdp" />
 
         <com.android.platform.utils.font.QuicksandRegular
+            android:id="@+id/lblmintxt"
             android:layout_width="wrap_content"
             android:layout_toEndOf="@+id/lblMins"
             android:layout_height="match_parent"
             android:text="@string/min"
             android:textSize="@dimen/_9sdp" />
+
+        <View
+            android:id="@+id/split"
+            android:layout_toEndOf="@+id/lblmintxt"
+            android:layout_width="@dimen/_1sdp"
+            android:background="@color/gray"
+            android:layout_marginTop="@dimen/_3sdp"
+            android:layout_marginBottom="@dimen/_3sdp"
+            android:layout_marginStart="@dimen/_5sdp"
+            android:layout_height="match_parent"/>
+
+        <ImageView
+            android:id="@+id/imgbookshow"
+            android:layout_marginStart="@dimen/_8sdp"
+            android:layout_toEndOf="@+id/split"
+            android:layout_width="@dimen/_10sdp"
+            android:src="@drawable/book_open_course_list"
+            android:layout_height="match_parent"/>
+
+        <com.android.platform.utils.font.QuicksandSemiBold
+            android:layout_toEndOf="@+id/imgbookshow"
+            android:id="@+id/lbllesson"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:visibility="visible"
+            android:layout_marginStart="@dimen/_2sdp"
+            android:text="1"
+            android:textSize="@dimen/_9sdp" />
+
+        <com.android.platform.utils.font.QuicksandRegular
+            android:layout_width="wrap_content"
+            android:layout_toEndOf="@+id/lbllesson"
+            android:layout_height="match_parent"
+            android:text="@string/lesson"
+            android:layout_marginStart="@dimen/_2sdp"
+            android:textSize="@dimen/_9sdp" />
+
+
     </RelativeLayout>
 
 

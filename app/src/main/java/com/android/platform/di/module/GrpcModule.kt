@@ -6,6 +6,7 @@ package com.android.platform.di.module
 
 
 import com.android.platform.HomeGrpc
+import com.android.platform.LessonGrpc
 import com.android.platform.LevelGrpc
 import com.android.platform.PlatformApplication
 import com.android.platform.UserGrpcServiceGrpc
@@ -55,7 +56,11 @@ class GrpcModule {
     fun provideLevelGrpc(channel: ManagedChannel): LevelGrpc.LevelStub {
         return LevelGrpc.newStub(channel)
     }
-
+    @Provides
+    @Singleton
+    fun provideLessonGrpc(channel: ManagedChannel): LessonGrpc.LessonStub {
+        return LessonGrpc.newStub(channel)
+    }
 
 
 }
