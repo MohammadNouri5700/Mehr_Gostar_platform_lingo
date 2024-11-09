@@ -13,6 +13,7 @@ import com.android.platform.di.module.RoomModule
 import com.android.platform.di.module.SharedPreferencesModule
 import com.android.platform.di.module.UIModule
 import com.android.platform.di.module.ViewModelModule
+import com.android.platform.ui.course.course.CourseActivity
 import com.android.platform.ui.course.list.CourseList
 import com.android.platform.ui.home.HomeFragment
 import com.android.platform.ui.level.LevelFragment
@@ -49,6 +50,7 @@ interface AppComponent {
     fun inject(activity: MainActivity)
     fun inject(activity: Login)
     fun inject(activity: CourseList)
+    fun inject(courseActivity: CourseActivity)
 
 //    Fragment's
     fun inject(homeFragment: HomeFragment)

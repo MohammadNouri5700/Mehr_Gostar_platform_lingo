@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    android:background="@drawable/courselist_item_background"
+    android:layout_margin="@dimen/_5sdp"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:padding="@dimen/_12sdp"
+    android:orientation="vertical"
+    android:layout_height="@dimen/_80sdp">
+
+    <ImageView
+        android:id="@+id/imgExercise"
+        android:src="@drawable/order_exercise"
+        android:padding="@dimen/_4sdp"
+        android:layout_width="@dimen/_30sdp"
+        android:layout_height="@dimen/_30sdp"/>
+
+
+    <com.android.platform.utils.font.QuicksandBold
+        android:id="@+id/lblTitle"
+        android:layout_width="wrap_content"
+        android:text="Order Exercise"
+        android:gravity="bottom"
+        android:textSize="@dimen/_15sdp"
+        android:layout_gravity="bottom"
+        android:layout_height="match_parent"/>
+
+
+</LinearLayout>

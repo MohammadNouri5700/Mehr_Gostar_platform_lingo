@@ -9,6 +9,7 @@ package profile;
 service Profile {
 	rpc GetProfile (ProfileRequest) returns (ProfileReply);
 	rpc UpdateProfile (UpdateProfileRequest) returns (UpdateProfileReply);
+	rpc UpdateImage (UpdateImageProfileRequest) returns (UpdateImageProfileReply);
 }
 
 message ProfileRequest{}
@@ -29,3 +30,10 @@ message UpdateProfileRequest{
 }
 
 message UpdateProfileReply{}
+
+message UpdateImageProfileRequest{
+	bytes imageData = 1;
+	string fileName = 2;
+}
+
+message UpdateImageProfileReply{}

@@ -87,7 +87,7 @@ class MainActivity : DaggerAppCompatActivity() {
                 "Loading" -> {
                     val packageInfo = this.packageManager.getPackageInfo(packageName, 0)
                     val versionName = packageInfo.versionName
-                    binding.txtVersion.text = "  ورژن شماره  : $versionName"
+                    binding.txtVersion.text = "${resources.getText(R.string.version)} : $versionName"
                     mainViewModel.viewGetToken(this)
                 }
 

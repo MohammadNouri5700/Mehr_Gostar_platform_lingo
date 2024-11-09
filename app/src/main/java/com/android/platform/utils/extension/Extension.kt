@@ -11,15 +11,18 @@ import android.util.Log
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
+import androidx.lifecycle.ViewModel
 import com.android.platform.repository.data.database.ImageDao
 import com.android.platform.repository.data.model.ImageEntity
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.target.CustomTarget
 import com.bumptech.glide.request.transition.Transition
 import com.google.firebase.analytics.FirebaseAnalytics
+import com.google.firebase.messaging.FirebaseMessaging
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.tasks.await
 import kotlinx.coroutines.withContext
 import java.io.ByteArrayOutputStream
 import java.security.AccessController.getContext
@@ -50,6 +53,13 @@ suspend fun String.loadImageFromDatabase(imageDao: ImageDao): Bitmap? {
     return imageEntity?.let { byteArrayToBitmap(it.imageData) }
 }
 
+suspend fun ViewModel.getFCMToken(): String = withContext(Dispatchers.IO) {
+    try {
+        FirebaseMessaging.getInstance().token.await()
+    } catch (e: Exception) {
+        "FCM registration token failed $e"
+    }
+}
 fun bitmapToByteArray(bitmap: Bitmap): ByteArray {
     val stream = ByteArrayOutputStream()
     bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream)

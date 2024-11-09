@@ -1,0 +1,45 @@
+syntax = "proto3";
+
+option java_multiple_files = true;
+option java_package = "com.android.platform";
+option java_outer_classname = "CommentProto";
+
+package comment;
+
+service Comment {
+	rpc GetComments (CommentsRequest) returns (CommentsReply);
+	rpc SaveComment (SaveCommentRequest) returns (SaveCommentReply);
+}
+
+message SaveCommentReply{}
+
+message SaveCommentRequest{
+	string message = 1;
+	int32 replyToCommentId = 2;
+	int32 creator = 3;
+	int32 generalContentId = 4;
+}
+
+message CommentsRequest{
+	int32 contentId = 1;
+}
+
+message CommentsReply{
+	repeated CommentModel comments = 1;
+}
+
+message CommentModel{
+	int32 id = 1;
+	string content = 2;
+	string creationTimestamp = 3;
+	int32 replyToCommentId = 4;
+	repeated CommentModel Replies = 5;
+	User creator = 6;
+	int32 generalContentId = 7;
+}
+
+message User{
+	int32  id = 1;
+	string firstName = 2;
+	string lastName = 3;
+}

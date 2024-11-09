@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.android.platform.di.factory.ViewModelFactory
 import com.android.platform.di.scop.ViewModelKey
+import com.android.platform.ui.course.course.CourseActivityViewModel
 import com.android.platform.ui.course.list.CourseListViewModel
 import com.android.platform.ui.home.HomeViewModel
 import com.android.platform.ui.level.LevelViewModel
@@ -64,6 +65,11 @@ abstract class ViewModelModule {
     @IntoMap
     @ViewModelKey(CourseListViewModel::class)
     abstract fun bindCourseListViewModel(viewModel: CourseListViewModel): ViewModel
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(CourseActivityViewModel::class)
+    abstract fun bindCourseActivityViewModel(viewModel: CourseActivityViewModel): ViewModel
 
 
     @Binds

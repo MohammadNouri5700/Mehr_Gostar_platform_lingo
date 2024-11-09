@@ -40,4 +40,11 @@
     <string name="h">h</string>
     <string name="lesson">Lesson</string>
     <string name="courseoverview">Course Overview</string>
+    <string name="version">Version</string>
+    <string name="vocabulary">Vocabulary</string>
+    <string name="speaking">Speaking</string>
+    <string name="listening">Listening</string>
+    <string name="grammar">Grammar</string>
+    <string name="combinationexercise">Combination Exercises</string>
+    <string name="practices">Practices</string>
 </resources>

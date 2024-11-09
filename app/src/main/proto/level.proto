@@ -30,12 +30,13 @@ message LessonsRequest{
 }
 message LessonsReply{
 	string levelTitle = 1;
-	string levelImage = 2;
-	string levelVideo = 3;
-	repeated LessonModel lessons = 4;
+	string levelVideo = 2;
+	repeated LessonModel lessons = 3;
 }
 
 message LessonModel{
 	int32 lessonId = 1;
 	string title = 2;
+	string duration = 3;
+	int32 exerciseCount = 4;
 }

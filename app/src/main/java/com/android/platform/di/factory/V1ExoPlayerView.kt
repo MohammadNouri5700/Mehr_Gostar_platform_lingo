@@ -2,9 +2,11 @@ package com.android.platform.di.factory
 
 
 import android.app.Activity
+import android.app.Dialog
 import android.content.Context
 import android.content.pm.ActivityInfo
 import android.util.AttributeSet
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,9 +14,11 @@ import android.view.WindowInsets
 import android.view.WindowInsetsController
 import android.widget.ImageButton
 import android.widget.TextView
+import androidx.appcompat.app.AppCompatActivity
 import androidx.cardview.widget.CardView
 import com.android.platform.R
 import com.google.android.exoplayer2.ExoPlayer
+import com.google.android.exoplayer2.MediaItem
 import com.google.android.exoplayer2.Player
 import com.google.android.exoplayer2.ui.DefaultTimeBar
 import com.google.android.exoplayer2.ui.PlayerView
@@ -27,11 +31,16 @@ class V1ExoPlayerView @JvmOverloads constructor(
     defStyleAttr: Int = 0
 ) : CardView(context, attrs, defStyleAttr) {
 
-    private var isFullscreen = false
+
+    override fun onDetachedFromWindow() {
+        super.onDetachedFromWindow()
+        Log.e("APP","onDetachedFromWindow")
+        player.release()
+    }
     private val playerView: PlayerView
     private var playPauseButton: ImageButton
     private val fullscreenButton: ImageButton
-
+    private lateinit var player: ExoPlayer
     //    private var rewindButton: ImageButton
 //    private var forwardButton: ImageButton
     private var progressBar: DefaultTimeBar
@@ -58,6 +67,9 @@ class V1ExoPlayerView @JvmOverloads constructor(
         setupProgressBar()
         setupControls()
         setupFullscreenButton()
+        player = ExoPlayer.Builder(context).build()
+        setPlayer(player)
+//        player.prepare()
     }
 
     private fun setupFullscreenButton() {
@@ -67,34 +79,19 @@ class V1ExoPlayerView @JvmOverloads constructor(
     }
 
     private fun toggleFullscreen() {
-        if (isFullscreen) {
-            exitFullscreen()
-        } else {
             enterFullscreen()
-        }
-        isFullscreen = !isFullscreen
     }
 
     private fun enterFullscreen() {
-
-//        fullscreenDialog.show()
+        val activity = context as? AppCompatActivity ?: return
+        val videoUri = player.currentMediaItem?.localConfiguration?.uri ?: return
+        val fullscreenDialog = FullscreenVideoDialogFragment.newInstance(videoUri,player.currentPosition)
+        fullscreenDialog.show(activity.supportFragmentManager, "FullscreenVideoDialog")
+        player.pause()
     }
 
     private fun exitFullscreen() {
-        fullscreenButton.setImageResource(R.drawable.play_green)
 
-        val window = (context as Activity).window
-        window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_VISIBLE
-
-
-        (context as Activity).requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
-
-        layoutParams.height = ViewGroup.LayoutParams.WRAP_CONTENT
-        layoutParams.width = ViewGroup.LayoutParams.MATCH_PARENT
-        radius = initialRadius
-        layoutParams.height = ViewGroup.LayoutParams.WRAP_CONTENT
-        layoutParams.width = ViewGroup.LayoutParams.MATCH_PARENT
-        requestLayout()
     }
 
     private fun setupProgressBar() {
@@ -163,8 +160,11 @@ class V1ExoPlayerView @JvmOverloads constructor(
         return String.format("%02d:%02d", minutes, seconds)
     }
 
+    fun setSource(value:String){
+        player.setMediaItem(MediaItem.fromUri(value))
+    }
 
-    fun setPlayer(exoPlayer: ExoPlayer) {
+    private fun setPlayer(exoPlayer: ExoPlayer) {
         playerView.player = exoPlayer
 
 
@@ -200,6 +200,7 @@ class V1ExoPlayerView @JvmOverloads constructor(
             }
         })
     }
+
 
     private fun stopProgressUpdater() {
         handler?.removeCallbacksAndMessages(null)

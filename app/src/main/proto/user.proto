@@ -7,17 +7,7 @@ option java_outer_classname = "UserProto";
 package user;
 
 service UserGrpcService {
-	rpc Login (LoginRequest) returns (LoginReply);
 	rpc Register (RegisterRequest) returns (RegisterReply);
-}
-
-message LoginRequest{
-	string phoneNumber = 1;
-	string macAddress = 2;
-}
-
-message LoginReply {
-	string token = 1;
 }
 
 message RegisterRequest{
@@ -29,3 +19,4 @@ message RegisterRequest{
 message RegisterReply {
 	string token = 1;
 }
+

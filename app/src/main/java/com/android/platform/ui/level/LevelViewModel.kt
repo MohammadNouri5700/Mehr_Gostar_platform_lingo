@@ -59,7 +59,6 @@ class LevelViewModel @Inject constructor(
             }
 
             override fun onCompleted() {
-                Log.e("APP", "onCompleted getLevels")
             }
         })
     }

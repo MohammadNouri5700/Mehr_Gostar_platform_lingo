@@ -6,11 +6,18 @@
     android:orientation="horizontal"
     android:background="#000000">
 
+
+
     <com.google.android.exoplayer2.ui.PlayerView
         android:id="@+id/player_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="#000000"
         app:use_controller="true" />
-
+    <ImageButton
+        android:id="@+id/closeimg"
+        android:background="@drawable/incorrect"
+        android:src="@drawable/incorrect"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
 </FrameLayout>

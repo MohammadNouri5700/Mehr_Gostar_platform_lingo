@@ -10,6 +10,7 @@ import com.android.platform.UserGrpcServiceGrpc
 import com.android.platform.di.factory.CallQueueManager
 import com.android.platform.di.factory.LoadingDialog
 import com.android.platform.di.factory.Preferences
+import com.android.platform.utils.extension.getFCMToken
 import com.google.firebase.messaging.FirebaseMessaging
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.tasks.await
@@ -44,18 +45,12 @@ class LoginViewModel @Inject constructor() : ViewModel() {
     }
 
 
-    private suspend fun getFCMToken(): String = withContext(Dispatchers.IO) {
-        try {
-            FirebaseMessaging.getInstance().token.await()
-        } catch (e: Exception) {
-           "FCM registration token failed $e"
-        }
-    }
+
 
     suspend fun registerUser(phone:String,deviceToken:String) {
         _event.postValue("Loading")
 
-        val fcm = getFCMToken()
+        val fcm = this@LoginViewModel.getFCMToken()
         val request = RegisterRequest.newBuilder()
             .setMacAddress(deviceToken)
             .setPhoneNumber(phone)

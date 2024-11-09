@@ -52,7 +52,6 @@ class HomeViewModel @Inject constructor(val stub: HomeGrpc.HomeStub, val call: C
             }
 
             override fun onCompleted() {
-                Log.e("APP", "onCompleted getStories")
             }
         })
     }
@@ -76,7 +75,6 @@ class HomeViewModel @Inject constructor(val stub: HomeGrpc.HomeStub, val call: C
                 }
 
                 override fun onCompleted() {
-                    Log.e("APP", "onCompleted PodcastCategoryReply")
                 }
             })
     }

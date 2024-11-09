@@ -8,13 +8,12 @@ import androidx.recyclerview.widget.RecyclerView
 import com.android.platform.LessonsReply
 import com.android.platform.R
 import com.android.platform.ui.course.list.CourseListViewModel
-import com.android.platform.ui.level.levels.LevelAdapter
 import com.android.platform.utils.ui.CircleProgressBar
 
 class CourseListAdapter(val lessonsReply: LessonsReply,val viewModel: CourseListViewModel) : RecyclerView.Adapter<CourseListAdapter.TaskViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TaskViewHolder {
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.item_course, parent, false)
+        val view = LayoutInflater.from(parent.context).inflate(R.layout.item_course_list, parent, false)
         return TaskViewHolder(view)
     }
 
