@@ -15,6 +15,17 @@ import com.android.platform.di.module.UIModule
 import com.android.platform.di.module.ViewModelModule
 import com.android.platform.ui.course.course.CourseActivity
 import com.android.platform.ui.course.list.CourseList
+import com.android.platform.ui.exercises.ExerciseActivity
+import com.android.platform.ui.exercises.ai_content.AIContentFragment
+import com.android.platform.ui.exercises.ai_context.AIContextFragment
+import com.android.platform.ui.exercises.ai_latter.AILatterFragment
+import com.android.platform.ui.exercises.ai_voice.AIVoiceFragment
+import com.android.platform.ui.exercises.context_placement.ContextPlacementFragment
+import com.android.platform.ui.exercises.detect.DetectFragment
+import com.android.platform.ui.exercises.general.GeneralFragment
+import com.android.platform.ui.exercises.listening.ListeningFragment
+import com.android.platform.ui.exercises.order.OrderFragment
+import com.android.platform.ui.exercises.placement.PlacementFragment
 import com.android.platform.ui.home.HomeFragment
 import com.android.platform.ui.level.LevelFragment
 import com.android.platform.ui.main.MainActivity
@@ -51,6 +62,7 @@ interface AppComponent {
     fun inject(activity: Login)
     fun inject(activity: CourseList)
     fun inject(courseActivity: CourseActivity)
+    fun inject(exerciseActivity: ExerciseActivity)
 
 //    Fragment's
     fun inject(homeFragment: HomeFragment)
@@ -58,5 +70,16 @@ interface AppComponent {
     fun inject(reportFragment: ReportFragment)
     fun inject(profileFragment: ProfileFragment)
     fun inject(signFragment: SignFragment)
+    // Exercise
+    fun inject(placementFragment: PlacementFragment)
+    fun inject(orderFragment: OrderFragment)
+    fun inject(listeningFragment: ListeningFragment)
+    fun inject(generalFragment: GeneralFragment)
+    fun inject(detectFragment: DetectFragment)
+    fun inject(contextPlacementFragment: ContextPlacementFragment)
+    fun inject(aiVoiceFragment: AIVoiceFragment)
+    fun inject(aiLatterFragment: AILatterFragment)
+    fun inject(aiContextFragment: AIContextFragment)
+    fun inject(aiContentFragment: AIContentFragment)
 
 }
