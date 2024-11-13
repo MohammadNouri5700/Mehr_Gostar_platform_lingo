@@ -38,7 +38,7 @@
     <string name="enterverificationcode">Enter Verification Code</string>
     <string name="course_list">Course List</string>
     <string name="h">h</string>
-    <string name="lesson">Lesson</string>
+    <string name="lessons">Lessons</string>
     <string name="courseoverview">Course Overview</string>
     <string name="version">Version</string>
     <string name="vocabulary">Vocabulary</string>
@@ -47,4 +47,7 @@
     <string name="grammar">Grammar</string>
     <string name="combinationexercise">Combination Exercises</string>
     <string name="practices">Practices</string>
+    <string name="finalexam">Final Exam</string>
+    <string name="confirm">Confirm</string>
+    <string name="placeeverywordincorrectgroup">Place every word in correct group.</string>
 </resources>

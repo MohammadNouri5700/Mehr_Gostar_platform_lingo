@@ -27,8 +27,12 @@ class SelectCourseItemAdapter(
     }
 
     override fun onBindViewHolder(holder: TaskViewHolder, position: Int) {
-        holder.lblTitle.text = exerciseModels.get(position).exerciseType.name
+        val item:ExerciseModel = exerciseModels[position]
+        holder.lblTitle.text = item.exerciseType.name
 
+        holder.itemView.setOnClickListener{
+            viewModel.loadExercise(item.id)
+        }
     }
 
     override fun getItemCount(): Int = exerciseModels.size

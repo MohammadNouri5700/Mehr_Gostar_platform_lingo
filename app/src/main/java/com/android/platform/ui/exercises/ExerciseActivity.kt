@@ -1,5 +1,6 @@
 package com.android.platform.ui.exercises
 
+
 import android.os.Build
 import android.os.Bundle
 import android.view.View
@@ -8,20 +9,22 @@ import android.view.WindowInsetsController
 import android.view.WindowManager
 import androidx.activity.viewModels
 import androidx.databinding.DataBindingUtil
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import androidx.recyclerview.widget.LinearLayoutManager
+import com.android.platform.ExerciseModel
+import com.android.platform.LessonReply
 import com.android.platform.PlatformApplication
 import com.android.platform.R
-import com.android.platform.databinding.ActivityCourseBinding
 import com.android.platform.databinding.ActivityExerciseBinding
-import com.android.platform.di.factory.LoadingDialog
-import com.android.platform.ui.course.course.adapter.CourseAdapter
-import com.android.platform.ui.course.course.ui.SelectCourseItemDialog
+import com.android.platform.ui.exercises.order.OrderFragment
+import com.android.platform.ui.exercises.order.adapter.OrderListAdapter
 import dagger.android.support.DaggerAppCompatActivity
 import javax.inject.Inject
 
+
 class ExerciseActivity : DaggerAppCompatActivity() {
+
 
 
     @Inject
@@ -62,11 +65,45 @@ class ExerciseActivity : DaggerAppCompatActivity() {
             decorView.systemUiVisibility = uiOptions
         }
 
-//        loadingDialog.changeContext(this)
-//        loadingDialog.show()
+
+        lessonReply = LessonReply.parseFrom(intent.getByteArrayExtra("ITEM"));
+        exerciseId = intent.getIntExtra("EXERCISE_ID", -1)
+
+        val exercise: ExerciseModel = lessonReply.contentsList
+            .flatMap { it.exercisesList }
+            .find { it.id == exerciseId }!!
+
+        binding.lblTitle.text = exercise.exerciseType.name
+
+        when (exercise.exerciseType.name) {
+            "Order" -> {
+                showFragment(OrderFragment(exercise))
+            }
+        }
+
+
+
+
+        viewModel.event.observe(this, Observer { data ->
+            when (data) {
+                "ConfirmExercise" -> {
+                    finish()
+                }
+                "Close"->{finish()}
+            }
+        })
 
     }
 
+    private fun showFragment(value: Fragment) {
+        supportFragmentManager.beginTransaction()
+            .replace(binding.fragmentContainer.id, value)
+            .commit()
+    }
+
+    override fun onResume() {
+        super.onResume()
+    }
 
 
 }

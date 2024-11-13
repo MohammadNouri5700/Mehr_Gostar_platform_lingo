@@ -1,5 +1,5 @@
 [versions]
-agp = "8.6.1"
+agp = "8.5.0"
 annotation = "1.8.2"
 firebaseBom = "33.2.0"
 firebaseMessagingDirectboot = "24.0.1"

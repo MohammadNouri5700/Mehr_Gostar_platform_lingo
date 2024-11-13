@@ -1,19 +1,11 @@
 package com.android.platform.di.factory
 
 
-import android.app.Activity
-import android.app.Dialog
 import android.content.Context
-import android.content.pm.ActivityInfo
 import android.util.AttributeSet
 import android.util.Log
 import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
-import android.view.WindowInsets
-import android.view.WindowInsetsController
 import android.widget.ImageButton
-import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.cardview.widget.CardView
 import com.android.platform.R
@@ -69,7 +61,7 @@ class V1ExoPlayerView @JvmOverloads constructor(
         setupFullscreenButton()
         player = ExoPlayer.Builder(context).build()
         setPlayer(player)
-//        player.prepare()
+        player.prepare()
     }
 
     private fun setupFullscreenButton() {
@@ -87,12 +79,9 @@ class V1ExoPlayerView @JvmOverloads constructor(
         val videoUri = player.currentMediaItem?.localConfiguration?.uri ?: return
         val fullscreenDialog = FullscreenVideoDialogFragment.newInstance(videoUri,player.currentPosition)
         fullscreenDialog.show(activity.supportFragmentManager, "FullscreenVideoDialog")
-        player.pause()
+        playerPause()
     }
 
-    private fun exitFullscreen() {
-
-    }
 
     private fun setupProgressBar() {
         progressBar.addListener(object : TimeBar.OnScrubListener {
@@ -114,6 +103,33 @@ class V1ExoPlayerView @JvmOverloads constructor(
         })
     }
 
+    private fun playerPause(){
+        if (player.isPlaying) {
+            player.pause()
+            playPauseButton.apply {
+                setImageResource(R.drawable.play_green)
+                background = null
+                imageTintList = null
+            }
+        }
+    }
+    private fun togglePlay(){
+        if (player.isPlaying) {
+            player.pause()
+            playPauseButton.apply {
+                setImageResource(R.drawable.play_green)
+                background = null
+                imageTintList = null
+            }
+        } else {
+            player.play()
+            playPauseButton.apply {
+                setImageResource(R.drawable.pause)
+                background = null
+                imageTintList = null
+            }
+        }
+    }
     private fun setupControls() {
         playPauseButton.setOnClickListener {
             val player = playerView.player ?: return@setOnClickListener
@@ -127,7 +143,7 @@ class V1ExoPlayerView @JvmOverloads constructor(
             } else {
                 player.play()
                 playPauseButton.apply {
-                    setImageResource(R.drawable.play_green)
+                    setImageResource(R.drawable.pause)
                     background = null
                     imageTintList = null
                 }

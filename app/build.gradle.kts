@@ -160,6 +160,8 @@ dependencies {
 
     implementation ("com.google.android.exoplayer:exoplayer:2.18.1")
 
+    implementation ("com.google.android.flexbox:flexbox:3.0.0")
+
 }
 protobuf {
     protoc {

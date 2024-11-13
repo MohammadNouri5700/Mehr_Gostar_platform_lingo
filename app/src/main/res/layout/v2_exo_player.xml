@@ -29,10 +29,10 @@
             app:layout_constraintEnd_toStartOf="@+id/fullscreen_button"
             app:layout_constraintStart_toEndOf="@+id/play_pause_button"
             app:layout_constraintTop_toTopOf="@+id/play_pause_button"
-            app:played_color="@color/blue"
-            app:scrubber_color="#f35"
+            app:played_color="#06433E"
+            app:scrubber_color="#032321"
             app:scrubber_disabled_size="0dp"
-            app:scrubber_dragged_size="@dimen/_15sdp"
+            app:scrubber_dragged_size="@dimen/_10sdp"
             app:scrubber_enabled_size="@dimen/_10sdp"
             app:unplayed_color="#EAEAE0" />
 
@@ -54,12 +54,14 @@
             android:layout_width="@dimen/_20sdp"
             android:layout_height="@dimen/_20sdp"
             android:layout_marginEnd="8dp"
-            android:background="@android:color/transparent"
+            android:background="@drawable/round_60"
+            android:backgroundTint="#06433E"
             android:contentDescription="Fullscreen"
-            android:src="@drawable/play_green"
+            android:src="@drawable/fullscreen"
             android:scaleType="fitXY"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent" />
+            app:layout_constraintEnd_toEndOf="parent"
+            app:tint="@color/white" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

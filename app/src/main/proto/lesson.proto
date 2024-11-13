@@ -21,13 +21,16 @@ message LessonReply{
   string title = 2;
   string description = 3;
   string video = 4;
-  ContentModel vocabulary = 5;
-  ContentModel speaking = 6;
-  ContentModel grammer = 7;
-  repeated ExerciseModel exercises = 8;
+  string duration = 5;
+  repeated ContentResult contents = 6;
 }
 
-//Vocab, Speaking, Grammer
+message ContentResult{
+  repeated ContentModel contents = 1;
+  repeated ExerciseModel exercises = 2;
+  ContentType contentType = 3;
+}
+
 message ContentModel{
   int32 id = 1;
   string title = 2;
@@ -36,19 +39,19 @@ message ContentModel{
   string video = 5;
 }
 
+message ExerciseModel {
+  int32 id = 1;
+  ExerciseType exerciseType = 2;
+  ContentType contentType = 3;
+  string content = 4;
+}
+
 message ExerciseRequest {
   int32 id = 1;
 }
 
 message ExercisesReply {
   repeated ExerciseModel exercises = 1;
-}
-
-message ExerciseModel {
-  int32 id = 1;
-  ExerciseType exerciseType = 2;
-  ContentType contentType = 3;
-  string content = 4;
 }
 
 message ExercisesRequest{
@@ -60,27 +63,27 @@ message ExercisesRequest{
 
 enum ExerciseType
 {
-  my=0;
+  None = 0;
   Placement = 1;
   Detect = 2;
-  CP = 3;
+  ContextPlacement = 3;
   Order = 4;
   TrueFalse = 5;
-  Multiple = 6;
-  DragDrop = 7;
-  TextAi = 8;
-  VoiceAi = 9;
-  ContentAi = 10;
-  LetterAi = 11;
+  MultipleChoice = 6;
+  AiContext = 7;
+  AiVoice = 8;
+  AiContent = 9;
+  AiLetter = 10;
 }
 
 enum ContentType
 {
-  Speaking = 0;
-  Vocab = 1;
-  Listening = 2;
-  Grammer = 3;
-  Ai = 4;
-  Combination = 5;
+  NoneType = 0;
+  Vocabulary = 1;
+  Speaking = 2;
+  Listening = 3;
+  Grammar = 4;
+  CombinationExercise = 5;
   FinalExam = 6;
 }
+

@@ -102,6 +102,7 @@ class CourseList : DaggerAppCompatActivity() {
                 intent.putExtra("LESSON_ID", it)
                 intent.putExtra("LESSON_NAME",  viewModel.lessonsReply?.lessonsList?.find { item-> item.lessonId==it }?.title)
                 intent.putExtra("LESSON_DURATION",  viewModel.lessonsReply?.lessonsList?.find { item-> item.lessonId==it }?.duration)
+                intent.putExtra("LESSON_PRACTICES",  viewModel.lessonsReply?.lessonsList?.find { item-> item.lessonId==it }?.exerciseCount)
                 startActivity(intent)
             }
         }

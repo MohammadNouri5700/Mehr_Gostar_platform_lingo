@@ -27,6 +27,10 @@ class CourseActivityViewModel @Inject constructor(): ViewModel() {
 
     private val _selectedLessonId = SingleLiveEvent<Int>()
     val selectedLessonId: LiveData<Int> get() = _selectedLessonId
+
+    private val _selectedExerciseId = SingleLiveEvent<Int>()
+    val selectedExerciseId: LiveData<Int> get() = _selectedExerciseId
+
     private val _event = MutableLiveData<String>().apply {
         value = "Loading"
     }
@@ -69,5 +73,8 @@ class CourseActivityViewModel @Inject constructor(): ViewModel() {
 
     fun loadItem(value: Int){
         _selectedLessonId.value = value
+    }
+    fun loadExercise(value: Int){
+        _selectedExerciseId.value = value
     }
 }

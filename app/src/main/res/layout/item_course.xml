@@ -39,12 +39,12 @@
             android:layout_width="@dimen/_10sdp"
             android:scaleType="fitCenter"
             android:layout_height="match_parent"
-            android:src="@drawable/clock" />
+            android:src="@drawable/book_open_course_list" />
 
 
         <com.android.platform.utils.font.QuicksandSemiBold
             android:layout_toEndOf="@+id/imgClockCourse"
-            android:id="@+id/lblMins"
+            android:id="@+id/lblLessons"
             android:layout_width="wrap_content"
             android:layout_marginStart="@dimen/_2sdp"
             android:layout_height="match_parent"
@@ -55,9 +55,11 @@
         <com.android.platform.utils.font.QuicksandRegular
             android:id="@+id/lblmintxt"
             android:layout_width="wrap_content"
-            android:layout_toEndOf="@+id/lblMins"
+            android:layout_marginStart="@dimen/_2sdp"
+
+            android:layout_toEndOf="@+id/lblLessons"
             android:layout_height="match_parent"
-            android:text="@string/min"
+            android:text="@string/lessons"
             android:textSize="@dimen/_9sdp" />
 
 

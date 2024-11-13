@@ -1,5 +1,6 @@
 package com.android.platform.ui.course.course
 
+import android.content.Intent
 import android.os.Build
 import android.os.Bundle
 import android.view.View
@@ -17,8 +18,11 @@ import com.android.platform.databinding.ActivityCourseBinding
 import com.android.platform.di.factory.LoadingDialog
 import com.android.platform.ui.course.course.adapter.CourseAdapter
 import com.android.platform.ui.course.course.ui.SelectCourseItemDialog
+import com.android.platform.ui.exercises.ExerciseActivity
+import com.google.gson.Gson
 import dagger.android.support.DaggerAppCompatActivity
 import javax.inject.Inject
+
 
 class CourseActivity : DaggerAppCompatActivity() {
 
@@ -58,6 +62,7 @@ class CourseActivity : DaggerAppCompatActivity() {
         lessonId = intent.getIntExtra("LESSON_ID", -1)
         binding.lblTitle.text = intent.getStringExtra("LESSON_NAME")
         binding.lblDuration.text = intent.getStringExtra("LESSON_DURATION")
+        binding.lblPractice.text = intent.getIntExtra("LESSON_PRACTICES",0).toString()
 
         viewModel.loadLesson(lessonId)
 
@@ -81,9 +86,6 @@ class CourseActivity : DaggerAppCompatActivity() {
                                 else
                                     initCoursePlayer(it)
                             }
-                            lessonReply.exercisesCount.let {
-                                binding.lblPractice.text = it.toString()
-                            }
                         }
                         binding.recList.adapter = courseAdapter
                     }
@@ -96,24 +98,23 @@ class CourseActivity : DaggerAppCompatActivity() {
             }
         })
 
-        viewModel.selectedLessonId.observe(this) { lessonId ->
-            lessonId?.let {
+        viewModel.selectedLessonId.observe(this) { itemId ->
+            itemId?.let {
                 viewModel.lessonReply?.let { lessonReplay ->
                     viewModel.call.enqueueMainTask {
-                        val bottomSheetFragment = SelectCourseItemDialog(lessonReplay,lessonId,viewModel,this)
+                        val bottomSheetFragment = SelectCourseItemDialog(lessonReplay,itemId,viewModel,this)
                         bottomSheetFragment.show(supportFragmentManager, "SelectCourseItemDialog")
                     }
                 }
             }
-
-
-
-//                val intent = Intent(activity, CourseList::class.java)
-//                intent.putExtra("LEVEL_ID", it)
-//                intent.putExtra("LEVEL_NAME", viewModel.levelsReply?.levelsList?.find { item-> item.levelId==it }?.title)
-//                startActivity(intent)
-//                activity?.overridePendingTransition(0, android.R.anim.fade_out);
-
+        }
+        viewModel.selectedExerciseId.observe(this) { itemId ->
+            itemId?.let {
+                val intent = Intent(this, ExerciseActivity::class.java)
+                intent.putExtra("EXERCISE_ID", it)
+                intent.putExtra("ITEM",  viewModel.lessonReply?.toByteArray())
+                startActivity(intent)
+            }
         }
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {

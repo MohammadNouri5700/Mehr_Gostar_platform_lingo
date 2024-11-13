@@ -21,7 +21,7 @@
         android:layout_width="wrap_content"
         android:text="Order Exercise"
         android:gravity="bottom"
-        android:textSize="@dimen/_15sdp"
+        android:textSize="@dimen/_13sdp"
         android:layout_gravity="bottom"
         android:layout_height="match_parent"/>
 

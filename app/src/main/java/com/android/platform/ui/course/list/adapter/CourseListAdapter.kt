@@ -18,11 +18,12 @@ class CourseListAdapter(val lessonsReply: LessonsReply,val viewModel: CourseList
     }
 
     override fun onBindViewHolder(holder: TaskViewHolder, position: Int) {
-        val level = lessonsReply.getLessons(position)
-        holder.name.text = level.title
-
+        val lesson = lessonsReply.getLessons(position)
+        holder.name.text = lesson.title
+        holder.lessonCount.text = lesson.exerciseCount.toString()
+        holder.hour.text = (lesson.duration)
         holder.itemView.setOnClickListener{
-            viewModel.openCourse(level.lessonId)
+            viewModel.openCourse(lesson.lessonId)
         }
     }
 

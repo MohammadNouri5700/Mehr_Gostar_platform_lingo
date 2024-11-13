@@ -50,12 +50,12 @@
             android:layout_height="match_parent"
             android:visibility="visible"
             android:layout_marginStart="@dimen/_2sdp"
-            android:text="1"
             android:textSize="@dimen/_9sdp" />
 
         <com.android.platform.utils.font.QuicksandRegular
             android:id="@+id/lblhourtxt"
             android:layout_width="wrap_content"
+            android:visibility="gone"
             android:layout_toEndOf="@+id/lblhour"
             android:layout_height="match_parent"
             android:text="@string/h"
@@ -67,7 +67,7 @@
             android:layout_width="wrap_content"
             android:layout_marginStart="@dimen/_2sdp"
             android:layout_height="match_parent"
-            android:visibility="visible"
+            android:visibility="gone"
             android:text="30 "
             android:textSize="@dimen/_9sdp" />
 
@@ -76,6 +76,7 @@
             android:layout_width="wrap_content"
             android:layout_toEndOf="@+id/lblMins"
             android:layout_height="match_parent"
+            android:visibility="gone"
             android:text="@string/min"
             android:textSize="@dimen/_9sdp" />
 
@@ -111,7 +112,7 @@
             android:layout_width="wrap_content"
             android:layout_toEndOf="@+id/lbllesson"
             android:layout_height="match_parent"
-            android:text="@string/lesson"
+            android:text="@string/lessons"
             android:layout_marginStart="@dimen/_2sdp"
             android:textSize="@dimen/_9sdp" />
 

@@ -23,6 +23,11 @@
         android:theme="@style/Theme.App.Light"
         tools:targetApi="35">
         <activity
+            android:name=".ui.exercises.ExerciseActivity"
+            android:exported="false"
+            android:configChanges="orientation|screenSize"
+            android:screenOrientation="portrait" />
+        <activity
             android:name=".ui.course.course.CourseActivity"
             android:exported="false"
             android:configChanges="orientation|screenSize"
