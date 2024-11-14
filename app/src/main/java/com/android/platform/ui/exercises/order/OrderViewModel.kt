@@ -25,7 +25,6 @@ class OrderViewModel @Inject constructor(): ViewModel() {
         contentList = gson.fromJson<ArrayList<OrderEntity>>(value.content.toString(), contentListType)
         selectedList = arrayListOf()
         _event.postValue("Init")
-
     }
     fun addSelected(value: OrderEntity){
         selectedList.add(value)

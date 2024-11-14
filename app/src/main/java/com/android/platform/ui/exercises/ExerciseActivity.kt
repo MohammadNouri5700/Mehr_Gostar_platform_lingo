@@ -19,6 +19,7 @@ import com.android.platform.R
 import com.android.platform.databinding.ActivityExerciseBinding
 import com.android.platform.ui.exercises.order.OrderFragment
 import com.android.platform.ui.exercises.order.adapter.OrderListAdapter
+import com.android.platform.ui.exercises.placement.PlacementFragment
 import dagger.android.support.DaggerAppCompatActivity
 import javax.inject.Inject
 
@@ -66,18 +67,22 @@ class ExerciseActivity : DaggerAppCompatActivity() {
         }
 
 
-        lessonReply = LessonReply.parseFrom(intent.getByteArrayExtra("ITEM"));
-        exerciseId = intent.getIntExtra("EXERCISE_ID", -1)
+        viewModel.lessonReply = LessonReply.parseFrom(intent.getByteArrayExtra("ITEM"));
+        viewModel.exerciseId = intent.getIntExtra("EXERCISE_ID", -1)
 
-        val exercise: ExerciseModel = lessonReply.contentsList
+        val exercise: ExerciseModel = viewModel.lessonReply.contentsList
             .flatMap { it.exercisesList }
-            .find { it.id == exerciseId }!!
+            .find { it.id == viewModel.exerciseId }!!
 
         binding.lblTitle.text = exercise.exerciseType.name
+
 
         when (exercise.exerciseType.name) {
             "Order" -> {
                 showFragment(OrderFragment(exercise))
+            }
+            "Placement"->{
+                showFragment(PlacementFragment(exercise))
             }
         }
 

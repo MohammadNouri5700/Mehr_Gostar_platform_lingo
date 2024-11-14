@@ -33,29 +33,26 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <RelativeLayout
+
+        <androidx.recyclerview.widget.RecyclerView
             android:layout_marginTop="@dimen/_12sdp"
-            android:paddingTop="@dimen/_1sdp"
+            android:id="@+id/recTarget"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/_120sdp"
-            android:background="@drawable/item_placement"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/quicksandSemiBold" >
+            app:layout_constraintTop_toBottomOf="@+id/quicksandSemiBold" />
 
-            <com.android.platform.utils.font.QuicksandBold
-                android:layout_margin="@dimen/_2sdp"
-                android:text="Adjective"
-                android:gravity="center_vertical"
-                android:paddingStart="@dimen/_12sdp"
-                android:paddingEnd="@dimen/_12sdp"
-                android:textColor="@color/white"
-                android:textSize="@dimen/_13sdp"
-                android:background="@drawable/item_placement_top"
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/_30sdp"/>
 
-        </RelativeLayout>
-
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recItems"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:scrollbars="none"
+            android:isScrollContainer="false"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
