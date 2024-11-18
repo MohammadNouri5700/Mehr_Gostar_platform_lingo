@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.android.platform.utils.font.QuicksandSemiBold
+<com.android.platform.utils.font.QuicksandBold
     android:id="@+id/itemOrder"
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:paddingStart="@dimen/_12sdp"
@@ -10,8 +10,9 @@
     android:text="@string/finalexam"
     android:gravity="center"
     android:drawablePadding="@dimen/_3sdp"
+    android:textSize="@dimen/_12sdp"
     android:background="@drawable/podcast_item"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content">
 
-</com.android.platform.utils.font.QuicksandSemiBold>
+</com.android.platform.utils.font.QuicksandBold>

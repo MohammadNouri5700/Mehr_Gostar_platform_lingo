@@ -61,7 +61,7 @@ class V1ExoPlayerView @JvmOverloads constructor(
         setupFullscreenButton()
         player = ExoPlayer.Builder(context).build()
         setPlayer(player)
-        player.prepare()
+//        player.prepare()
     }
 
     private fun setupFullscreenButton() {

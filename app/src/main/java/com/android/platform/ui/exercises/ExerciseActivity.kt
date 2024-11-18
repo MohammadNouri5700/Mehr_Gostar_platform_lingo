@@ -17,8 +17,11 @@ import com.android.platform.LessonReply
 import com.android.platform.PlatformApplication
 import com.android.platform.R
 import com.android.platform.databinding.ActivityExerciseBinding
+import com.android.platform.ui.exercises.ai_context.AIContextFragment
+import com.android.platform.ui.exercises.ai_voice.AIVoiceFragment
+import com.android.platform.ui.exercises.context_placement.ContextPlacementFragment
+import com.android.platform.ui.exercises.listening.ListeningFragment
 import com.android.platform.ui.exercises.order.OrderFragment
-import com.android.platform.ui.exercises.order.adapter.OrderListAdapter
 import com.android.platform.ui.exercises.placement.PlacementFragment
 import dagger.android.support.DaggerAppCompatActivity
 import javax.inject.Inject
@@ -42,6 +45,7 @@ class ExerciseActivity : DaggerAppCompatActivity() {
             WindowManager.LayoutParams.FLAG_SECURE
         );
 
+        window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE)
 
         (applicationContext as PlatformApplication).appComponent.inject(this)
 
@@ -83,6 +87,18 @@ class ExerciseActivity : DaggerAppCompatActivity() {
             }
             "Placement"->{
                 showFragment(PlacementFragment(exercise))
+            }
+            "TrueFalse"->{
+                showFragment(ListeningFragment(exercise))
+            }
+            "AiContext"->{
+                showFragment(AIContextFragment(exercise))
+            }
+            "AiVoice"->{
+                showFragment(AIVoiceFragment(exercise))
+            }
+            "ContextPlacement"->{
+                showFragment(ContextPlacementFragment(exercise))
             }
         }
 

@@ -5,13 +5,22 @@ import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.drawable.Drawable
+import android.os.Build
 import android.os.Bundle
 import android.provider.Settings.Secure
 import android.util.Log
 import android.view.View
+import android.view.ViewGroup
+import android.view.WindowInsets
+import android.view.WindowInsetsController
+import android.view.animation.Animation
+import android.view.animation.AnimationUtils
 import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
 import androidx.lifecycle.ViewModel
+import androidx.recyclerview.widget.RecyclerView
+import com.android.platform.R
+import com.android.platform.di.factory.LoadingView
 import com.android.platform.repository.data.database.ImageDao
 import com.android.platform.repository.data.model.ImageEntity
 import com.bumptech.glide.Glide
@@ -47,6 +56,117 @@ fun Activity.setPage(name: String, className: String) {
     }
     firebaseAnalytics.logEvent(FirebaseAnalytics.Event.SCREEN_VIEW, bundle)
 }
+fun RecyclerView.Adapter<*>.animateRight(view: View, duration: Long = 200) {
+    view.alpha = 0f
+    view.post {
+        val startOffsetX = -view.width.toFloat()
+        view.translationX = startOffsetX
+        view.animate()
+            .translationX(0f)
+            .alpha(1f)
+            .setDuration(duration)
+            .start()
+    }
+}
+fun RecyclerView.Adapter<*>.animateLeft(view: View, duration: Long = 200) {
+    view.alpha = 0f
+    view.post {
+        val startOffsetX = view.width.toFloat()
+        view.translationX = startOffsetX
+        view.animate()
+            .translationX(0f)
+            .alpha(1f)
+            .setDuration(duration)
+            .start()
+    }
+}
+
+
+
+fun RecyclerView.Adapter<*>.animateFadeUp(view: View, duration: Long = 500) {
+    view.alpha = 0f
+    view.post {
+        val startOffsetY = view.height.toFloat()/3
+        view.translationY = startOffsetY
+        view.animate()
+            .translationY(0f)
+            .alpha(1f)
+            .setDuration(duration)
+            .start()
+    }
+}
+fun RecyclerView.Adapter<*>.animateFadeDown(view: View, duration: Long = 500) {
+    view.alpha = 0f
+    view.post {
+        val startOffsetY = -view.height.toFloat()/3
+        view.translationY = startOffsetY
+        view.animate()
+            .translationY(0f)
+            .alpha(1f)
+            .setDuration(duration)
+            .start()
+    }
+}
+
+fun Activity.initFullScreen() {
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+        window.setDecorFitsSystemWindows(false)
+        val controller = window.insetsController
+        controller?.let {
+            it.hide(WindowInsets.Type.statusBars() or WindowInsets.Type.navigationBars())
+            it.systemBarsBehavior = WindowInsetsController.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE
+        }
+    } else {
+
+        val decorView = window.decorView
+        val uiOptions = (View.SYSTEM_UI_FLAG_FULLSCREEN
+                or View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
+                or View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY)
+        decorView.systemUiVisibility = uiOptions
+    }
+}
+
+fun Activity.showLoading(): LoadingView {
+    val rootView = findViewById<ViewGroup>(android.R.id.content)
+
+    val existingLoadingView = rootView.findViewWithTag<LoadingView>("LoadingView")
+    if (existingLoadingView != null) {
+        val fadeIn = AnimationUtils.loadAnimation(this, R.anim.fade_in)
+        existingLoadingView.startAnimation(fadeIn)
+        return existingLoadingView
+    }
+
+    val loadingView = LoadingView(this).apply { tag = "LoadingView" }
+    rootView.addView(loadingView)
+
+    val fadeIn = AnimationUtils.loadAnimation(this, R.anim.fade_in)
+    fadeIn.duration=100
+    loadingView.startAnimation(fadeIn)
+    loadingView.startTimer()
+    return loadingView
+}
+fun Activity.hideLoading() {
+    val rootView = findViewById<ViewGroup>(android.R.id.content)
+    val existingLoadingView = rootView.findViewWithTag<LoadingView>("LoadingView")
+    if (existingLoadingView != null) {
+        val fadeOut = AnimationUtils.loadAnimation(this, R.anim.fade_out)
+        fadeOut.setAnimationListener(object : Animation.AnimationListener {
+            override fun onAnimationStart(animation: Animation?) {
+            }
+
+            override fun onAnimationEnd(animation: Animation?) {
+                rootView.removeView(existingLoadingView)
+            }
+
+            override fun onAnimationRepeat(animation: Animation?) {
+            }
+        })
+        existingLoadingView.handler.postDelayed(Runnable{
+            existingLoadingView.startAnimation(fadeOut)
+        }, existingLoadingView.hideTimer())
+    }
+}
+
 
 suspend fun String.loadImageFromDatabase(imageDao: ImageDao): Bitmap? {
     val imageEntity = imageDao.getImageByUrl(this)

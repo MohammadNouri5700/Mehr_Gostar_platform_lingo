@@ -14,7 +14,7 @@ import com.android.platform.ui.exercises.order.OrderViewModel
 import com.android.platform.ui.exercises.placement.PlacementViewModel
 import com.android.platform.utils.ui.CircleProgressBar
 
-class PlacementListAdapter(private val items: ArrayList<String>, val viewModel: PlacementViewModel, val ctx: Context) : RecyclerView.Adapter<PlacementListAdapter.TaskViewHolder>() {
+class PlacementListAdapter(val items: ArrayList<String>, val viewModel: PlacementViewModel, val ctx: Context) : RecyclerView.Adapter<PlacementListAdapter.TaskViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TaskViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.item_placement_exercise, parent, false)
@@ -33,10 +33,6 @@ class PlacementListAdapter(private val items: ArrayList<String>, val viewModel: 
         return item
     }
 
-    fun addItem(item: String) {
-        items.add(item)
-        notifyItemInserted(items.size - 1)
-    }
 
     class TaskViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val name: TextView = itemView.findViewById(R.id.itemOrder)

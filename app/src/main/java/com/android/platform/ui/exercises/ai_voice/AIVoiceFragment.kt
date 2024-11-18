@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import com.android.platform.ExerciseModel
 import com.android.platform.PlatformApplication
 import com.android.platform.R
 import com.android.platform.databinding.FragmentAiVoiceExerciseBinding
@@ -17,7 +18,7 @@ import com.android.platform.databinding.FragmentGeneralExerciseBinding
 import javax.inject.Inject
 
 
-class AIVoiceFragment : Fragment() {
+class AIVoiceFragment  @Inject constructor(val value: ExerciseModel) : Fragment() {
 
 
     @Inject

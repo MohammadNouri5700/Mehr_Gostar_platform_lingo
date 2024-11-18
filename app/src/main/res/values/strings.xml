@@ -50,4 +50,6 @@
     <string name="finalexam">Final Exam</string>
     <string name="confirm">Confirm</string>
     <string name="placeeverywordincorrectgroup">Place every word in correct group.</string>
+    <string name="write_here">Write here</string>
+    <string name="complete_the_sentences_using_the_provided_words">Complete the sentences using the provided words.</string>
 </resources>

@@ -8,7 +8,6 @@ import com.android.platform.RegisterReply
 import com.android.platform.RegisterRequest
 import com.android.platform.UserGrpcServiceGrpc
 import com.android.platform.di.factory.CallQueueManager
-import com.android.platform.di.factory.LoadingDialog
 import com.android.platform.di.factory.Preferences
 import com.android.platform.utils.extension.getFCMToken
 import com.google.firebase.messaging.FirebaseMessaging
@@ -25,8 +24,7 @@ class LoginViewModel @Inject constructor() : ViewModel() {
     @Inject
     lateinit var preferences: Preferences
 
-    @Inject
-    lateinit var loadingDialog: LoadingDialog
+
 
     @Inject
     lateinit var greeterStub: UserGrpcServiceGrpc.UserGrpcServiceStub

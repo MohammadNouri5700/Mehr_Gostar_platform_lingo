@@ -15,10 +15,13 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.android.platform.PlatformApplication
 import com.android.platform.R
 import com.android.platform.databinding.ActivityCourseBinding
-import com.android.platform.di.factory.LoadingDialog
+import com.android.platform.di.factory.LoadingView
 import com.android.platform.ui.course.course.adapter.CourseAdapter
 import com.android.platform.ui.course.course.ui.SelectCourseItemDialog
 import com.android.platform.ui.exercises.ExerciseActivity
+import com.android.platform.utils.extension.hideLoading
+import com.android.platform.utils.extension.initFullScreen
+import com.android.platform.utils.extension.showLoading
 import com.google.gson.Gson
 import dagger.android.support.DaggerAppCompatActivity
 import javax.inject.Inject
@@ -26,9 +29,7 @@ import javax.inject.Inject
 
 class CourseActivity : DaggerAppCompatActivity() {
 
-    @Inject
-    lateinit var loadingDialog: LoadingDialog
-
+    private lateinit var loadingView: LoadingView
 
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
@@ -41,12 +42,12 @@ class CourseActivity : DaggerAppCompatActivity() {
 
     private var lessonId: Int = -1
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        window.setFlags(
-            WindowManager.LayoutParams.FLAG_SECURE,
-            WindowManager.LayoutParams.FLAG_SECURE
-        );
+    override fun onStart() {
+        super.onStart()
+        initFullScreen()
+    }
 
+    override fun onCreate(savedInstanceState: Bundle?) {
 
         (applicationContext as PlatformApplication).appComponent.inject(this)
 
@@ -54,8 +55,9 @@ class CourseActivity : DaggerAppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_course)
         binding.viewModel = viewModel
-        setContentView(binding.root)
 
+        setContentView(binding.root)
+        loadingView = showLoading()
         binding.recList.layoutManager =
             LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
 
@@ -90,7 +92,7 @@ class CourseActivity : DaggerAppCompatActivity() {
                         binding.recList.adapter = courseAdapter
                     }
                     viewModel.call.enqueueMainTask {
-                        loadingDialog.dismiss()
+                        hideLoading()
                     }
                 }
 
@@ -117,22 +119,11 @@ class CourseActivity : DaggerAppCompatActivity() {
             }
         }
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
-            val controller = window.insetsController
-            controller?.let {
-                it.hide(WindowInsets.Type.statusBars() or WindowInsets.Type.navigationBars())
-                it.systemBarsBehavior = WindowInsetsController.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE
-            }
-        } else {
-            val decorView = window.decorView
-            val uiOptions = (View.SYSTEM_UI_FLAG_FULLSCREEN
-                    or View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
-                    or View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY)
-            decorView.systemUiVisibility = uiOptions
-        }
 
-        loadingDialog.changeContext(this)
-        loadingDialog.show()
+
+
+
+
 
     }
 

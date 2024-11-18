@@ -1,9 +1,11 @@
 package com.android.platform.ui.course.list
 
+import android.content.Context
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
 import android.view.View
+import android.view.ViewGroup
 import android.view.WindowInsets
 import android.view.WindowInsetsController
 import android.view.WindowManager
@@ -15,16 +17,18 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.android.platform.PlatformApplication
 import com.android.platform.R
 import com.android.platform.databinding.ActivityCourseListBinding
-import com.android.platform.di.factory.LoadingDialog
+import com.android.platform.di.factory.LoadingView
 import com.android.platform.ui.course.course.CourseActivity
 import com.android.platform.ui.course.list.adapter.CourseListAdapter
+import com.android.platform.utils.extension.hideLoading
+import com.android.platform.utils.extension.initFullScreen
+import com.android.platform.utils.extension.showLoading
 import dagger.android.support.DaggerAppCompatActivity
 import javax.inject.Inject
 
 class CourseList : DaggerAppCompatActivity() {
 
-    @Inject
-    lateinit var loadingDialog: LoadingDialog
+
 
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
@@ -37,19 +41,25 @@ class CourseList : DaggerAppCompatActivity() {
 
     private lateinit var courseListAdapter: CourseListAdapter
 
+    private lateinit var loadingView: LoadingView
+
+    override fun onWindowFocusChanged(hasFocus: Boolean) {
+        super.onWindowFocusChanged(hasFocus)
+        if (hasFocus) {
+            initFullScreen() // اطمینان از بازگرداندن حالت Full-Screen
+        }
+    }
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
-        window.setFlags(
-            WindowManager.LayoutParams.FLAG_SECURE,
-            WindowManager.LayoutParams.FLAG_SECURE
-        );
-
-
         (applicationContext as PlatformApplication).appComponent.inject(this)
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_course_list)
         binding.viewModel = viewModel
+        initFullScreen()
+
         setContentView(binding.root)
-//
+        loadingView = showLoading()
         levelId = intent.getIntExtra("LEVEL_ID", -1)
         binding.lblTitle.text = intent.getStringExtra("LEVEL_NAME")
 
@@ -90,7 +100,7 @@ class CourseList : DaggerAppCompatActivity() {
                         binding.recList.adapter = courseListAdapter
                     }
                     viewModel.call.enqueueMainTask {
-                        loadingDialog.dismiss()
+                        hideLoading()
                     }
                 }
             }
@@ -108,22 +118,7 @@ class CourseList : DaggerAppCompatActivity() {
         }
 
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
-            val controller = window.insetsController
-            controller?.let {
-                it.hide(WindowInsets.Type.statusBars() or WindowInsets.Type.navigationBars())
-                it.systemBarsBehavior = WindowInsetsController.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE
-            }
-        } else {
-            val decorView = window.decorView
-            val uiOptions = (View.SYSTEM_UI_FLAG_FULLSCREEN
-                    or View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
-                    or View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY)
-            decorView.systemUiVisibility = uiOptions
-        }
 
-        loadingDialog.changeContext(this)
-        loadingDialog.show()
     }
 
 

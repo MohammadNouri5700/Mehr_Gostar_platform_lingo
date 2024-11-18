@@ -19,7 +19,7 @@ class QuicksandSemiBold @JvmOverloads constructor(
 
     init {
         applyCustomFont(context)
-        applyCustomTextColor(context)
+//        applyCustomTextColor(context)
     }
 
     private fun applyCustomFont(context: Context) {

@@ -29,22 +29,13 @@
 
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recLeft"
-        android:layout_width="0dp"
+        android:id="@+id/recItems"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/_15sdp"
-        app:layout_constraintEnd_toStartOf="@+id/recRight"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/lblTitle" />
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recRight"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/_15sdp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/recLeft"
-        app:layout_constraintTop_toBottomOf="@+id/lblTitle" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

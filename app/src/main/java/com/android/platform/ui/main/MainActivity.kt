@@ -35,6 +35,7 @@ import com.android.platform.ui.level.LevelFragment
 import com.android.platform.ui.profile.ProfileFragment
 import com.android.platform.ui.registeration.Login
 import com.android.platform.ui.report.ReportFragment
+import com.android.platform.utils.extension.initFullScreen
 import com.android.platform.utils.extension.setPage
 import com.android.platform.utils.extension.showToast
 import com.google.android.gms.tasks.OnCompleteListener
@@ -137,24 +138,14 @@ class MainActivity : DaggerAppCompatActivity() {
             }
         })
 
+
+    }
+
+    override fun onStart() {
+        super.onStart()
         initFullScreen()
     }
 
-    fun initFullScreen(){
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
-            val controller = window.insetsController
-            controller?.let {
-                it.hide(WindowInsets.Type.statusBars() or WindowInsets.Type.navigationBars())
-                it.systemBarsBehavior = WindowInsetsController.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE
-            }
-        } else {
-            val decorView = window.decorView
-            val uiOptions = (View.SYSTEM_UI_FLAG_FULLSCREEN
-                    or View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
-                    or View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY)
-            decorView.systemUiVisibility = uiOptions
-        }
-    }
     override fun onResume() {
         super.onResume()
 

@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
 
@@ -8,10 +10,61 @@
             type="com.android.platform.ui.exercises.ai_context.AIContextViewModel" />
     </data>
 
-    <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
 
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:paddingBottom="@dimen/_7sdp"
+            android:descendantFocusability="beforeDescendants"
+            android:focusableInTouchMode="true"
+            android:layout_height="match_parent"
+            android:background="#fff">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recMessages"
+                android:layout_width="match_parent"
+                android:padding="@dimen/_12sdp"
+                android:layout_height="0dp"
+                android:overScrollMode="never"
+                app:layout_constraintBottom_toTopOf="@+id/edtMessage"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+
+            <EditText
+                android:id="@+id/edtMessage"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/_45sdp"
+                android:background="@drawable/bg_edittext"
+                android:fontFamily="@font/quicksand_regular"
+                android:layout_marginStart="@dimen/_5sdp"
+                android:hint="@string/write_here"
+                android:importantForAutofill="no"
+                android:autofillHints=""
+                android:inputType="textMultiLine|textNoSuggestions|textVisiblePassword"
+                android:maxLines="5"
+                android:imeOptions="actionNone"
+                android:scrollHorizontally="false"
+                android:gravity="center_vertical|start"
+                android:textColorHint="#ADCECE"
+                android:layout_marginEnd="@dimen/_5sdp"
+                android:padding="@dimen/_10sdp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/imgSend"
+                app:layout_constraintStart_toStartOf="parent" />
+
+            <ImageView
+                android:onClick="@{(view) -> viewModel.sendMessage(((android.widget.EditText)view.rootView.findViewById(@id/edtMessage)).getText().toString())}"
+                android:id="@+id/imgSend"
+                android:layout_width="@dimen/_45sdp"
+                android:layout_height="@dimen/_45sdp"
+                android:layout_marginEnd="@dimen/_5sdp"
+                android:padding="@dimen/_3sdp"
+                android:src="@drawable/send_message"
+                app:layout_constraintBottom_toBottomOf="@id/edtMessage"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/edtMessage" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

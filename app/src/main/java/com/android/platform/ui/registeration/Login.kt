@@ -19,13 +19,15 @@ import com.android.platform.PlatformApplication
 import com.android.platform.R
 import com.android.platform.databinding.ActivityLoginBinding
 import com.android.platform.databinding.ActivityMainBinding
-import com.android.platform.di.factory.LoadingDialog
+import com.android.platform.di.factory.LoadingView
 import com.android.platform.ui.home.story.PodcastAdapter
 import com.android.platform.ui.home.story.StoryAdapter
 import com.android.platform.ui.main.MainActivity
 import com.android.platform.ui.main.MainViewModel
 import com.android.platform.utils.extension.getAndroidId
+import com.android.platform.utils.extension.hideLoading
 import com.android.platform.utils.extension.isValidPhoneNumber
+import com.android.platform.utils.extension.showLoading
 import com.android.platform.utils.extension.showToast
 import com.google.firebase.crashlytics.ktx.crashlytics
 import com.google.firebase.ktx.Firebase
@@ -39,8 +41,7 @@ import javax.inject.Inject
 
 class Login : DaggerAppCompatActivity() {
 
-    @Inject
-    lateinit var loadingDialog: LoadingDialog
+    private lateinit var loadingView: LoadingView
 
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
@@ -68,20 +69,20 @@ class Login : DaggerAppCompatActivity() {
             when (data) {
                 "Login" -> {
                     viewModel.call.enqueueMainTask {
-                        loadingDialog.dismiss()
+                        hideLoading()
                         startActivity(Intent(this,MainActivity::class.java))
                         finish()
                     }
                 }
                 "Loading"->{
                     if (!isFinishing) {
-                        loadingDialog.changeContext(this)
-                        loadingDialog.show()
+                        loadingView = showLoading()
+
                     }
                 }
                 "Error" -> {
                     viewModel.call.enqueueMainTask {
-                        loadingDialog.dismiss()
+                        hideLoading()
                         showToast("Error on registration")
                         binding.edtPhone.setText("")
                         binding.edtPhone.isEnabled = true

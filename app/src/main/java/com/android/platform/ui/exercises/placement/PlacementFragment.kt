@@ -1,13 +1,20 @@
 package com.android.platform.ui.exercises.placement
 
 
+import android.content.ClipData
 import android.graphics.BitmapFactory
+import android.graphics.Canvas
 import android.graphics.Color
+import android.graphics.Rect
 import android.os.Bundle
 import android.util.Log
+import android.view.DragEvent
 import android.view.LayoutInflater
+import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
+import android.widget.FrameLayout
+import android.widget.TextView
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
@@ -95,11 +102,11 @@ class PlacementFragment @Inject constructor(val value: ExerciseModel) : Fragment
                 "Init" -> {
                     targetAdapter =
                         AdapterTarget(viewModel.contentList, viewModel, false, requireContext())
-                    var data: ArrayList<String> = ArrayList()
+                    val dataItems: ArrayList<String> = ArrayList()
                     viewModel.contentList.forEach {
-                        data.addAll(it.getWords())
+                        dataItems.addAll(it.getWords())
                     }
-                    itemsAdapter = PlacementListAdapter(data, viewModel, requireContext())
+                    itemsAdapter = PlacementListAdapter(dataItems, viewModel, requireContext())
                     binding.recTarget.adapter = targetAdapter
                     binding.recItems.adapter = itemsAdapter
                     viewModel.updateList()
@@ -114,6 +121,48 @@ class PlacementFragment @Inject constructor(val value: ExerciseModel) : Fragment
                 }
             }
         })
+
+
+
+        binding.recItems.addOnItemTouchListener(object : RecyclerView.SimpleOnItemTouchListener() {
+            override fun onInterceptTouchEvent(rv: RecyclerView, e: MotionEvent): Boolean {
+                if (e.action == MotionEvent.ACTION_DOWN) {
+                    val child = rv.findChildViewUnder(e.x, e.y)
+                    if (child != null) {
+                        val position = rv.getChildAdapterPosition(child)
+                        startDragFramework(child, position,itemsAdapter)
+                    }
+                }
+                return false
+            }
+        })
+
+
+
+
+
+
+    }
+    private fun startDragFramework(
+        view: View,
+        position: Int,
+        sourceAdapter: PlacementListAdapter
+    ) {
+        val item = sourceAdapter.removeItem(position)
+
+
+        val dragData = ClipData.newPlainText("item", item)
+
+
+        val dragShadow = View.DragShadowBuilder(view)
+
+
+        view.startDragAndDrop(
+            dragData,
+            dragShadow,
+            item,
+            0
+        )
     }
 
 

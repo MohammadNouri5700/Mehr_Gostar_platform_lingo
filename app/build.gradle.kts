@@ -162,6 +162,8 @@ dependencies {
 
     implementation ("com.google.android.flexbox:flexbox:3.0.0")
 
+    implementation  ("com.github.massoudss:waveformSeekBar:5.0.2")
+
 }
 protobuf {
     protoc {

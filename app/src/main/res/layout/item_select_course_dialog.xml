@@ -1,29 +1,37 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:background="@drawable/courselist_item_background"
-    android:layout_margin="@dimen/_5sdp"
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:padding="@dimen/_12sdp"
-    android:orientation="vertical"
+    android:paddingTop="@dimen/_12sdp"
+    android:paddingBottom="@dimen/_12sdp"
+    android:layout_marginTop="@dimen/_5sdp"
+    android:paddingStart="@dimen/_15sdp"
+    android:paddingEnd="@dimen/_15sdp"
     android:layout_height="@dimen/_80sdp">
 
     <ImageView
         android:id="@+id/imgExercise"
-        android:src="@drawable/order_exercise"
-        android:padding="@dimen/_4sdp"
         android:layout_width="@dimen/_30sdp"
-        android:layout_height="@dimen/_30sdp"/>
+        android:layout_height="@dimen/_30sdp"
+        android:padding="@dimen/_4sdp"
+        android:src="@drawable/order_exercise"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
 
     <com.android.platform.utils.font.QuicksandBold
         android:id="@+id/lblTitle"
         android:layout_width="wrap_content"
-        android:text="Order Exercise"
-        android:gravity="bottom"
-        android:textSize="@dimen/_13sdp"
+        android:layout_height="wrap_content"
         android:layout_gravity="bottom"
-        android:layout_height="match_parent"/>
+        android:gravity="bottom"
+        android:text="Order Exercise"
+        android:textSize="@dimen/_13sdp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/imgExercise"
+        app:layout_constraintTop_toBottomOf="@+id/imgExercise" />
 
 
-</LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

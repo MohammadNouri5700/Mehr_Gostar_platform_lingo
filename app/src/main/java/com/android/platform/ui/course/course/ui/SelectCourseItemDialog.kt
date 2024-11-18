@@ -1,11 +1,16 @@
 package com.android.platform.ui.course.course.ui
 
+import android.app.Dialog
 import android.content.Context
+import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.WindowInsets
+import android.view.WindowInsetsController
+import android.view.WindowManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.android.platform.ContentResult
 import com.android.platform.ContentType
@@ -13,6 +18,12 @@ import com.android.platform.LessonReply
 import com.android.platform.R
 import com.android.platform.databinding.DialogSelectCourseItemBinding
 import com.android.platform.ui.course.course.CourseActivityViewModel
+import com.google.android.flexbox.AlignItems
+import com.google.android.flexbox.FlexDirection
+import com.google.android.flexbox.FlexboxLayoutManager
+import com.google.android.flexbox.JustifyContent
+import com.google.android.material.bottomsheet.BottomSheetBehavior
+import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 
 class SelectCourseItemDialog(private val lessonsReply: LessonReply,private val  contentResultId: Int ,private val  viewModel: CourseActivityViewModel, private val context: Context
@@ -20,10 +31,20 @@ class SelectCourseItemDialog(private val lessonsReply: LessonReply,private val  
     BottomSheetDialogFragment() {
 
 
-    private lateinit var adapterLeft: SelectCourseItemAdapter
     private lateinit var adapterRight: SelectCourseItemAdapter
     private lateinit var binding: DialogSelectCourseItemBinding
 
+
+
+    override fun onStart() {
+        super.onStart()
+        // حذف وضعیت نوار ناوبری
+        dialog?.window?.setFlags(
+            WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS,
+            WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS
+        )
+
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -33,18 +54,22 @@ class SelectCourseItemDialog(private val lessonsReply: LessonReply,private val  
         binding = DialogSelectCourseItemBinding.inflate(inflater, container, false)
         binding.imgClose.setOnClickListener{dismiss()}
 
-        binding.recLeft.layoutManager =
-            LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
-        binding.recRight.layoutManager =
-            LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
+
+
+        val flexboxLayoutManager = FlexboxLayoutManager(requireContext()).apply {
+            flexDirection = FlexDirection.ROW
+            justifyContent = JustifyContent.SPACE_AROUND
+            alignItems = AlignItems.STRETCH
+        }
+
+
+        binding.recItems.setLayoutManager(flexboxLayoutManager)
 
         val data : ContentResult? = lessonsReply.contentsList?.filter { item-> item.contentType.number==contentResultId }?.get(0)
 
         data?.let {
-            adapterLeft = SelectCourseItemAdapter(data.exercisesList.subList(0,(data.exercisesList.size/2)),viewModel,context)
-            adapterRight = SelectCourseItemAdapter(data.exercisesList.subList((data.exercisesList.size/2),data.exercisesList.size),viewModel,context)
-            binding.recLeft.adapter = adapterLeft
-            binding.recRight.adapter = adapterRight
+            adapterRight = SelectCourseItemAdapter(data.exercisesList,viewModel,context)
+            binding.recItems.adapter = adapterRight
             binding.lblTitle.text = data.contentType.name
         }
 
