@@ -4,4 +4,3 @@ data class AiContextEntity(
     val Sentence: String,
     val Order: Int
 )
-

@@ -6,6 +6,8 @@ import androidx.lifecycle.ViewModel
 import com.android.platform.ExerciseModel
 import com.android.platform.di.factory.CallQueueManager
 import com.android.platform.di.factory.SingleLiveEvent
+import com.android.platform.repository.data.model.BotMessageEntity
+import com.android.platform.repository.data.model.MType
 import com.android.platform.ui.exercises.ai_context.adapter.AiContextEntity
 import com.android.platform.ui.exercises.order.adapter.OrderEntity
 import com.google.gson.Gson
@@ -15,7 +17,7 @@ import javax.inject.Inject
 class AIContextViewModel @Inject constructor( val call: CallQueueManager) : ViewModel() {
 
     lateinit var value: ExerciseModel
-    var messageList: ArrayList<AiContextEntity> = arrayListOf()
+    var messageList: ArrayList<BotMessageEntity> = arrayListOf()
     private val gson = Gson()
 
     private val _event = SingleLiveEvent<String>()
@@ -24,13 +26,16 @@ class AIContextViewModel @Inject constructor( val call: CallQueueManager) : View
 
     fun initList() {
         val contentListType = object : TypeToken<ArrayList<AiContextEntity>>() {}.type
-        messageList = gson.fromJson<ArrayList<AiContextEntity>>(value.content.toString(), contentListType)
+        val data = gson.fromJson<ArrayList<AiContextEntity>>(value.content.toString(), contentListType)
+        data.forEach{it->
+            messageList.add(BotMessageEntity(MType.messageText,it.Sentence,"",""))
+        }
         _event.postValue("Init")
 
     }
 
     private fun addMessages(value: String) {
-        messageList.add(AiContextEntity(value, messageList.size + 1))
+        messageList.add(BotMessageEntity(MType.messageText,value,"",""))
     }
     private fun clearMessage(){
         _event.postValue("ClearMessage")
@@ -38,10 +43,10 @@ class AIContextViewModel @Inject constructor( val call: CallQueueManager) : View
     private fun scrollToEnd() {
         _event.postValue("ScrollToEnd")
     }
-    fun removeMessage(value: AiContextEntity) {
-        messageList.remove(value)
-        messageList.add(value)
-    }
+//    fun removeMessage(value: AiContextEntity) {
+//        messageList.remove(value)
+//        messageList.add(value)
+//    }
 
     fun updateList() {
         _event.postValue("Update")

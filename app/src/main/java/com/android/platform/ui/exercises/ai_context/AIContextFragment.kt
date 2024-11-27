@@ -16,10 +16,7 @@ import com.android.platform.PlatformApplication
 import com.android.platform.R
 import com.android.platform.databinding.FragmentAiContextExerciseBinding
 import com.android.platform.ui.exercises.ExerciseViewModel
-import com.android.platform.ui.exercises.ai_context.adapter.AiContextAdapter
-import com.android.platform.ui.exercises.order.adapter.OrderListAdapter
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.withContext
+import com.android.platform.ui.global.AiBotAdapter
 import javax.inject.Inject
 
 
@@ -34,7 +31,7 @@ class AIContextFragment @Inject constructor(val value: ExerciseModel) : Fragment
 
     private lateinit var binding: FragmentAiContextExerciseBinding
 
-    lateinit var itemsAdapter: AiContextAdapter
+    lateinit var itemsAdapter: AiBotAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -52,7 +49,7 @@ class AIContextFragment @Inject constructor(val value: ExerciseModel) : Fragment
         binding.viewModel = viewModel
         viewModel.value = value
         binding.lifecycleOwner = viewLifecycleOwner
-        itemsAdapter = AiContextAdapter(viewModel.messageList, viewModel, false, requireContext())
+        itemsAdapter = AiBotAdapter(viewModel.messageList)
         return binding.root
 
     }
@@ -67,7 +64,6 @@ class AIContextFragment @Inject constructor(val value: ExerciseModel) : Fragment
 
 
         viewModel.event.observe(viewLifecycleOwner, Observer { data ->
-            Log.e("APP", data)
             when (data) {
                 "Init" -> {
                     viewModel.call.enqueueMainTask {

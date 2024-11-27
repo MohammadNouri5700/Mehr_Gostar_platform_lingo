@@ -31,8 +31,8 @@ android {
         applicationId = "com.android.platform.germany"
         minSdk = 26
         targetSdk = 34
-        versionCode = 7
-        versionName = "1.0.8"
+        versionCode = 8
+        versionName = "1.0.11"
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
 
     }
@@ -164,6 +164,7 @@ dependencies {
 
     implementation  ("com.github.massoudss:waveformSeekBar:5.0.2")
 
+    implementation ("net.gotev:speech:1.6.2")
 }
 protobuf {
     protoc {

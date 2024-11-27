@@ -30,6 +30,7 @@ import com.android.platform.PlatformApplication
 import com.android.platform.R
 //import com.android.platform.UserGrpcServiceGrpc
 import com.android.platform.databinding.ActivityMainBinding
+import com.android.platform.ui.exercises.ai_voice.AudioRecordService
 import com.android.platform.ui.home.HomeFragment
 import com.android.platform.ui.level.LevelFragment
 import com.android.platform.ui.profile.ProfileFragment
@@ -49,6 +50,9 @@ import dagger.android.support.DaggerAppCompatActivity
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import net.gotev.speech.Speech
+import net.gotev.speech.SpeechDelegate
+import java.util.Locale
 import javax.inject.Inject
 
 
@@ -137,9 +141,18 @@ class MainActivity : DaggerAppCompatActivity() {
                 }
             }
         })
+        Speech.init(this, packageName)
 
+
+        try{
+            Speech.getInstance().setPreferOffline(false)
+            Speech.getInstance().setLocale(Locale.GERMAN)
+        } catch (ex: Exception){
+            Log.e("SpeechError", "Language not supported!")
+        }
 
     }
+
 
     override fun onStart() {
         super.onStart()
@@ -148,7 +161,8 @@ class MainActivity : DaggerAppCompatActivity() {
 
     override fun onResume() {
         super.onResume()
-
+        val intent = Intent(this, AudioRecordService::class.java)
+        startService(intent)
         setTag()
         val firebaseAnalytics = FirebaseAnalytics.getInstance(this)
         firebaseAnalytics.logEvent("OpenApp", null)
@@ -415,5 +429,10 @@ class MainActivity : DaggerAppCompatActivity() {
             delay(1000)
             binding.conLoading.visibility = View.GONE
         }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        Speech.getInstance().shutdown();
     }
 }

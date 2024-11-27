@@ -52,4 +52,5 @@
     <string name="placeeverywordincorrectgroup">Place every word in correct group.</string>
     <string name="write_here">Write here</string>
     <string name="complete_the_sentences_using_the_provided_words">Complete the sentences using the provided words.</string>
+    <string name="tap_and_hold_the_button_to_record">Tap and Hold the button to record.</string>
 </resources>

@@ -8,6 +8,13 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
 
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
+
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+
     <application
         android:name=".PlatformApplication"
         android:allowBackup="true"
@@ -23,6 +30,10 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.App.Light"
         tools:targetApi="35">
+
+        <service android:name=".ui.exercises.ai_voice.AudioRecordService" />
+
+
         <activity
             android:name=".ui.exercises.ExerciseActivity"
             android:exported="false"
