@@ -136,12 +136,6 @@ class PlacementFragment @Inject constructor(val value: ExerciseModel) : Fragment
                 return false
             }
         })
-
-
-
-
-
-
     }
     private fun startDragFramework(
         view: View,

@@ -4,11 +4,9 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.android.platform.ExerciseModel
-import com.android.platform.ui.exercises.order.adapter.OrderEntity
-import com.google.gson.reflect.TypeToken
 import javax.inject.Inject
 
-class ContextPlacementViewModel @Inject constructor(): ViewModel() {
+class ContextPlacementViewModel @Inject constructor() : ViewModel() {
 
 
 //    # com.android.platform.ExerciseModel@7233a1a2
@@ -21,49 +19,86 @@ class ContextPlacementViewModel @Inject constructor(): ViewModel() {
 
     lateinit var value: ExerciseModel
 
-    var items: ArrayList<String> = arrayListOf()
-    var sentences: ArrayList<String> = arrayListOf()
-    var selectSentences: ArrayList<String> = arrayListOf()
 
-
+    var items: MutableList<String> = mutableListOf<String>()
+    var itemsBackup: MutableList<String> = mutableListOf<String>()
+    var sentences: MutableList<String> = mutableListOf<String>()
+    var selectSentences: MutableList<Pair<Boolean, String>> = arrayListOf()
 
 
     private val _event = MutableLiveData<String>()
     val event: LiveData<String> get() = _event
 
 
-
     fun initList() {
         val result = extractWords(value.content)
         items.addAll(result.first)
+        itemsBackup.addAll(result.first)
         sentences.addAll(result.second)
         fillSelected()
         _event.postValue("Init")
     }
 
-    fun generateSentence():String{
-        var data= ""
-        sentences.forEachIndexed{index, item ->
-            data+=item
-            if (index==sentences.size-1) return data
-            data += if (selectSentences[index] == items[index]){
-                items[index]
-            }else{
-                addGap()
+
+    private fun addGap(): String {
+        return ("_ _ _ _ _")
+    }
+
+    private fun fillSelected() {
+        sentences.forEach { it ->
+            selectSentences.add(Pair<Boolean, String>(it.trim() == addGap(), addGap()))
+        }
+    }
+
+    fun updateLists() {
+        sentences.forEachIndexed { index, it ->
+            if (selectSentences[index].first == true) {
+                sentences[index] = selectSentences[index].second
             }
         }
-        return data
+        items.clear()
+        items.addAll(itemsBackup)
+        selectSentences.forEachIndexed { index, it ->
+            if (selectSentences[index].first == true) {
+
+
+                val iterator = items.iterator()
+                while (iterator.hasNext()) {
+                    val item = iterator.next()
+                    if (item == selectSentences[index].second) {
+                        iterator.remove()
+                    }
+                }
+            }
+        }
+
+        _event.postValue("Update")
+
     }
 
-    private fun addGap():String{
-       return (" _ _ _ _ _ _ ")
+    fun confirm() {
+        _event.postValue("Confirm")
     }
 
-    private fun fillSelected(){
-        items.forEach { _ ->  selectSentences.add(addGap()) }
+    fun addSelected(position: Int, value: String): Boolean {
+        if (selectSentences[position].first == true) {
+            if (selectSentences[position].second.trim() == addGap())
+                selectSentences[position] = Pair<Boolean, String>(true, value)
+            else {
+                items.add(selectSentences[position].second)
+                selectSentences[position] = Pair<Boolean, String>(true, value)
+            }
+            updateLists()
+            return true
+        } else {
+            return false
+        }
     }
 
-    private fun extractWords(input: String): Pair<ArrayList<String>, ArrayList<String>> {
+    private fun extractWords(
+        input: String,
+        sizePerLine: Int = 0
+    ): Pair<ArrayList<String>, ArrayList<String>> {
         val regex = "#(.*?)#"
         var st = 0
         val wordsList = ArrayList<String>()
@@ -73,10 +108,13 @@ class ContextPlacementViewModel @Inject constructor(): ViewModel() {
         matches.forEach {
             val range = it.groups[0]?.range
             if (range != null) {
-                val beforeHashText = input.substring(st, range.first)
+                var beforeHashText = input.substring(st, range.first)
                 if (beforeHashText.isNotEmpty()) {
-                    sentencesList.add(beforeHashText)
+                    beforeHashText += addGap()
+                    val words = splitTextIntoWordsWithSpaces(beforeHashText).map { "$it " }
+                    sentencesList.addAll(words)
                 }
+
                 st = range.last + 1
             }
             it.groups[1]?.let { word ->
@@ -90,5 +128,11 @@ class ContextPlacementViewModel @Inject constructor(): ViewModel() {
         }
 
         return Pair(wordsList, sentencesList)
+    }
+
+    fun splitTextIntoWordsWithSpaces(text: String): List<String> {
+        val textWithPlaceholders = text.replace(addGap(), "____PLACEHOLDER____")
+        val words = textWithPlaceholders.split(" ")
+        return words.map { it.replace("____PLACEHOLDER____", addGap()) }
     }
 }

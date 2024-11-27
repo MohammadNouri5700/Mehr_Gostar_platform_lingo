@@ -58,24 +58,13 @@ class HomeFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
-
         binding.recStory.layoutManager =
             LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
-//        binding.recStory.adapter = StoryAdapter(listOf("Elsa","Elsa","Elsa","Elsa","Elsa","Elsa","Elsa","Elsa","Elsa","Elsa","Elsa"))
-
-
-//        binding.recPodcasts.layoutManager =
-//            LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
-//        binding.recPodcasts.adapter = PodcastAdapter(listOf("علمی و تخیلی", "ترسناک","درام","درام","درام","درام","درام","درام","درام","درام","درام","درام","درام","درام","درام","درام","درام","درام","درام","درام","درام","درام","درام","درام","درام"))
-
-        val bitmap =
-            BitmapFactory.decodeResource(resources, com.android.platform.R.drawable.img_fake)
+        val bitmap = BitmapFactory.decodeResource(resources, com.android.platform.R.drawable.img_fake)
         binding.roundedBlurredCardView.setImageBitmap(bitmap)
-        binding.roundedBlurredCardView.setBlurredBackground(bitmap);
+        binding.roundedBlurredCardView.setBlurredBackground(bitmap)
         val bitmapb = binding.roundedBlurredCardView.createBlurredBitmap(bitmap)
-        binding.roundedBlurredCardView.setBackgroundColor(Color.TRANSPARENT);
-
-
+        binding.roundedBlurredCardView.setBackgroundColor(Color.TRANSPARENT)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -96,7 +85,7 @@ class HomeFragment : Fragment() {
                             binding.recPodcasts.layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
                             binding.recPodcasts2.layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
                             val midIndex = viewModel.podcastCategory?.podcastCategoriesCount?.div(2) ?:0
-                    viewModel.call.enqueueMainTask {
+                          viewModel.call.enqueueMainTask {
                             binding.recPodcasts.adapter = viewModel.podcastCategory?.let { PodcastAdapter(it.podcastCategoriesList.subList(0,midIndex),imageDao,viewModel.call,requireContext()) }
                             binding.recPodcasts2.adapter = viewModel.podcastCategory?.let { PodcastAdapter(it.podcastCategoriesList.subList(midIndex,it.podcastCategoriesList.size),imageDao,viewModel.call,requireContext()) }
                         }

@@ -4,11 +4,13 @@ import android.app.Activity
 import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
+import android.graphics.Paint
 import android.graphics.drawable.Drawable
 import android.os.Build
 import android.os.Bundle
 import android.provider.Settings.Secure
 import android.util.Log
+import android.util.TypedValue
 import android.view.View
 import android.view.ViewGroup
 import android.view.WindowInsets
@@ -38,6 +40,29 @@ import java.security.AccessController.getContext
 import java.time.LocalDate
 import java.time.format.TextStyle
 import java.util.Locale
+
+
+
+fun Context.calculateCharactersPerLine(textSizeDp: Float): Int {
+    // گرفتن عرض صفحه نمایش
+    val displayMetrics = resources.displayMetrics
+    val screenWidth = displayMetrics.widthPixels
+
+    // تبدیل DP به پیکسل
+    val textSizePx = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, textSizeDp, displayMetrics)
+
+    // ایجاد Paint برای اندازه‌گیری عرض کاراکترها
+    val textPaint = Paint()
+    textPaint.textSize = textSizePx
+
+    // محاسبه عرض متوسط هر کاراکتر
+    val sampleText = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz"
+    val averageCharWidth = textPaint.measureText(sampleText) / sampleText.length
+
+    // محاسبه تعداد کاراکترهایی که در یک خط جا می‌شوند
+    return (screenWidth / averageCharWidth).toInt()
+}
+
 
 
 fun Activity.showToast(message: String) {
