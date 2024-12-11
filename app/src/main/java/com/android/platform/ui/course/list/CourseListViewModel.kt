@@ -15,6 +15,7 @@ import com.android.platform.RegisterRequest
 import com.android.platform.UserGrpcServiceGrpc
 import com.android.platform.di.factory.CallQueueManager
 import com.android.platform.di.factory.SingleLiveEvent
+import com.android.platform.di.module.GrpcModule.SiteURL
 import javax.inject.Inject
 
 class CourseListViewModel @Inject constructor():ViewModel() {
@@ -24,6 +25,9 @@ class CourseListViewModel @Inject constructor():ViewModel() {
 
     @Inject
     lateinit var levelStub: LevelGrpc.LevelStub
+
+
+
 
     var lessonsReply: LessonsReply? = null
 
@@ -38,6 +42,7 @@ class CourseListViewModel @Inject constructor():ViewModel() {
 
     init {
         _event.postValue("Loading")
+
     }
 
     fun back(){

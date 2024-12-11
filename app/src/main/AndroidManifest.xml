@@ -31,7 +31,7 @@
         android:theme="@style/Theme.App.Light"
         tools:targetApi="35">
 
-        <service android:name=".ui.exercises.ai_voice.AudioRecordService" />
+
 
 
         <activity

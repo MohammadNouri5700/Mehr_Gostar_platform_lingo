@@ -18,6 +18,7 @@ import com.android.platform.PlatformApplication
 import com.android.platform.R
 import com.android.platform.databinding.ActivityCourseListBinding
 import com.android.platform.di.factory.LoadingView
+import com.android.platform.di.module.GrpcModule.SiteURL
 import com.android.platform.ui.course.course.CourseActivity
 import com.android.platform.ui.course.list.adapter.CourseListAdapter
 import com.android.platform.utils.extension.hideLoading
@@ -28,7 +29,9 @@ import javax.inject.Inject
 
 class CourseList : DaggerAppCompatActivity() {
 
-
+    @Inject
+    @SiteURL
+    lateinit var siteUrl: String
 
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
@@ -94,7 +97,7 @@ class CourseList : DaggerAppCompatActivity() {
                             if (it == "")
                                 binding.customExoPlayerView.visibility = View.GONE
                             else
-                                initCoursePlayer(it)
+                                initCoursePlayer("${siteUrl}$it")
                         }
 
                         binding.recList.adapter = courseListAdapter

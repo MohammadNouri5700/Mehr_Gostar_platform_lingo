@@ -158,13 +158,19 @@ dependencies {
     implementation ("com.github.bumptech.glide:glide:4.16.0")
 
 
-    implementation ("com.google.android.exoplayer:exoplayer:2.18.1")
+    implementation ("com.google.android.exoplayer:exoplayer:2.19.1")
+    implementation ("com.google.android.exoplayer:exoplayer-core:2.19.1")
 
     implementation ("com.google.android.flexbox:flexbox:3.0.0")
 
     implementation  ("com.github.massoudss:waveformSeekBar:5.0.2")
 
     implementation ("net.gotev:speech:1.6.2")
+
+
+    implementation ("io.ktor:ktor-client-core:2.3.0")
+    implementation ("io.ktor:ktor-client-websockets:2.3.0")
+    implementation ("io.ktor:ktor-client-serialization:2.3.0")
 }
 protobuf {
     protoc {

@@ -1,11 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <network-security-config>
-    <domain-config cleartextTrafficPermitted="false">
+    <domain-config cleartextTrafficPermitted="true">
         <domain includeSubdomains="true">https://demo.lingomars.ir/</domain>
         <domain includeSubdomains="true">http://demo.lingomars.ir/</domain>
         <domain includeSubdomains="true">https://lingomars.ir/</domain>
         <domain includeSubdomains="true">http://lingomars.ir/</domain>
         <domain includeSubdomains="true">lingomars.ir</domain>
-
+        <domain includeSubdomains="true">176.120.16.242</domain>
+        <domain includeSubdomains="true">http://176.120.16.242</domain>
+        <domain includeSubdomains="true">https://176.120.16.242</domain>
     </domain-config>
 </network-security-config>

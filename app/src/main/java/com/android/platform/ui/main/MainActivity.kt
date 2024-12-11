@@ -30,7 +30,6 @@ import com.android.platform.PlatformApplication
 import com.android.platform.R
 //import com.android.platform.UserGrpcServiceGrpc
 import com.android.platform.databinding.ActivityMainBinding
-import com.android.platform.ui.exercises.ai_voice.AudioRecordService
 import com.android.platform.ui.home.HomeFragment
 import com.android.platform.ui.level.LevelFragment
 import com.android.platform.ui.profile.ProfileFragment
@@ -161,8 +160,6 @@ class MainActivity : DaggerAppCompatActivity() {
 
     override fun onResume() {
         super.onResume()
-        val intent = Intent(this, AudioRecordService::class.java)
-        startService(intent)
         setTag()
         val firebaseAnalytics = FirebaseAnalytics.getInstance(this)
         firebaseAnalytics.logEvent("OpenApp", null)

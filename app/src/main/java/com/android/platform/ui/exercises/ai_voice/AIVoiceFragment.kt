@@ -35,44 +35,11 @@ import com.android.platform.utils.extension.showToast
 import net.gotev.speech.Speech
 import net.gotev.speech.SpeechDelegate
 import okhttp3.internal.notify
+import java.io.File
 import javax.inject.Inject
 
 
 class AIVoiceFragment @Inject constructor(val value: ExerciseModel) : Fragment() {
-
-
-
-    private var service: AudioRecordService? = null
-    private var isBound = false
-
-    private val connection = object : ServiceConnection {
-        override fun onServiceConnected(className: ComponentName, service: IBinder) {
-            val binder = service as AudioRecordService.LocalBinder
-            this@AIVoiceFragment.service = binder.getService()
-            isBound = true
-        }
-
-        override fun onServiceDisconnected(arg0: ComponentName) {
-            isBound = false
-        }
-    }
-
-    override fun onStart() {
-        super.onStart()
-        Intent(activity, AudioRecordService::class.java).also { intent ->
-            activity?.bindService(intent, connection, Context.BIND_AUTO_CREATE)
-        }
-    }
-
-    override fun onStop() {
-        super.onStop()
-        if (isBound) {
-            activity?.unbindService(connection)
-            isBound = false
-        }
-    }
-
-
 
 
     @Inject
@@ -83,6 +50,11 @@ class AIVoiceFragment @Inject constructor(val value: ExerciseModel) : Fragment()
     private lateinit var binding: FragmentAiVoiceExerciseBinding
 
     lateinit var itemsAdapter: AiBotAdapter
+
+    private lateinit var audioRecorder: AudioRecorder
+
+    private lateinit var path: String
+
 
     @SuppressLint("ClickableViewAccessibility")
     override fun onCreateView(
@@ -97,6 +69,7 @@ class AIVoiceFragment @Inject constructor(val value: ExerciseModel) : Fragment()
         binding.lifecycleOwner = viewLifecycleOwner
         itemsAdapter = AiBotAdapter(viewModel.messageList)
 
+        audioRecorder = AudioRecorder(requireActivity())
 
         binding.recMessages.layoutManager =
             LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
@@ -106,23 +79,18 @@ class AIVoiceFragment @Inject constructor(val value: ExerciseModel) : Fragment()
         binding.imgSend.setOnTouchListener { _, event ->
             when (event.action) {
                 MotionEvent.ACTION_DOWN -> {
-
-
-//                    Handler(Looper.getMainLooper()).postDelayed({
-//                        audioRecorderThread = AudioRecorderThread(requireContext(), "recorded_audio.pcm")
-//                        audioRecorderThread.start()
-//                    }, 500)
-
-                    viewModel.startListening(requireActivity())
+//                    viewModel.startListeningGoogle(requireActivity())
+                    path = audioRecorder.startRecording()
                     binding.imgSend.alpha = 0.5f
                 }
 
                 MotionEvent.ACTION_UP -> {
-                    Handler(Looper.getMainLooper()).postDelayed({
-                        viewModel.stopListening()
-//                        service?.stopRecording()
-//                        audioRecorderThread.stopRecording()
-                    }, 1000)
+//                    Handler(Looper.getMainLooper()).postDelayed({
+//                        viewModel.stopListeningGoogle()
+//                    }, 1000)
+                    audioRecorder.stopRecording()
+                    viewModel.sendVoice(requireActivity(),File(path))
+
                     binding.imgSend.alpha = 1.0f
                 }
 

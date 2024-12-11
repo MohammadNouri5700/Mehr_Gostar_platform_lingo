@@ -2,6 +2,8 @@ package com.android.platform.di.factory
 
 
 import android.content.Context
+import android.media.AudioManager
+import android.net.Uri
 import android.util.AttributeSet
 import android.util.Log
 import android.view.LayoutInflater
@@ -9,12 +11,19 @@ import android.widget.ImageButton
 import androidx.appcompat.app.AppCompatActivity
 import androidx.cardview.widget.CardView
 import com.android.platform.R
+import com.google.android.exoplayer2.C
+import com.google.android.exoplayer2.DefaultRenderersFactory
 import com.google.android.exoplayer2.ExoPlayer
 import com.google.android.exoplayer2.MediaItem
+import com.google.android.exoplayer2.PlaybackException
 import com.google.android.exoplayer2.Player
+import com.google.android.exoplayer2.audio.AudioAttributes
+import com.google.android.exoplayer2.source.ProgressiveMediaSource
+import com.google.android.exoplayer2.trackselection.DefaultTrackSelector
 import com.google.android.exoplayer2.ui.DefaultTimeBar
 import com.google.android.exoplayer2.ui.PlayerView
 import com.google.android.exoplayer2.ui.TimeBar
+import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory
 
 
 class V1ExoPlayerView @JvmOverloads constructor(
@@ -26,13 +35,15 @@ class V1ExoPlayerView @JvmOverloads constructor(
 
     override fun onDetachedFromWindow() {
         super.onDetachedFromWindow()
-        Log.e("APP","onDetachedFromWindow")
+        Log.e("APP", "onDetachedFromWindow")
         player.release()
     }
+
     private val playerView: PlayerView
     private var playPauseButton: ImageButton
     private val fullscreenButton: ImageButton
     private lateinit var player: ExoPlayer
+
     //    private var rewindButton: ImageButton
 //    private var forwardButton: ImageButton
     private var progressBar: DefaultTimeBar
@@ -56,12 +67,17 @@ class V1ExoPlayerView @JvmOverloads constructor(
         progressBar = findViewById(R.id.progress_bar)
 //        currentTimeTextView = findViewById(R.id.current_time)
 //        totalTimeTextView = findViewById(R.id.total_time)
+
+        val audioAttributes = AudioAttributes.Builder()
+            .setUsage(C.USAGE_MEDIA)  // استفاده برای پخش رسانه
+            .setContentType(C.AUDIO_CONTENT_TYPE_MOVIE)  // نوع محتوا
+            .build()
+
+
         setupProgressBar()
         setupControls()
         setupFullscreenButton()
-        player = ExoPlayer.Builder(context).build()
-        setPlayer(player)
-//        player.prepare()
+        initVideo(context)
     }
 
     private fun setupFullscreenButton() {
@@ -70,14 +86,51 @@ class V1ExoPlayerView @JvmOverloads constructor(
         }
     }
 
+    private fun initVideo(context: Context) {
+        // ساخت RenderersFactory
+        val renderersFactory = DefaultRenderersFactory(context)
+            .setExtensionRendererMode(DefaultRenderersFactory.EXTENSION_RENDERER_MODE_ON)
+
+        // انتخاب TrackSelector
+        val trackSelector = DefaultTrackSelector(context)
+
+        val audioAttributes = AudioAttributes.Builder()
+            .setUsage(C.USAGE_MEDIA)  // استفاده برای پخش رسانه
+            .setContentType(C.AUDIO_CONTENT_TYPE_MUSIC)  // نوع محتوا
+
+            .build()
+
+        // ساخت ExoPlayer
+        player = ExoPlayer.Builder(context)
+            .setRenderersFactory(renderersFactory)
+            .setTrackSelector(trackSelector)
+            .setAudioAttributes(audioAttributes, true)
+            .build()
+
+        // تنظیم ویژگی‌های صدا
+
+
+        val audioManager = context.getSystemService(Context.AUDIO_SERVICE) as AudioManager
+        audioManager.mode = AudioManager.MODE_NORMAL
+
+        val audioSession = player.audioSessionId
+        Log.d("ExoPlayer", "Audio Session ID: $audioSession")
+
+
+        playerView.player = player
+
+        setPlayer(player)
+    }
+
     private fun toggleFullscreen() {
-            enterFullscreen()
+        enterFullscreen()
     }
 
     private fun enterFullscreen() {
         val activity = context as? AppCompatActivity ?: return
         val videoUri = player.currentMediaItem?.localConfiguration?.uri ?: return
-        val fullscreenDialog = FullscreenVideoDialogFragment.newInstance(videoUri,player.currentPosition)
+        val fullscreenDialog =
+            FullscreenVideoDialogFragment.newInstance(videoUri, player.currentPosition)
         fullscreenDialog.show(activity.supportFragmentManager, "FullscreenVideoDialog")
         playerPause()
     }
@@ -103,7 +156,7 @@ class V1ExoPlayerView @JvmOverloads constructor(
         })
     }
 
-    private fun playerPause(){
+    private fun playerPause() {
         if (player.isPlaying) {
             player.pause()
             playPauseButton.apply {
@@ -113,7 +166,18 @@ class V1ExoPlayerView @JvmOverloads constructor(
             }
         }
     }
-    private fun togglePlay(){
+
+    private fun playerReset() {
+            player.seekTo(0)
+            player.pause()
+            playPauseButton.apply {
+                setImageResource(R.drawable.play_green)
+                background = null
+                imageTintList = null
+            }
+    }
+
+    private fun togglePlay() {
         if (player.isPlaying) {
             player.pause()
             playPauseButton.apply {
@@ -130,6 +194,7 @@ class V1ExoPlayerView @JvmOverloads constructor(
             }
         }
     }
+
     private fun setupControls() {
         playPauseButton.setOnClickListener {
             val player = playerView.player ?: return@setOnClickListener
@@ -176,8 +241,13 @@ class V1ExoPlayerView @JvmOverloads constructor(
         return String.format("%02d:%02d", minutes, seconds)
     }
 
-    fun setSource(value:String){
-        player.setMediaItem(MediaItem.fromUri(value))
+    fun setSource(value: String) {
+        val mediaSource = ProgressiveMediaSource.Factory(DefaultDataSourceFactory(context))
+            .createMediaSource(MediaItem.fromUri("https://dl.lingomars.ir/general/video.mp4"))
+
+
+        player.setMediaSource(mediaSource)
+        player.prepare()
     }
 
     private fun setPlayer(exoPlayer: ExoPlayer) {
@@ -187,6 +257,10 @@ class V1ExoPlayerView @JvmOverloads constructor(
         exoPlayer.addListener(object : Player.Listener {
             override fun onPlaybackStateChanged(state: Int) {
                 updateProgress()
+            }
+
+            override fun onPlayerError(error: PlaybackException) {
+                Log.e("ExoPlayer", "Player error: ${error.message}")
             }
 
             override fun onIsPlayingChanged(isPlaying: Boolean) {
@@ -219,6 +293,7 @@ class V1ExoPlayerView @JvmOverloads constructor(
 
 
     private fun stopProgressUpdater() {
+        playerReset()
         handler?.removeCallbacksAndMessages(null)
     }
 }
