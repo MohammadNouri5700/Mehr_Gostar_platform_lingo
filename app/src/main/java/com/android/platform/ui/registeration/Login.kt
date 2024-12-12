@@ -56,6 +56,7 @@ class Login : DaggerAppCompatActivity() {
                 viewModel.preferences.getString("PHONE","NULL")?.let { Firebase.crashlytics.setUserId(it) }
             }
             startActivity(Intent(this,MainActivity::class.java))
+            overridePendingTransition(0, android.R.anim.fade_out);
             finish()
         }
         super.onCreate(savedInstanceState)
@@ -71,6 +72,7 @@ class Login : DaggerAppCompatActivity() {
                     viewModel.call.enqueueMainTask {
                         hideLoading()
                         startActivity(Intent(this,MainActivity::class.java))
+                        overridePendingTransition(0, android.R.anim.fade_out);
                         finish()
                     }
                 }

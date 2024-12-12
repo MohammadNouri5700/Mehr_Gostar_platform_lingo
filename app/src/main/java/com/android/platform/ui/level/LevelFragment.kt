@@ -70,7 +70,7 @@ class LevelFragment : Fragment() {
                 intent.putExtra("LEVEL_ID", it)
                 intent.putExtra("LEVEL_NAME", viewModel.levelsReply?.levelsList?.find { item-> item.levelId==it }?.title)
                 startActivity(intent)
-//                activity?.overridePendingTransition(0, android.R.anim.fade_out);
+                activity?.overridePendingTransition(0, android.R.anim.fade_out);
             }
         }
     }

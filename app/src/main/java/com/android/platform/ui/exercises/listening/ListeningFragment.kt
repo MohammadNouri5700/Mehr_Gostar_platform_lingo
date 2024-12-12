@@ -8,12 +8,17 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.android.platform.ExerciseModel
 import com.android.platform.PlatformApplication
 import com.android.platform.R
 import com.android.platform.databinding.FragmentListeningExerciseBinding
+import com.android.platform.ui.exercises.ExerciseViewModel
+import com.android.platform.ui.exercises.listening.adapter.AdapterListening
+import com.android.platform.ui.exercises.order.adapter.OrderListAdapter
 import com.masoudss.lib.SeekBarOnProgressChanged
 import com.masoudss.lib.WaveformSeekBar
 import kotlinx.coroutines.Dispatchers
@@ -26,13 +31,16 @@ import java.io.FileOutputStream
 import javax.inject.Inject
 
 class ListeningFragment @Inject constructor(val value: ExerciseModel) : Fragment() {
-
+    private lateinit var sharedViewModel: ExerciseViewModel
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
 
     private lateinit var viewModel: ListeningViewModel
     private lateinit var binding: FragmentListeningExerciseBinding
     private lateinit var mediaPlayer: MediaPlayer
+    lateinit var audioFile: File
+    lateinit var adapter: AdapterListening
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -46,18 +54,25 @@ class ListeningFragment @Inject constructor(val value: ExerciseModel) : Fragment
         )
         (requireActivity().application as PlatformApplication).appComponent.inject(this)
         viewModel = ViewModelProvider(this, viewModelFactory)[ListeningViewModel::class.java]
+        sharedViewModel = ViewModelProvider(this, viewModelFactory)[ExerciseViewModel::class.java]
         binding.viewModel = viewModel
+        viewModel.value=value
         binding.lifecycleOwner = viewLifecycleOwner
+        mediaPlayer = MediaPlayer()
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        mediaPlayer = MediaPlayer()
 
-        // دانلود فایل صوتی و آماده کردن MediaPlayer
-        downloadAudioFile("https://dl.lingomars.ir/general/sway.mp3")
+        viewModel.initList()
+
+        binding.recListening.layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
+
+        viewModel.call.enqueueIoTask {
+            downloadAudioFile("https://dl.lingomars.ir/general/sway.mp3")
+        }
 
         binding.wave.onProgressChanged = object : SeekBarOnProgressChanged {
             override fun onProgressChanged(
@@ -65,53 +80,97 @@ class ListeningFragment @Inject constructor(val value: ExerciseModel) : Fragment
                 progress: Float,
                 fromUser: Boolean
             ) {
-                if (fromUser && mediaPlayer.isPlaying) {
+                if (fromUser) {
                     mediaPlayer.seekTo(progress.toInt())
                 }
-            }
-        }
 
-        binding.imgControl.setOnClickListener{
-            if (mediaPlayer.isPlaying){
-                binding.imgControl.setImageDrawable(resources.getDrawable(R.drawable.play_green))
-                mediaPlayer.pause()
-            }else{
-                binding.imgControl.setImageDrawable(resources.getDrawable(R.drawable.pause))
-                mediaPlayer.start()
-                updateSeekBar()
             }
         }
+        viewModel.event.observe(viewLifecycleOwner, Observer { data ->
+            when (data) {
+                "Init" -> {
+                    adapter = AdapterListening(viewModel.contentList,viewModel,requireContext())
+                    binding.recListening.adapter = adapter
+                }
+
+                "Update" -> {
+                    adapter = AdapterListening(viewModel.contentList,viewModel,requireContext())
+                    binding.recListening.adapter = adapter
+                }
+
+                "FinishQuestion"->{
+                    binding.btnConfirm.visibility = View.VISIBLE
+                }
+                "Confirm" -> {
+                    sharedViewModel.confirmExercise()
+                }
+
+                "FinishAudio" -> {
+                    resetPlayer()
+                }
+            }
+        })
+
+        binding.imgControl.setOnClickListener {
+            if (mediaPlayer.isPlaying) {
+                pausePlayer()
+            } else {
+                playPlayer()
+            }
+        }
+    }
+
+    private fun resetPlayer() {
+       pausePlayer()
+        mediaPlayer.seekTo(0)
+        binding.wave.progress=0f
+    }
+
+    private fun pausePlayer() {
+        binding.imgControl.setImageDrawable(resources.getDrawable(R.drawable.play_green))
+        mediaPlayer.pause()
+    }
+
+    private fun playPlayer() {
+        binding.imgControl.setImageDrawable(resources.getDrawable(R.drawable.pause))
+        mediaPlayer.start()
+        updateSeekBar()
     }
 
     private fun updateSeekBar() {
         lifecycleScope.launch(Dispatchers.Main) {
             while (mediaPlayer.isPlaying) {
                 binding.wave.progress = mediaPlayer.currentPosition.toFloat()
-                kotlinx.coroutines.delay(500) // فاصله زمانی برای به‌روزرسانی
+                kotlinx.coroutines.delay(1)
+            }
+            if (990.0f <= (binding.wave.progress * 1000 / binding.wave.maxProgress)) {
+                viewModel.finishAudio()
             }
         }
     }
+
     private fun processAudio() {
-        val fakeWaveform = IntArray(100) { (0..100).random() } // نمونه داده جعلی
+        val fakeWaveform = IntArray(100) { (0..100).random() }
         binding.wave.sample = fakeWaveform
     }
+
     private fun downloadAudioFile(url: String) {
         val client = OkHttpClient()
         val request = Request.Builder().url(url).build()
 
-        lifecycleScope.launch(Dispatchers.IO) {
+        viewModel.call.enqueueIoTask {
             try {
                 val response = client.newCall(request).execute()
                 if (response.isSuccessful) {
                     val inputStream = response.body?.byteStream()
-                    val file = File(context?.cacheDir, "temp_audio_file.mp3")
-                    val outputStream = FileOutputStream(file)
+                    audioFile = File(context?.cacheDir, "temp_audio_file.mp3")
+                    val outputStream = FileOutputStream(audioFile)
                     inputStream?.copyTo(outputStream)
                     inputStream?.close()
                     outputStream.close()
 
                     withContext(Dispatchers.Main) {
-                        setupMediaPlayer(file)
+                        setupMediaPlayer(audioFile)
                         processAudio()
                     }
                 }
@@ -127,9 +186,9 @@ class ListeningFragment @Inject constructor(val value: ExerciseModel) : Fragment
 
         mediaPlayer.setOnPreparedListener {
             binding.wave.maxProgress = it.duration.toFloat()
-            it.start()
             updateSeekBar()
         }
+
     }
 
     override fun onDestroy() {

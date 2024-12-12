@@ -116,6 +116,7 @@ class CourseActivity : DaggerAppCompatActivity() {
                 intent.putExtra("EXERCISE_ID", it)
                 intent.putExtra("ITEM",  viewModel.lessonReply?.toByteArray())
                 startActivity(intent)
+
             }
         }
 

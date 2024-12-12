@@ -10,12 +10,14 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.android.platform.R
 import com.android.platform.ui.exercises.placement.PlacementViewModel
+import com.android.platform.ui.exercises.placement.data.PlacementEntity
+import com.android.platform.ui.exercises.placement.data.getSelected
 import com.google.android.flexbox.FlexDirection
 import com.google.android.flexbox.FlexboxLayoutManager
 import com.google.android.flexbox.JustifyContent
 
 class AdapterTarget(
-    var items: ArrayList<PlacementEntity>,
+    var items: PlacementEntity,
     val viewModel: PlacementViewModel,
     val isSelected: Boolean,
     val ctx: Context
@@ -42,63 +44,15 @@ class AdapterTarget(
     }
 
     override fun onBindViewHolder(holder: AdapterTarget.ViewHolder, position: Int) {
-        holder.textView.text = items[position].Title
+        holder.textView.text = items.Questions[position].ContentQuestion
 
 
         holder.recInTarget.adapter =
-            PlacementSelectedListAdapter(items[position].getSelected(position), this,viewModel, ctx)
-
-        holder.recInTarget.setOnDragListener { _, event ->
-            when (event.action) {
-                DragEvent.ACTION_DRAG_STARTED -> {
-                    Log.e("APP", "ACTION_DRAG_STARTED")
-                    true
-                }
-
-                DragEvent.ACTION_DRAG_ENTERED -> {
-                    Log.e("APP", "ACTION_DRAG_ENTERED")
-
-                    true
-                }
-
-                DragEvent.ACTION_DROP -> {
-                    Log.e("APP", "ACTION_DROP")
-                    val item = event.localState as String
-                    items[position].addSelected(item,position)
-                    notifyDataSetChanged()
-
-                    true
-                }
-
-                DragEvent.ACTION_DRAG_EXITED -> {
-                    Log.e("APP", "ACTION_DRAG_EXITED")
-                    true
-                }
-
-                DragEvent.ACTION_DRAG_ENDED -> {
-//
-                    Log.e("APP", "ACTION_DRAG_ENDED")
-
-                    true
-                }
-
-                else -> false
-            }
-        }
-    }
-
-
-    override fun getItemCount(): Int = items.size
-
-
-    fun addTOItem(item: String) {
+            PlacementSelectedListAdapter(items.getSelected(position), this,viewModel, ctx)
 
     }
 
-    fun addItem(item: String) {
 
-
-    }
-
+    override fun getItemCount(): Int = items.Questions.size
 
 }

@@ -2,6 +2,7 @@ package com.android.platform.ui.exercises.context_placement
 
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -86,7 +87,8 @@ class ContextPlacementFragment @Inject constructor(val value: ExerciseModel) : F
 
                     val dragManager = DragManager(
                         binding.parentLayout,
-                        binding.recSentences
+                        binding.recSentences,
+                        true
                     ) { draggedView, x, y, position, draggedPosition ->
                         position.let {
                             it?.let { it1 ->

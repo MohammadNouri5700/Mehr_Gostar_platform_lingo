@@ -100,6 +100,7 @@ class MainActivity : DaggerAppCompatActivity() {
                     mainViewModel.preferences.putString("PHONE", "")
                     mainViewModel.preferences.putString("TOKEN", "")
                     startActivity(Intent(this, Login::class.java))
+                    overridePendingTransition(0, android.R.anim.fade_out);
                     finish()
                 }
 

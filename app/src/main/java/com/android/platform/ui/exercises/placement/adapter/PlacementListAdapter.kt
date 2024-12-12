@@ -25,6 +25,8 @@ class PlacementListAdapter(val items: ArrayList<String>, val viewModel: Placemen
         holder.name.text = items[position]
     }
 
+    fun getItem(position: Int): String = items[position]
+
     override fun getItemCount(): Int = items.size
 
     fun removeItem(position: Int): String {

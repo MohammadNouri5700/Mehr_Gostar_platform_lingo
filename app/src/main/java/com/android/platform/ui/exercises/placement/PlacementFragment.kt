@@ -29,12 +29,14 @@ import com.android.platform.R
 import com.android.platform.databinding.FragmentHomeBinding
 import com.android.platform.databinding.FragmentPlacementExerciseBinding
 import com.android.platform.di.factory.CallQueueManager
+import com.android.platform.di.factory.DragManager
 import com.android.platform.di.module.CoroutineModule
 import com.android.platform.repository.data.database.ImageDao
+import com.android.platform.ui.exercises.ExerciseViewModel
 import com.android.platform.ui.exercises.order.adapter.OrderListAdapter
 import com.android.platform.ui.exercises.placement.adapter.AdapterTarget
 import com.android.platform.ui.exercises.placement.adapter.PlacementListAdapter
-import com.android.platform.ui.exercises.placement.adapter.getWords
+import com.android.platform.ui.exercises.placement.data.addSelected
 import com.android.platform.ui.home.story.PodcastAdapter
 import com.android.platform.ui.home.story.StoryAdapter
 import com.google.android.flexbox.FlexDirection
@@ -51,7 +53,7 @@ class PlacementFragment @Inject constructor(val value: ExerciseModel) : Fragment
 
 //[{"Title":"city","Word":"tehran + tabrix + qom"},{"Title":"country","Word":"germany + iran + japan"}]
 
-
+    private lateinit var sharedViewModel: ExerciseViewModel
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
 
@@ -63,17 +65,14 @@ class PlacementFragment @Inject constructor(val value: ExerciseModel) : Fragment
     lateinit var itemsAdapter: PlacementListAdapter
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
+        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View? {
         binding = DataBindingUtil.inflate(
-            inflater,
-            R.layout.fragment_placement_exercise,
-            container,
-            false
+            inflater, R.layout.fragment_placement_exercise, container, false
         )
         (requireActivity().application as PlatformApplication).appComponent.inject(this)
         viewModel = ViewModelProvider(this, viewModelFactory)[PlacementViewModel::class.java]
+        sharedViewModel = ViewModelProvider(this, viewModelFactory)[ExerciseViewModel::class.java]
         binding.viewModel = viewModel
         viewModel.value = value
         binding.lifecycleOwner = viewLifecycleOwner
@@ -103,61 +102,49 @@ class PlacementFragment @Inject constructor(val value: ExerciseModel) : Fragment
                     targetAdapter =
                         AdapterTarget(viewModel.contentList, viewModel, false, requireContext())
                     val dataItems: ArrayList<String> = ArrayList()
-                    viewModel.contentList.forEach {
-                        dataItems.addAll(it.getWords())
+                    viewModel.contentList.Questions.forEach {
+                        it.AnswerOptions.forEach {
+                            dataItems.add(it.Answer.toString())
+                        }
                     }
                     itemsAdapter = PlacementListAdapter(dataItems, viewModel, requireContext())
                     binding.recTarget.adapter = targetAdapter
                     binding.recItems.adapter = itemsAdapter
-                    viewModel.updateList()
+//                    viewModel.updateList()
                 }
 
                 "Update" -> {
-                    targetAdapter.notifyDataSetChanged()
-                    itemsAdapter.notifyDataSetChanged()
+//                    targetAdapter.notifyDataSetChanged()
+//                    itemsAdapter.notifyDataSetChanged()
                 }
 
                 "Confirm" -> {
+                    sharedViewModel.confirmExercise()
                 }
             }
         })
 
 
-
-        binding.recItems.addOnItemTouchListener(object : RecyclerView.SimpleOnItemTouchListener() {
-            override fun onInterceptTouchEvent(rv: RecyclerView, e: MotionEvent): Boolean {
-                if (e.action == MotionEvent.ACTION_DOWN) {
-                    val child = rv.findChildViewUnder(e.x, e.y)
-                    if (child != null) {
-                        val position = rv.getChildAdapterPosition(child)
-                        startDragFramework(child, position,itemsAdapter)
+        val dragManager = DragManager(
+            binding.parentLayout, binding.recTarget
+        ) { draggedView, x, y, position, draggedPosition ->
+            position.let {
+                it?.let { it1 ->
+                    draggedPosition?.let { index ->
+                        viewModel.contentList.addSelected(itemsAdapter.getItem(draggedPosition),position!!)
+                        itemsAdapter.removeItem(draggedPosition)
+                        targetAdapter.notifyItemChanged(position)
+                        binding.btnConfirm.visibility = if (itemsAdapter.itemCount==0) View.VISIBLE else View.GONE
                     }
                 }
-                return false
             }
-        })
+            true
+        }
+
+        dragManager.attachToRecyclerView(binding.recItems)
+
     }
-    private fun startDragFramework(
-        view: View,
-        position: Int,
-        sourceAdapter: PlacementListAdapter
-    ) {
-        val item = sourceAdapter.removeItem(position)
 
-
-        val dragData = ClipData.newPlainText("item", item)
-
-
-        val dragShadow = View.DragShadowBuilder(view)
-
-
-        view.startDragAndDrop(
-            dragData,
-            dragShadow,
-            item,
-            0
-        )
-    }
 
 
 }

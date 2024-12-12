@@ -60,8 +60,6 @@ class ContextPlacementViewModel @Inject constructor() : ViewModel() {
         items.addAll(itemsBackup)
         selectSentences.forEachIndexed { index, it ->
             if (selectSentences[index].first == true) {
-
-
                 val iterator = items.iterator()
                 while (iterator.hasNext()) {
                     val item = iterator.next()
@@ -81,6 +79,8 @@ class ContextPlacementViewModel @Inject constructor() : ViewModel() {
     }
 
     fun addSelected(position: Int, value: String): Boolean {
+        if (position<=0) return false
+
         if (selectSentences[position].first == true) {
             if (selectSentences[position].second.trim() == addGap())
                 selectSentences[position] = Pair<Boolean, String>(true, value)

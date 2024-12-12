@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.android.platform.ExerciseModel
+import com.android.platform.di.factory.SingleLiveEvent
 import com.android.platform.ui.exercises.order.adapter.OrderEntity
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
@@ -16,8 +17,8 @@ class OrderViewModel @Inject constructor(): ViewModel() {
     lateinit var selectedList:ArrayList<OrderEntity>
     private val gson = Gson()
 
-    private val _event = MutableLiveData<String>()
-    val event: LiveData<String> get() = _event
+    private val _event = SingleLiveEvent<String>()
+    val event: SingleLiveEvent<String> get() = _event
 
 
     fun initList(){

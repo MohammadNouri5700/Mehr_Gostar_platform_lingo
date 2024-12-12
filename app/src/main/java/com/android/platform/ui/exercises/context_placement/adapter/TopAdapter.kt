@@ -8,7 +8,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.android.platform.R
 
-class TopAdapter (private val words: MutableList<String>,val ctx: Context): RecyclerView.Adapter<TopAdapter.WordViewHolder>() {
+class TopAdapter (val words: MutableList<String>,val ctx: Context): RecyclerView.Adapter<TopAdapter.WordViewHolder>() {
 
     inner class WordViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val textView: TextView = itemView.findViewById(R.id.wordText)
