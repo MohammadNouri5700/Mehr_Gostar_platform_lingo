@@ -19,7 +19,7 @@ class AiBotAdapter(
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         return if (items[viewType].type == MType.messageText) { // Message type
-            val layout = if (viewType % 2 == 0) {
+            val layout = if (!items[viewType].sideUs) {
                 R.layout.item_ai_bot_them
             } else {
                 R.layout.item_ai_bot_message_us
@@ -33,16 +33,25 @@ class AiBotAdapter(
         }
     }
 
+
+
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         val item = items[position]
         if (holder is MessageViewHolder) {
             holder.message.text = item.message
 
-            if (getItemViewType(position) == 0) {
+            if (item.sideUs) {
                 animateLeft(holder.message)
             } else {
                 animateRight(holder.message)
             }
+            if (item.fade&&item.sideUs){
+                holder.itemView.alpha = 0.7f
+            }else{
+                holder.itemView.alpha = 1f
+            }
+
+
         } else if (holder is VoiceViewHolder) {
             // Handle voice type binding logic if needed
             // For example, show playback options or voice animations

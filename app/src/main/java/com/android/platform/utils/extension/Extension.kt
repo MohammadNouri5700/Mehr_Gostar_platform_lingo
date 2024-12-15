@@ -20,6 +20,7 @@ import android.view.animation.AnimationUtils
 import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
 import androidx.lifecycle.ViewModel
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.android.platform.R
 import com.android.platform.di.factory.LoadingView
@@ -63,7 +64,27 @@ fun Context.calculateCharactersPerLine(textSizeDp: Float): Int {
     return (screenWidth / averageCharWidth).toInt()
 }
 
-
+fun RecyclerView.betterSmoothScrollToPosition(targetItem: Int) {
+    layoutManager?.apply {
+        val maxScroll = 0
+        when (this) {
+            is LinearLayoutManager -> {
+                val topItem = findFirstVisibleItemPosition()
+                val distance = topItem - targetItem
+                val anchorItem = when {
+                    distance > maxScroll -> targetItem + maxScroll
+                    distance < -maxScroll -> targetItem - maxScroll
+                    else -> topItem
+                }
+                if (anchorItem != topItem) scrollToPosition(anchorItem)
+                post {
+                    smoothScrollToPosition(targetItem)
+                }
+            }
+            else -> smoothScrollToPosition(targetItem)
+        }
+    }
+}
 
 fun Activity.showToast(message: String) {
     Toast.makeText(this, message, Toast.LENGTH_SHORT).show()

@@ -83,6 +83,11 @@ class AIContextFragment @Inject constructor(val value: ExerciseModel) : Fragment
                         sharedViewModel.confirmExercise()
                     }
                 }
+                "UpdateRemove"->{
+                    viewModel.call.enqueueMainTask {
+                        itemsAdapter.updateList(viewModel.messageList)
+                    }
+                }
 
                 "ScrollToEnd" -> {
                     viewModel.call.enqueueMainTask {

@@ -16,36 +16,88 @@ class CallQueueManager  @Inject constructor(
 
 ){
 
+
+    private var taskId = 0
+    private var jobMap = mutableMapOf<Int, Job>()
+
     private val ioTaskQueue = ConcurrentLinkedQueue<suspend () -> Unit>()
     private val mainTaskQueue = ConcurrentLinkedQueue<suspend () -> Unit>()
     private val applicationTaskQueue = ConcurrentLinkedQueue<suspend () -> Unit>()
+
+
     private var isRunningIo = false
     private var isRunningMain = false
     private var isRunningApplication = false
 
-    private var IioTaskQueue = 0
-    fun enqueueIoTask(task: suspend () -> Unit) {
+    private var ioTaskQueueCounter = 0
+    private var mainTaskQueueCounter = 0
+    private var applicationTaskCounter = 0
+
+
+    fun enqueueIoTask(task: suspend () -> Unit): Int {
         ioTaskQueue.add(task)
-        IioTaskQueue++
+        ioTaskQueueCounter++
+
+        val job = ioScope.launch {
+            while (ioTaskQueue.isNotEmpty()) {
+                val nextTask = ioTaskQueue.poll()
+                nextTask?.invoke()
+            }
+        }
+        taskId++
+        jobMap[taskId] = job
 
         processIoQueue()
-        Log.e("Thread","enqueueIoTask $IioTaskQueue sizeIs ${ioTaskQueue.size}")
+
+        Log.e("Thread","enqueueIoTask $ioTaskQueueCounter sizeIs ${ioTaskQueue.size}")
+        return taskId
     }
 
-    private var ImainTaskQueue = 0
-    fun enqueueMainTask(task: suspend () -> Unit) {
+
+    fun enqueueMainTask(task: suspend () -> Unit) : Int {
         mainTaskQueue.add(task)
-        ImainTaskQueue++
+        mainTaskQueueCounter++
+
+        val job = mainScope.launch {
+            while (mainTaskQueue.isNotEmpty()) {
+                val nextTask = mainTaskQueue.poll()
+                nextTask?.invoke()
+            }
+        }
+
+        taskId++
+        jobMap[taskId] = job
+
         processMainQueue()
-        Log.e("Thread","enqueueMainTask $ImainTaskQueue sizeIs ${mainTaskQueue.size}")
+        Log.e("Thread","enqueueMainTask $mainTaskQueueCounter sizeIs ${mainTaskQueue.size}")
+        return taskId
     }
-    var IenqueueApplicationTask = 0
-    fun enqueueApplicationTask(task: suspend () -> Unit) {
+
+    fun enqueueApplicationTask(task: suspend () -> Unit): Int {
         applicationTaskQueue.add(task)
-        IenqueueApplicationTask++
+        applicationTaskCounter++
+
+        val job = applicationScope.launch {
+            while (applicationTaskQueue.isNotEmpty()) {
+                val nextTask = applicationTaskQueue.poll()
+                nextTask?.invoke()
+            }
+        }
+
+        taskId++
+        jobMap[taskId] = job
+
         processApplicationQueue()
-        Log.e("Thread","enqueueApplicationTask $IenqueueApplicationTask sizeIs ${applicationTaskQueue.size}")
+        Log.e("Thread","enqueueApplicationTask $applicationTaskCounter sizeIs ${applicationTaskQueue.size}")
+        return taskId
     }
+
+    fun cancelTask(taskId: Int) {
+        jobMap[taskId]?.cancel()
+        jobMap.remove(taskId)
+        Log.e("Thread", "Task $taskId cancelled")
+    }
+
 
     private fun processIoQueue() {
         if (isRunningIo || ioTaskQueue.isEmpty()) return

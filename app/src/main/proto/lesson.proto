@@ -68,12 +68,11 @@ enum ExerciseType
   Detect = 2;
   ContextPlacement = 3;
   Order = 4;
-  TrueFalse = 5;
-  MultipleChoice = 6;
-  AiContext = 7;
-  AiVoice = 8;
-  AiContent = 9;
-  AiLetter = 10;
+  ListeningExercise = 5;
+  AiContext = 6;
+  AiVoice = 7;
+  AiContent = 8;
+  AiLetter = 9;
 }
 
 enum ContentType
@@ -86,4 +85,3 @@ enum ContentType
   CombinationExercise = 5;
   FinalExam = 6;
 }
-

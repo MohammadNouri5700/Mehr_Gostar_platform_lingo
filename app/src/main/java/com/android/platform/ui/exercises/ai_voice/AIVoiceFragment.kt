@@ -113,7 +113,7 @@ class AIVoiceFragment @Inject constructor(val value: ExerciseModel) : Fragment()
 
 
         viewModel.event.observe(viewLifecycleOwner, Observer { data ->
-            viewModel.messageList.add(BotMessageEntity(MType.messageText,data,"",""))
+            viewModel.messageList.add(BotMessageEntity(MType.messageText,data,"","",false))
             binding.recMessages.adapter?.notifyItemChanged(viewModel.messageList.size)
         })
 

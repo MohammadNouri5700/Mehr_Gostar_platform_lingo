@@ -32,7 +32,11 @@ class SelectCourseItemAdapter(
 
     override fun onBindViewHolder(holder: TaskViewHolder, position: Int) {
         val item: ExerciseModel = exerciseModels[position]
-        holder.lblTitle.text = item.exerciseType.name
+        if (item.exerciseType.name == ("ListeningExercise"))
+            holder.lblTitle.text = "Listening"
+        else
+            holder.lblTitle.text = item.exerciseType.name
+
 
         val layoutParams = holder.itemView.layoutParams
         val screenWidth: Int = getScreenWidth(holder.itemView.context)

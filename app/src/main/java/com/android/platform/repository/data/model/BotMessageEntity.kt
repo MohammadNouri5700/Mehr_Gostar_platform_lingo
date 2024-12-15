@@ -4,7 +4,9 @@ data class BotMessageEntity (
     val type: MType,
     val message: String,
     val data: String,
-    val result: String
+    val result: String,
+    val sideUs: Boolean,
+    var fade: Boolean=false
 )
 
 enum class MType{

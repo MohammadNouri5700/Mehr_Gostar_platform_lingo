@@ -38,7 +38,6 @@ class SelectCourseItemDialog(private val lessonsReply: LessonReply,private val  
 
     override fun onStart() {
         super.onStart()
-        // حذف وضعیت نوار ناوبری
         dialog?.window?.setFlags(
             WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS,
             WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS
