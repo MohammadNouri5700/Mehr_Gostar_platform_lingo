@@ -144,19 +144,7 @@ class MainActivity : DaggerAppCompatActivity() {
             }
         })
 
-        val on = object : TextToSpeech.OnInitListener{
-            override fun onInit(status: Int) {
-                Log.e("APP","WE GOT TextToSpeech $status")
-            }
 
-        }
-        Speech.init(this, packageName,on)
-
-        try{
-            Speech.getInstance().setPreferOffline(false)
-        } catch (ex: Exception){
-            Log.e("SpeechError", "Language not supported!")
-        }
 
     }
 

@@ -10,21 +10,20 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        app:layout_constraintEnd_toEndOf="parent"
         android:background="@drawable/round_item_ai_context_them"
-        android:backgroundTint="#08433e"
+        android:backgroundTint="#ECECE2"
         android:paddingTop="@dimen/_5sdp"
         android:paddingBottom="@dimen/_5sdp"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintWidth_percent="0.7">
-
 
         <ImageView
             android:id="@+id/imgPlay"
             android:layout_width="@dimen/_35sdp"
             android:layout_height="@dimen/_35sdp"
-            android:src="@drawable/play_white"
             android:layout_marginStart="@dimen/_5sdp"
+            android:src="@drawable/play_white"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -47,15 +46,15 @@
             android:id="@+id/wave"
             android:layout_width="0dp"
             android:layout_height="@dimen/_35sdp"
+            android:layout_marginStart="@dimen/_5sdp"
+            android:layout_marginEnd="@dimen/_12sdp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/imgPlay"
             app:layout_constraintTop_toTopOf="parent"
-            android:layout_marginEnd="@dimen/_12sdp"
-            android:layout_marginStart="@dimen/_5sdp"
             app:marker_color="#fff"
             app:marker_width="@dimen/_2sdp"
-            app:wave_background_color="#3d6c68"
+            app:wave_background_color="#A0A099"
             app:wave_corner_radius="2dp"
             app:wave_gap="@dimen/_2sdp"
             app:wave_gravity="center"

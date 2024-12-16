@@ -45,13 +45,14 @@ class AIVoiceViewModel @Inject constructor() : ViewModel() {
     @ChannelAI
     lateinit var aiVoice: SttServiceGrpc.SttServiceStub
 
-    var messageList: ArrayList<BotMessageEntity> = arrayListOf()
 
     private val _event = SingleLiveEvent<String>()
     val event: SingleLiveEvent<String> get() = _event
 
 
     fun startListeningGoogle(context: Context) {
+
+
         try {
             Speech.getInstance().setPreferOffline(false)
         } catch (ex: Exception) {
@@ -193,6 +194,7 @@ class AIVoiceViewModel @Inject constructor() : ViewModel() {
                 Log.e("WebSocket", "Error reading audio file: ${e.message}")
             }
         }
+
     }
 
 

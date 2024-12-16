@@ -2,6 +2,7 @@ package com.android.platform.di.module
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
+import com.android.platform.ui.global.BotChatViewModel
 import com.android.platform.di.factory.ViewModelFactory
 import com.android.platform.di.scop.ViewModelKey
 import com.android.platform.ui.course.course.CourseActivityViewModel
@@ -88,6 +89,12 @@ abstract class ViewModelModule {
     @IntoMap
     @ViewModelKey(ExerciseViewModel::class)
     abstract fun bindExerciseViewModel(viewModel: ExerciseViewModel): ViewModel
+
+    @Singleton
+    @Binds
+    @IntoMap
+    @ViewModelKey(BotChatViewModel::class)
+    abstract fun bindBotChatViewModel(viewModel: BotChatViewModel): ViewModel
 
     @Binds
     @IntoMap

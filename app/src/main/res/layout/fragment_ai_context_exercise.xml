@@ -8,6 +8,11 @@
         <variable
             name="viewModel"
             type="com.android.platform.ui.exercises.ai_context.AIContextViewModel" />
+
+        <variable
+            name="chatViewModel"
+            type="com.android.platform.ui.global.BotChatViewModel" />
+
     </data>
 
 
@@ -55,7 +60,7 @@
                 app:layout_constraintStart_toStartOf="parent" />
 
             <ImageView
-                android:onClick="@{(view) -> viewModel.sendMessage(((android.widget.EditText)view.rootView.findViewById(@id/edtMessage)).getText().toString())}"
+                android:onClick="@{(view) -> chatViewModel.sendMessage(((android.widget.EditText)view.rootView.findViewById(@id/edtMessage)).getText().toString())}"
                 android:id="@+id/imgSend"
                 android:layout_width="@dimen/_45sdp"
                 android:layout_height="@dimen/_45sdp"

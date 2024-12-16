@@ -28,6 +28,7 @@ import okhttp3.OkHttpClient
 import okhttp3.Request
 import java.io.File
 import java.io.FileOutputStream
+import java.util.UUID
 import javax.inject.Inject
 
 class ListeningFragment @Inject constructor(val value: ExerciseModel) : Fragment() {
@@ -141,7 +142,7 @@ class ListeningFragment @Inject constructor(val value: ExerciseModel) : Fragment
         lifecycleScope.launch(Dispatchers.Main) {
             while (mediaPlayer.isPlaying) {
                 binding.wave.progress = mediaPlayer.currentPosition.toFloat()
-                kotlinx.coroutines.delay(1)
+                kotlinx.coroutines.delay(10)
             }
             if (990.0f <= (binding.wave.progress * 1000 / binding.wave.maxProgress)) {
                 viewModel.finishAudio()
@@ -162,8 +163,9 @@ class ListeningFragment @Inject constructor(val value: ExerciseModel) : Fragment
             try {
                 val response = client.newCall(request).execute()
                 if (response.isSuccessful) {
+                    val fileName = UUID.randomUUID().toString() + ".mp3"
                     val inputStream = response.body?.byteStream()
-                    audioFile = File(context?.cacheDir, "temp_audio_file.mp3")
+                    audioFile = File(context?.cacheDir, fileName)
                     val outputStream = FileOutputStream(audioFile)
                     inputStream?.copyTo(outputStream)
                     inputStream?.close()

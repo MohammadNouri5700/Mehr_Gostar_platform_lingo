@@ -41,6 +41,8 @@ class MainViewModel @Inject constructor() : ViewModel() {
     private val _event = MutableLiveData<String>().apply {
         value = "Loading"
     }
+
+
     val event: LiveData<String> = _event
 
 
