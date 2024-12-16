@@ -9,7 +9,7 @@ import com.android.platform.ui.course.list.CourseListViewModel
 import com.android.platform.ui.exercises.ExerciseViewModel
 import com.android.platform.ui.exercises.ai_content.AIContentViewModel
 import com.android.platform.ui.exercises.ai_context.AIContextViewModel
-import com.android.platform.ui.exercises.ai_latter.AILatterViewModel
+import com.android.platform.ui.exercises.ai_letter.AILetterViewModel
 import com.android.platform.ui.exercises.ai_voice.AIVoiceViewModel
 import com.android.platform.ui.exercises.context_placement.ContextPlacementViewModel
 import com.android.platform.ui.exercises.detect.DetectViewModel
@@ -127,8 +127,8 @@ abstract class ViewModelModule {
 
     @Binds
     @IntoMap
-    @ViewModelKey(AILatterViewModel::class)
-    abstract fun bindAILatterViewModel(viewModel: AILatterViewModel): ViewModel
+    @ViewModelKey(AILetterViewModel::class)
+    abstract fun bindAILatterViewModel(viewModel: AILetterViewModel): ViewModel
 
     @Binds
     @IntoMap

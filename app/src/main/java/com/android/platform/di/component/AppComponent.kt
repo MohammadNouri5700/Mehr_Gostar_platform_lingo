@@ -18,7 +18,7 @@ import com.android.platform.ui.course.list.CourseList
 import com.android.platform.ui.exercises.ExerciseActivity
 import com.android.platform.ui.exercises.ai_content.AIContentFragment
 import com.android.platform.ui.exercises.ai_context.AIContextFragment
-import com.android.platform.ui.exercises.ai_latter.AILatterFragment
+import com.android.platform.ui.exercises.ai_letter.AILetterFragment
 import com.android.platform.ui.exercises.ai_voice.AIVoiceFragment
 import com.android.platform.ui.exercises.context_placement.ContextPlacementFragment
 import com.android.platform.ui.exercises.detect.DetectFragment
@@ -78,7 +78,7 @@ interface AppComponent {
     fun inject(detectFragment: DetectFragment)
     fun inject(contextPlacementFragment: ContextPlacementFragment)
     fun inject(aiVoiceFragment: AIVoiceFragment)
-    fun inject(aiLatterFragment: AILatterFragment)
+    fun inject(aiLatterFragment: AILetterFragment)
     fun inject(aiContextFragment: AIContextFragment)
     fun inject(aiContentFragment: AIContentFragment)
 

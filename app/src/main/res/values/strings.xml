@@ -55,5 +55,8 @@
     <string name="tap_and_hold_the_button_to_record">Tap and Hold the button to record.</string>
     <string name="like">Like</string>
     <string name="read_the_paragraph_below">Read the paragraph below.</string>
+    <string name="read_the_question_below">Read the question below.</string>
     <string name="record_your_voice_while_reading_the_paragraph_below">Record your voice while reading the paragraph below</string>
+    <string name="write_an_essay">Write an essay</string>
+    <string name="word">Word count :</string>
 </resources>

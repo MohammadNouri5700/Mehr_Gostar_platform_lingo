@@ -60,7 +60,7 @@
             android:layout_height="@dimen/_45sdp"
             android:layout_marginEnd="@dimen/_5sdp"
             android:padding="@dimen/_3sdp"
-            android:src="@drawable/record_voice_green"
+            android:src="@drawable/voice"
             app:layout_constraintBottom_toBottomOf="@id/edtMessage"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@+id/edtMessage" />

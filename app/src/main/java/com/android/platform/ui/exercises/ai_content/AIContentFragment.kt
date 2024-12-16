@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.android.platform.ExerciseModel
 import com.android.platform.PlatformApplication
@@ -37,12 +38,17 @@ class AIContentFragment @Inject constructor(val value: ExerciseModel) : Fragment
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_ai_content_exercise, container, false)
+        binding = DataBindingUtil.inflate(
+            inflater,
+            R.layout.fragment_ai_content_exercise,
+            container,
+            false
+        )
         (requireActivity().application as PlatformApplication).appComponent.inject(this)
         viewModel = ViewModelProvider(this, viewModelFactory)[AIContentViewModel::class.java]
         sharedViewModel = ViewModelProvider(this, viewModelFactory)[ExerciseViewModel::class.java]
         binding.viewModel = viewModel
-        binding.lifecycleOwner = this
+        binding.lifecycleOwner = viewLifecycleOwner
         viewModel.value = value
         return binding.root
     }
@@ -51,17 +57,48 @@ class AIContentFragment @Inject constructor(val value: ExerciseModel) : Fragment
         super.onViewCreated(view, savedInstanceState)
         binding.lblReading.text = viewModel.value.content
 
+
+        viewModel.event.observe(viewLifecycleOwner, Observer { data ->
+            when (data) {
+                "StartVoice" -> {
+                    viewModel.call.enqueueMainTask {
+                        binding.imgRecord.apply {
+                            alpha = 0f;
+                            setImageResource(R.drawable.voice_pause)
+                        }.animate().alpha(1f).setDuration(700).start()
+
+                        binding.lblTimer.apply {
+                            alpha = 0f
+                        }.animate().alpha(1f).setDuration(700).start()
+
+                    }
+                }
+
+                "StopVoice" -> {
+                    viewModel.call.enqueueMainTask {
+                        binding.imgRecord.apply {
+                            alpha = 0f;
+                            setImageResource(R.drawable.voice)
+                        }.animate().alpha(1f).setDuration(700).start()
+
+                        binding.lblTimer.apply {
+                            alpha = 1f
+                        }.animate().alpha(0f).setDuration(700).start()
+
+                    }
+                }
+
+            }
+        })
+
+
     }
 
-    fun startVoice(){
 
+    override fun onDestroy() {
+        super.onDestroy()
+        viewModel.stopTimer()
     }
-
-
-
-
-
-
 
 
 }

@@ -9,6 +9,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.android.platform.ExerciseModel
 import com.android.platform.di.factory.CallQueueManager
+import com.android.platform.di.factory.SingleLiveEvent
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import javax.inject.Inject
@@ -16,18 +17,25 @@ import javax.inject.Inject
 class AIContentViewModel @Inject constructor(val call: CallQueueManager) : ViewModel() {
 
 
+    private val _event = SingleLiveEvent<String>()
+    val event: SingleLiveEvent<String> get() = _event
+
+
+
     lateinit var value: ExerciseModel
     val time = MutableLiveData<String>("00:00")
     private var timerJob: Int = -1
-    var recordVoice = false
+    private var recordStatus = false
 
 
     fun startVoice() {
-        if (recordVoice) {
-            recordVoice = false
+        if (recordStatus) {
+            _event.postValue("StopVoice")
+            recordStatus = false
             stopTimer()
         } else {
-            recordVoice = true
+            _event.postValue("StartVoice")
+            recordStatus = true
             startTimer()
         }
 
@@ -36,8 +44,8 @@ class AIContentViewModel @Inject constructor(val call: CallQueueManager) : ViewM
     fun startTimer() {
         var seconds = 0
         timerJob = call.enqueueIoTask {
-            while (recordVoice) {
-                delay(1000) // هر 1 ثانیه
+            while (recordStatus) {
+                delay(1000)
                 seconds++
                 val minutes = seconds / 60
                 val remainingSeconds = seconds % 60
@@ -55,6 +63,7 @@ class AIContentViewModel @Inject constructor(val call: CallQueueManager) : ViewM
 
     fun stopTimer() {
         call.cancelTask(timerJob)
+
     }
 
 

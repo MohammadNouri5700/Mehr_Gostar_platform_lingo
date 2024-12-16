@@ -1,17 +1,142 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
 
         <variable
             name="viewModel"
-            type="com.android.platform.ui.exercises.ai_latter.AILatterViewModel" />
+            type="com.android.platform.ui.exercises.ai_letter.AILetterViewModel" />
     </data>
 
-    <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    <ScrollView
         android:layout_width="match_parent"
+        android:fillViewport="true"
         android:layout_height="match_parent">
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
 
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#fff"
+            android:padding="@dimen/_12sdp">
+
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/conTest"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+
+                <com.android.platform.utils.font.QuicksandBold
+                    android:id="@+id/lblInfo"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:paddingStart="@dimen/_12sdp"
+                    android:paddingEnd="@dimen/_12sdp"
+                    android:text="@string/read_the_question_below"
+                    android:textSize="@dimen/_15sdp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/imgInfo"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <com.android.platform.utils.font.QuicksandBold
+                    android:id="@+id/lblDescription"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:paddingStart="@dimen/_12sdp"
+                    android:paddingEnd="@dimen/_12sdp"
+                    android:text="@string/write_an_essay"
+                    android:textColor="@color/gray"
+                    android:textSize="@dimen/_12sdp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/imgInfo"
+                    app:layout_constraintTop_toBottomOf="@+id/lblInfo" />
+
+                <ImageView
+                    android:id="@+id/imgInfo"
+                    android:layout_width="@dimen/_25sdp"
+                    android:layout_height="@dimen/_25sdp"
+                    android:src="@drawable/info"
+                    app:layout_constraintBottom_toBottomOf="@+id/lblDescription"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+
+                <com.android.platform.utils.font.QuicksandBold
+                    android:id="@+id/lblQuestion"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_18sdp"
+                    android:background="@drawable/podcast_item"
+                    android:padding="@dimen/_12sdp"
+                    android:text="@string/appbar_scrolling_view_behavior"
+                    android:textSize="@dimen/_11sdp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/lblDescription" />
+
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+            <com.android.platform.utils.font.QuicksandMedium
+                android:id="@+id/lblWordCount"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_12sdp"
+                android:text="@string/word"
+                android:textSize="@dimen/_9sdp"
+                android:layout_marginStart="@dimen/_15sdp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/conTest" />
+
+            <com.android.platform.utils.font.InterBold
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/_5sdp"
+                android:text="@={viewModel.wordCount}"
+                app:layout_constraintBottom_toBottomOf="@+id/lblWordCount"
+                app:layout_constraintStart_toEndOf="@+id/lblWordCount"
+                app:layout_constraintTop_toTopOf="@+id/lblWordCount" />
+
+
+            <EditText
+                android:id="@+id/edtEssay"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_marginTop="@dimen/_12sdp"
+                android:layout_marginBottom="@dimen/_12sdp"
+                android:background="@drawable/bg_edittext"
+                android:fontFamily="@font/quicksand_bold"
+                android:gravity="top|start"
+                android:hint="@string/write_here"
+                android:inputType="textMultiLine"
+                android:padding="@dimen/_12sdp"
+                android:text="@={viewModel.essay}"
+                app:layout_constraintBottom_toTopOf="@+id/btnConfirm"
+                app:layout_constraintTop_toBottomOf="@+id/lblWordCount" />
+
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btnConfirm"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/button_simple"
+                android:fontFamily="@font/quicksand_bold"
+                android:onClick="@{()->viewModel.confirm()}"
+                android:text="@string/confirm"
+                android:textColor="@color/white"
+                android:textSize="@dimen/_12sdp"
+                android:visibility="visible"
+                app:layout_constraintBottom_toBottomOf="parent"
+                tools:layout_editor_absoluteX="16dp" />
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
 </layout>

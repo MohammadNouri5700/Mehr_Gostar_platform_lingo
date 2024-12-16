@@ -19,6 +19,7 @@ import com.android.platform.R
 import com.android.platform.databinding.ActivityExerciseBinding
 import com.android.platform.ui.exercises.ai_content.AIContentFragment
 import com.android.platform.ui.exercises.ai_context.AIContextFragment
+import com.android.platform.ui.exercises.ai_letter.AILetterFragment
 import com.android.platform.ui.exercises.ai_voice.AIVoiceFragment
 import com.android.platform.ui.exercises.context_placement.ContextPlacementFragment
 import com.android.platform.ui.exercises.listening.ListeningFragment
@@ -100,6 +101,9 @@ class ExerciseActivity : DaggerAppCompatActivity() {
             }
             "AiContent"->{
                 showFragment(AIContentFragment(exercise))
+            }
+            "AiLetter"->{
+                showFragment(AILetterFragment(exercise))
             }
             "ContextPlacement"->{
                 showFragment(ContextPlacementFragment(exercise))
