@@ -19,6 +19,7 @@ import com.android.platform.PlatformApplication
 import com.android.platform.R
 import com.android.platform.databinding.FragmentAiLatterExerciseBinding
 import com.android.platform.ui.exercises.ExerciseViewModel
+import kotlinx.coroutines.delay
 import javax.inject.Inject
 
 
@@ -39,6 +40,9 @@ class AILetterFragment @Inject constructor(val value: ExerciseModel) : Fragment(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+
+
+        
         binding = DataBindingUtil.inflate(
             inflater,
             R.layout.fragment_ai_latter_exercise,
@@ -51,6 +55,12 @@ class AILetterFragment @Inject constructor(val value: ExerciseModel) : Fragment(
         binding.viewModel = viewModel
         binding.lifecycleOwner = viewLifecycleOwner
         viewModel.value = value
+
+        viewModel.call.enqueueMainTask {
+            sharedViewModel.showNavBars()
+        }
+
+
         return binding.root
 
     }
@@ -60,6 +70,7 @@ class AILetterFragment @Inject constructor(val value: ExerciseModel) : Fragment(
         super.onViewCreated(view, savedInstanceState)
 
         binding.lblQuestion.text = viewModel.value.content
+
 
 
         viewModel.event.observe(viewLifecycleOwner, Observer { data ->
@@ -72,49 +83,35 @@ class AILetterFragment @Inject constructor(val value: ExerciseModel) : Fragment(
 
 
         viewModel.essay.observe(viewLifecycleOwner, Observer { newText ->
-            if (newText != "")
-                viewModel.setCount()
-            Log.e("APP", "New text: $newText")
-
+            viewModel.setCount()
         })
 
+        binding.root.getViewTreeObserver()
+            .addOnGlobalLayoutListener(object : ViewTreeObserver.OnGlobalLayoutListener {
+                override fun onGlobalLayout() {
+                    var r = Rect()
+                    view.getWindowVisibleDisplayFrame(r)
+                    var heightDiff = view.getRootView().height - (r.bottom - r.top);
 
-
-//        binding.edtEssay.setOnFocusChangeListener { _, hasFocus ->
-//            if (hasFocus) {
-//                binding.conTest.visibility=View.GONE
-//            } else {
-//                val params = binding.edtEssay.layoutParams
-//                params.height = 200
-//                binding.edtEssay.layoutParams = params
-//            }
-//        }
-
-        binding.root.getViewTreeObserver().addOnGlobalLayoutListener(object :ViewTreeObserver.OnGlobalLayoutListener {
-            override fun onGlobalLayout() {
-                var r = Rect()
-                view.getWindowVisibleDisplayFrame(r)
-                var heightDiff = view.getRootView().height - (r.bottom - r.top);
-
-                if (heightDiff > 500) {
-                    if (!statusRepeat){
-                        statusRepeat=true
-                        viewModel.call.enqueueMainTask {
-                            binding.conTest.visibility = View.GONE
+                    if (heightDiff > 500) {
+                        if (!statusRepeat) {
+                            statusRepeat = true
+                            viewModel.call.enqueueMainTask {
+                                binding.conTest.visibility = View.GONE
+                            }
                         }
-                    }
-                }else{
-                    if (statusRepeat){
-                        statusRepeat=false
+                    } else {
+                        if (statusRepeat) {
+                            statusRepeat = false
 
-                        viewModel.call.enqueueMainTask {
-                            binding.conTest.visibility = View.VISIBLE
+                            viewModel.call.enqueueMainTask {
+                                binding.conTest.visibility = View.VISIBLE
+                            }
                         }
                     }
                 }
-            }
 
-        })
+            })
 
     }
 

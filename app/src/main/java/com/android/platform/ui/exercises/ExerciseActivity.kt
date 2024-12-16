@@ -3,6 +3,7 @@ package com.android.platform.ui.exercises
 
 import android.os.Build
 import android.os.Bundle
+import android.os.Handler
 import android.view.View
 import android.view.WindowInsets
 import android.view.WindowInsetsController
@@ -32,7 +33,6 @@ import javax.inject.Inject
 class ExerciseActivity : DaggerAppCompatActivity() {
 
 
-
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
 
@@ -58,20 +58,6 @@ class ExerciseActivity : DaggerAppCompatActivity() {
         setContentView(binding.root)
 
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
-            val controller = window.insetsController
-            controller?.let {
-                it.hide(WindowInsets.Type.statusBars() or WindowInsets.Type.navigationBars())
-                it.systemBarsBehavior = WindowInsetsController.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE
-            }
-        } else {
-            val decorView = window.decorView
-            val uiOptions = (View.SYSTEM_UI_FLAG_FULLSCREEN
-                    or View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
-                    or View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY)
-            decorView.systemUiVisibility = uiOptions
-        }
-
 
         viewModel.lessonReply = LessonReply.parseFrom(intent.getByteArrayExtra("ITEM"));
         viewModel.exerciseId = intent.getIntExtra("EXERCISE_ID", -1)
@@ -86,27 +72,42 @@ class ExerciseActivity : DaggerAppCompatActivity() {
         when (exercise.exerciseType.name) {
             "Order" -> {
                 showFragment(OrderFragment(exercise))
+                viewModel.hideNavBars()
             }
-            "Placement"->{
+
+            "Placement" -> {
                 showFragment(PlacementFragment(exercise))
+                viewModel.hideNavBars()
             }
-            "ListeningExercise"->{
+
+            "ListeningExercise" -> {
                 showFragment(ListeningFragment(exercise))
+                viewModel.hideNavBars()
             }
-            "AiContext"->{
+
+            "AiContext" -> {
                 showFragment(AIContextFragment(exercise))
+                viewModel.hideNavBars()
             }
-            "AiVoice"->{
+
+            "AiVoice" -> {
                 showFragment(AIVoiceFragment(exercise))
+                viewModel.hideNavBars()
             }
-            "AiContent"->{
+
+            "AiContent" -> {
                 showFragment(AIContentFragment(exercise))
+                viewModel.hideNavBars()
             }
-            "AiLetter"->{
+
+            "AiLetter" -> {
+                viewModel.showNavBars()
                 showFragment(AILetterFragment(exercise))
             }
-            "ContextPlacement"->{
+
+            "ContextPlacement" -> {
                 showFragment(ContextPlacementFragment(exercise))
+                viewModel.hideNavBars()
             }
         }
 
@@ -118,7 +119,18 @@ class ExerciseActivity : DaggerAppCompatActivity() {
                 "ConfirmExercise" -> {
                     finish()
                 }
-                "Close"->{finish()}
+
+                "HideNav" -> {
+                    configNavBars(false)
+                }
+
+                "ShowNav" -> {
+                    configNavBars(true)
+                }
+
+                "Close" -> {
+                    finish()
+                }
             }
         })
 
@@ -134,5 +146,37 @@ class ExerciseActivity : DaggerAppCompatActivity() {
         super.onResume()
     }
 
+    private fun configNavBars(show: Boolean) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+            val controller = window.insetsController
+            if (show) {
+                controller?.let {
+                    it.hide(WindowInsets.Type.statusBars())
+                    it.show(WindowInsets.Type.navigationBars())
+                    it.systemBarsBehavior =
+                        WindowInsetsController.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE
+                }
+            } else {
+                controller?.let {
+                    it.hide(WindowInsets.Type.statusBars() or WindowInsets.Type.navigationBars())
+                    it.systemBarsBehavior =
+                        WindowInsetsController.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE
+                }
+            }
+        } else {
+            val decorView = window.decorView
+            if (show) {
+                val uiOptions = (View.SYSTEM_UI_FLAG_FULLSCREEN
+                        or View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY)
+                decorView.systemUiVisibility = uiOptions
+            } else {
+                val uiOptions = (View.SYSTEM_UI_FLAG_FULLSCREEN
+                        or View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
+                        or View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY)
+                decorView.systemUiVisibility = uiOptions
+            }
+
+        }
+    }
 
 }
