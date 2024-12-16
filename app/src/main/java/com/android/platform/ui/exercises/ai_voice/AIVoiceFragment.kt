@@ -31,10 +31,6 @@ import com.android.platform.databinding.FragmentGeneralExerciseBinding
 import com.android.platform.repository.data.model.BotMessageEntity
 import com.android.platform.repository.data.model.MType
 import com.android.platform.ui.global.AiBotAdapter
-import com.android.platform.utils.extension.showToast
-import net.gotev.speech.Speech
-import net.gotev.speech.SpeechDelegate
-import okhttp3.internal.notify
 import java.io.File
 import javax.inject.Inject
 
@@ -67,8 +63,10 @@ class AIVoiceFragment @Inject constructor(val value: ExerciseModel) : Fragment()
         viewModel = ViewModelProvider(this, viewModelFactory)[AIVoiceViewModel::class.java]
         binding.viewModel = viewModel
         binding.lifecycleOwner = viewLifecycleOwner
-        itemsAdapter = AiBotAdapter(viewModel.messageList)
 
+
+
+        itemsAdapter = AiBotAdapter(viewModel.messageList)
         audioRecorder = AudioRecorder(requireActivity())
 
         binding.recMessages.layoutManager =
@@ -92,10 +90,6 @@ class AIVoiceFragment @Inject constructor(val value: ExerciseModel) : Fragment()
                     viewModel.sendVoice(requireActivity(),File(path))
 
                     binding.imgSend.alpha = 1.0f
-                }
-
-                MotionEvent.ACTION_CANCEL -> {
-
                 }
             }
             true

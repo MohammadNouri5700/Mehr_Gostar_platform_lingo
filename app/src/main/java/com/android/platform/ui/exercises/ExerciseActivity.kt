@@ -101,8 +101,8 @@ class ExerciseActivity : DaggerAppCompatActivity() {
             }
 
             "AiLetter" -> {
-                viewModel.showNavBars()
                 showFragment(AILetterFragment(exercise))
+                viewModel.showNavBars()
             }
 
             "ContextPlacement" -> {

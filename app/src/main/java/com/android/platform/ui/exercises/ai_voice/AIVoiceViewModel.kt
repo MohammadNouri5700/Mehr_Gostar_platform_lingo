@@ -14,16 +14,7 @@ import com.android.platform.di.factory.CallQueueManager
 import com.android.platform.di.factory.SingleLiveEvent
 import com.android.platform.di.module.GrpcModule.ChannelAI
 import com.android.platform.repository.data.model.BotMessageEntity
-import com.google.protobuf.ByteString
-import io.grpc.ManagedChannel
-import io.grpc.ManagedChannelBuilder
-import io.grpc.stub.StreamObserver
-import io.ktor.client.HttpClient
-import io.ktor.client.plugins.websocket.WebSockets
-import io.ktor.client.plugins.websocket.webSocket
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.flow
-import kotlinx.coroutines.withContext
+
 import net.gotev.speech.Speech
 import net.gotev.speech.SpeechDelegate
 import okhttp3.OkHttpClient
@@ -63,7 +54,6 @@ class AIVoiceViewModel @Inject constructor() : ViewModel() {
     fun startListeningGoogle(context: Context) {
         try {
             Speech.getInstance().setPreferOffline(false)
-            Speech.getInstance().setLocale(Locale.GERMAN)
         } catch (ex: Exception) {
             Log.e("SpeechError", "Language not supported!")
         }
@@ -176,7 +166,7 @@ class AIVoiceViewModel @Inject constructor() : ViewModel() {
                 }
 
 
-                // ایجاد WebSocket
+
                 val webSocket = client.newWebSocket(request, webSocketListener)
 
                 webSocket.send(config.toString())

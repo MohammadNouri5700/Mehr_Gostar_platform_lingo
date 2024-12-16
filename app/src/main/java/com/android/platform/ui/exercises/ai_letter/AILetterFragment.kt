@@ -56,10 +56,6 @@ class AILetterFragment @Inject constructor(val value: ExerciseModel) : Fragment(
         binding.lifecycleOwner = viewLifecycleOwner
         viewModel.value = value
 
-        viewModel.call.enqueueMainTask {
-            sharedViewModel.showNavBars()
-        }
-
 
         return binding.root
 

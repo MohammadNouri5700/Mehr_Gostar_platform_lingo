@@ -5,6 +5,7 @@ import android.animation.ObjectAnimator
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
+import android.speech.tts.TextToSpeech
 import android.util.Log
 import android.view.View
 import android.view.WindowInsets
@@ -51,6 +52,7 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import net.gotev.speech.Speech
 import net.gotev.speech.SpeechDelegate
+import net.gotev.speech.engine.TextToSpeechEngine
 import java.util.Locale
 import javax.inject.Inject
 
@@ -141,12 +143,17 @@ class MainActivity : DaggerAppCompatActivity() {
                 }
             }
         })
-        Speech.init(this, packageName)
 
+        val on = object : TextToSpeech.OnInitListener{
+            override fun onInit(status: Int) {
+                Log.e("APP","WE GOT TextToSpeech $status")
+            }
+
+        }
+        Speech.init(this, packageName,on)
 
         try{
             Speech.getInstance().setPreferOffline(false)
-            Speech.getInstance().setLocale(Locale.GERMAN)
         } catch (ex: Exception){
             Log.e("SpeechError", "Language not supported!")
         }
