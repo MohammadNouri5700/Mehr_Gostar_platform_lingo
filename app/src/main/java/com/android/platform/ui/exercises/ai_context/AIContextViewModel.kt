@@ -22,68 +22,93 @@ class AIContextViewModel @Inject constructor(val call: CallQueueManager) : ViewM
     lateinit var value: ExerciseModel
     lateinit var data: ArrayList<AiContextEntity>
     var messageList: ArrayList<BotMessageEntity> = arrayListOf()
-    var messageListBK: ArrayList<BotMessageEntity> = arrayListOf()
+    var messageListData: ArrayList<BotMessageEntity> = arrayListOf()
     private val gson = Gson()
 
     private val _event = SingleLiveEvent<String>()
     val event: SingleLiveEvent<String> get() = _event
 
 
-    var safePosition = 1
+    var messageIndex = 0;
 
 
     fun initList() {
         val contentListType = object : TypeToken<ArrayList<AiContextEntity>>() {}.type
         data = gson.fromJson<ArrayList<AiContextEntity>>(value.content.toString(), contentListType)
-        nextMessage()
+        initFirstMessages()
         _event.postValue("Init")
     }
 
-    fun nextMessage() {
-        if (safePosition>data.size){
-            event.postValue("Confirm")
-            return
-        }
-        messageListBK.addAll(messageList)
-        messageList.clear()
-        messageListBK.forEachIndexed { index, item ->
-            item.fade=false
-            messageList.add(item)
-        }
-        messageListBK.clear()
+    fun initFirstMessages() {
         messageList.add(
             BotMessageEntity(
                 MType.messageText,
-                data[safePosition - 1].Sentence,
+                data[messageIndex].Sentence,
                 "",
                 "",
-                false
+                false,
+                true
             )
         )
+        messageIndex++
         messageList.add(
             BotMessageEntity(
                 MType.messageText,
-                data[safePosition].Sentence,
+                data[messageIndex].Sentence,
                 "",
                 "",
                 true,
                 true
             )
         )
-
-        safePosition+=2
     }
 
-    private fun addMessages(value: String): Boolean {
-        if (value.trim() == messageList.last().message.trim()) {
-            messageList.add(BotMessageEntity(MType.messageText, value, "", "", true))
-            return true
-        } else
-            messageList.add(BotMessageEntity(MType.messageText, value, "", "", true))
-        return false
+    fun addNextMessage() {
+        messageIndex++
+
+        if (messageIndex == data.size){
+            confirm()
+            return
+        }
+
+        messageList.add(
+            BotMessageEntity(
+                MType.messageText,
+                data[messageIndex].Sentence,
+                "",
+                "",
+                false,
+                true
+            )
+        )
+        messageIndex++
+        messageList.add(
+            BotMessageEntity(
+                MType.messageText,
+                data[messageIndex].Sentence,
+                "",
+                "",
+                true,
+                true
+            )
+        )
+    }
+    fun addLastMessage(){
+        messageList.add(
+            BotMessageEntity(
+                MType.messageText,
+                data[messageIndex].Sentence,
+                "",
+                "",
+                true,
+                true
+            )
+        )
     }
 
-
+    private fun addMessages(value: String) {
+        messageList.add(BotMessageEntity(MType.messageText, value, "", "", true))
+    }
 
     private fun clearMessage() {
         _event.postValue("ClearMessage")
@@ -109,32 +134,51 @@ class AIContextViewModel @Inject constructor(val call: CallQueueManager) : ViewM
         _event.postValue("Confirm")
     }
 
-    fun refreshMessage() {
+    fun refreshNewData() {
         updateList()
+        scrollToEnd()
         clearMessage()
     }
 
     fun sendMessage(value: String) {
-        if (value == "") return
-        val res = addMessages(value)
-        refreshMessage()
+        call.enqueueMainTask {
+            removeMessage(messageList.last())
+            updateRemoveList()
+            delay(100)
+            addMessages(value)
+            refreshNewData()
 
-        if (!res) {
-            call.enqueueIoTask {
-                withContext(Dispatchers.Main) {
-                    messageList.add(messageList[messageList.size-3])
-                    messageList.add(messageList[messageList.size-3])
-                    refreshMessage()
-                }
+            delay(1000)
+            processMessage(value)
+        }
+    }
+
+    fun processMessage(value: String) {
+
+
+        if (checkMessage(value)) {
+            call.enqueueMainTask {
+                addNextMessage()
+                delay(100)
+                refreshNewData()
             }
         } else {
-            nextMessage()
+            call.enqueueMainTask {
+                removeMessage(messageList.last())
+                updateRemoveList()
+                delay(100)
+                addLastMessage()
+                refreshNewData()
+            }
         }
 
-        call.enqueueMainTask {
-            delay(200)
-            scrollToEnd()
-        }
+    }
+
+    // I am fine thanks, How about you ?
+    // Somehow, it depend!
+
+    fun checkMessage(value: String): Boolean {
+        if (value.trim() == data[messageIndex].Sentence.trim()) return true else return false
     }
 
 }

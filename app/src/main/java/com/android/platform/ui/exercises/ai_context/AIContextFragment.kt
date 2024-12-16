@@ -68,7 +68,6 @@ class AIContextFragment @Inject constructor(val value: ExerciseModel) : Fragment
                 "Init" -> {
                     viewModel.call.enqueueMainTask {
                         binding.recMessages.adapter = itemsAdapter
-                        viewModel.updateList()
                     }
                 }
 
@@ -85,7 +84,7 @@ class AIContextFragment @Inject constructor(val value: ExerciseModel) : Fragment
                 }
                 "UpdateRemove"->{
                     viewModel.call.enqueueMainTask {
-                        itemsAdapter.updateList(viewModel.messageList)
+                        itemsAdapter.notifyItemRemoved(viewModel.messageList.size)
                     }
                 }
 
